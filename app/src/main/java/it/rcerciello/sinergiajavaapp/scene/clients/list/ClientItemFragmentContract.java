@@ -1,5 +1,7 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.list;
 
+import java.util.ArrayList;
+
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.scene.BasePresenter;
 import it.rcerciello.sinergiajavaapp.scene.BaseView;
@@ -14,9 +16,14 @@ public class ClientItemFragmentContract {
         void showSnackbarError(String message);
 
         void closeView();
+
+        void showOrHideProgressBar(boolean showOrHide);
+
+        void updateAdapterDataSource(ArrayList<ClientModel> clients);
     }
 
 
     interface Presenter extends BasePresenter {
+        void refreshClientList();
     }
 }

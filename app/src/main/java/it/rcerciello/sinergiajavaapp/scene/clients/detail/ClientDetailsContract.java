@@ -11,10 +11,14 @@ public class ClientDetailsContract
         void showSnackbarError(String message);
 
         void closeView();
+
+        void updateImage(String url);
     }
 
 
     interface Presenter extends BasePresenter {
         void editClient(ClientModel model);
+
+        void uploadPhoto();
     }
 }

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="it.rcerciello.sinergiajavaapp.scene.clients.detail.ClientDetailsActivity">
+
+    <LinearLayout
+        android:id="@+id/rootLinear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/ic_close_black">
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scroll"
+            android:layout_margin="@dimen/space_24"
+            android:layout_marginBottom="@dimen/space_50"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context="it.rcerciello.sinergiajavaapp.scene.clients.detail.ClientDetailsActivity"
+            tools:showIn="@layout/activity_client_details">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="@string/add_service"
+                    android:textColor="@color/black"
+                    android:textAllCaps="true"
+                    fontPath="Roboto/RobotoBold.ttf"
+                    android:textSize="@dimen/font_34"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="MissingPrefix" />
+
+                <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
+                    android:id="@+id/nome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sharedEditTextTitle="Nome Servizio"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+
+
+                <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
+                    android:id="@+id/durata"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sharedEditTextTitle="Durata Servizio"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+
+                <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
+                    android:id="@+id/prezzo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sharedEditTextTitle="Prezzo Servizio"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
+
+
+    <it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton
+        android:id="@+id/btnSave"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/space_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton>
+
+</RelativeLayout>

@@ -2,7 +2,6 @@ package it.rcerciello.sinergiajavaapp.scene.profile;
 
 import javax.annotation.Nonnull;
 
-import it.rcerciello.sinergiajavaapp.scene.Employee.EmployeeContract;
 
 /**
  * Created by rcerciello on 02/05/2018.

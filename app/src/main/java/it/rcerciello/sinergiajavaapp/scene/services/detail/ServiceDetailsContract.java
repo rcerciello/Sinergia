@@ -1,23 +1,24 @@
-package it.rcerciello.sinergiajavaapp.scene.clients.AddClients;
+package it.rcerciello.sinergiajavaapp.scene.services.detail;
 
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.scene.BasePresenter;
 import it.rcerciello.sinergiajavaapp.scene.BaseView;
 
-/**
- * Created by rcerciello on 02/05/2018.
- */
-
-public class AddClientsContract {
+public class ServiceDetailsContract
+{
     interface View extends BaseView<Presenter> {
 
         void showSnackbarError(String message);
 
         void closeView();
+
+        void updateImage(String url);
     }
 
 
     interface Presenter extends BasePresenter {
-        void addClient(ClientModel model);
+        void editClient(ClientModel model);
+
+        void uploadPhoto();
     }
 }

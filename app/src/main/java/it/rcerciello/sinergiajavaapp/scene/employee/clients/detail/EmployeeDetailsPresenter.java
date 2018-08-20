@@ -1,4 +1,4 @@
-package it.rcerciello.sinergiajavaapp.scene.clients.detail;
+package it.rcerciello.sinergiajavaapp.scene.employee.clients.detail;
 
 import javax.annotation.Nonnull;
 
@@ -8,11 +8,11 @@ import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
  * Created by rcerciello on 02/05/2018.
  */
 
-public class ClientDetailsPresenter implements ClientDetailsContract.Presenter {
+public class EmployeeDetailsPresenter implements EmployeeDetailsContract.Presenter {
 
-    private ClientDetailsContract.View mView;
+    private EmployeeDetailsContract.View mView;
 
-    public ClientDetailsPresenter(@Nonnull ClientDetailsContract.View mView) {
+    public EmployeeDetailsPresenter(@Nonnull EmployeeDetailsContract.View mView) {
         this.mView = mView;
     }
 

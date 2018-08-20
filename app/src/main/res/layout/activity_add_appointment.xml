@@ -1,47 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:animateLayoutChanges="true"
+<RelativeLayout android:animateLayoutChanges="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:paddingBottom="5dp"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/root"
         android:paddingTop="24dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         >
-
-        <ImageView
-            android:id="@+id/line"
-            android:paddingTop="24dp"
-            android:layout_width="58dp"
-            android:layout_height="6dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/ic_custom_circle_with_aplha_35"
-            android:elevation="2dp"
-            android:visibility="visible"/>
-
         <LinearLayout
             android:id="@+id/myView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+
             android:background="@color/white"
             android:orientation="vertical">
 
             <TextView
                 android:text="Nome Del Cliente"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/etClientName"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <View
@@ -51,11 +44,13 @@
             <TextView
                 android:layout_marginTop="5dp"
                 android:text="Nome Del Servizio"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/etServiceName"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -66,37 +61,35 @@
             <TextView
                 android:layout_marginTop="5dp"
                 android:text="Ora Di Inizio"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/etOraInizio"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-
 
         </LinearLayout>
 
 
     </RelativeLayout>
     <Button
-        android:id="@+id/buttonLine"
-        android:paddingTop="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@color/transparent"
-        android:elevation="2dp"
-        android:visibility="visible"/>
-
-    <Button
         android:id="@+id/btnOK"
         android:text="OK"
         android:background="@color/black"
         android:textColor="@color/white"
         android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_width="80dp"
         android:layout_margin="24dp"
-        android:layout_height="70dp" />
+        android:layout_height="50dp"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:navigationIcon="@drawable/ic_close_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
+
 </RelativeLayout>

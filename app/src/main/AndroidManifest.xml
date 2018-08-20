@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".com.alamkanak.weekview.sample.MainCalendarActivity"
+            android:name=".com.alamkanak.weekview.sample.BasicCalendarActivity"
             android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name">
             <intent-filter>
@@ -54,15 +54,6 @@
             android:name=".scene.employee.clients.AddClients.AddEmployeeActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
-
-        <activity
-            android:name=".com.alamkanak.weekview.sample.BasicCalendarActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:label="@string/title_activity_basic"/>
-        <activity
-            android:name=".com.alamkanak.weekview.sample.AsynchronousActivity"
-            android:label="@string/title_activity_asynchronous"/>
 
 
         <activity android:name=".com.alamkanak.weekview.sample.apiclient.dialog.AddAppointmentActivity"

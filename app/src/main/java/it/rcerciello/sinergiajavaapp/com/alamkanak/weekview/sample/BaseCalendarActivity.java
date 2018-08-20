@@ -6,6 +6,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import java.util.Locale;
 import it.rcerciello.sinergiajavaapp.MainActivity;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog.AddAppointmentActivity;
+import timber.log.Timber;
 
 /**
  * This is a base activity which contains week view and all the codes necessary to initialize the
@@ -272,7 +274,19 @@ public abstract class BaseCalendarActivity extends AppCompatActivity implements 
                         Toast.makeText(getApplicationContext(), "hai scelto di cancellare", Toast.LENGTH_LONG).show();
                         break;
                     case 1:
-                        Toast.makeText(getApplicationContext(), "hai scelto di modificare", Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(getApplicationContext(),AddAppointmentActivity.class);
+
+                        i.putExtra("isEditable", true);
+                        i.putExtra("name", event.getName());
+                        i.putExtra("endTime", event.getEndTime());
+                        i.putExtra("id", event.getId());
+                        i.putExtra("startTime", event.getStartTime());
+
+                        Log.e("name" , "name"+event.getName());
+                        Log.e("getEndTime" , "getEndTime"+event.getEndTime());
+                        Log.e("getId" , "getId"+String.valueOf(event.getId()));
+                        Log.e("getStartTime" , "getStartTime"+event.getStartTime());
+                        startActivity(i);
                         break;
                     default:
                         break;

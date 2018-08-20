@@ -1,102 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:animateLayoutChanges="true"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
 
-    <RelativeLayout
-        android:id="@+id/root"
-        android:paddingTop="24dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        >
-
-        <ImageView
-            android:id="@+id/line"
-            android:paddingTop="24dp"
-            android:layout_width="58dp"
-            android:layout_height="6dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/ic_custom_circle_with_aplha_35"
-            android:elevation="2dp"
-            android:visibility="visible"/>
-
-        <LinearLayout
-            android:id="@+id/myView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <TextView
-                android:text="Nome Del Cliente"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/etClientName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-
-            <TextView
-                android:layout_marginTop="5dp"
-                android:text="Nome Del Servizio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/etServiceName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-
-            <TextView
-                android:layout_marginTop="5dp"
-                android:text="Ora Di Inizio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/etOraInizio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-
-        </LinearLayout>
-
-
-    </RelativeLayout>
-    <Button
-        android:id="@+id/buttonLine"
-        android:paddingTop="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/transparent"
-        android:elevation="2dp"
-        android:visibility="visible"/>
+        android:text="@string/time_pick"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:id="@+id/btnOK"
-        android:text="OK"
-        android:background="@color/black"
-        android:textColor="@color/white"
+        android:id="@+id/set_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_margin="24dp"
-        android:layout_height="70dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="180dp"
+        android:onClick="setTime"
+        android:text="@string/time_save" />
+
+    <TimePicker
+        android:id="@+id/timePicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/set_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/timePicker1"
+        android:layout_alignTop="@+id/set_button"
+        android:layout_marginTop="67dp"
+        android:text="@string/time_current"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/time_selected"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </RelativeLayout>

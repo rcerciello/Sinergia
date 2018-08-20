@@ -23,7 +23,6 @@
             android:layout_width="58dp"
             android:layout_height="6dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/ic_custom_circle_with_aplha_35"
             android:elevation="2dp"
             android:visibility="visible"/>
 

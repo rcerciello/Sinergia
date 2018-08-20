@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#000000</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_50_opacity">#80FFFFFF</color>
+    <color name="white_70_opacity">#B3FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- BRAND COLORS-->
+    <color name="lamborghini_gold">#D9B539</color>
+    <color name="dark_black">#252424</color>
+    <color name="dark_gray">#7C7F80</color>
+    <color name="grey">#D9DDDE</color>
+    <color name="light_grey">#F0F0F0</color>
+    <color name="black_kinda">#16181a</color>
+    <color name="grey_light">#807c7c</color>
+
+    <!-- Feedback colours -->
+    <color name="error_red">#EB465A</color>
+    <color name="top_bar_unselected_color">#7C7F80</color>
+    <color name="top_bar_selected_color">#F0F0F0</color>
+
+    <color name="page_indicator_select">#000000</color>
+    <color name="page_indicator_unselect">#F0F0F0</color>
+
+    <color name="color_separator_line">#F0F0F0</color>
+    <color name="color_text_item_contactus">#16181A</color>
+    <color name="color_separator_line_item_contactus">#EFEFEB</color>
+    <color name="color_green_switch">#44DB5E</color>
+    <color name="color_line_navigation_bar">#979797</color>
+    <color name="ScrollableTopTabBarTextcolor">#BBBBBB</color>
+    <color name="notification_subtitle_color">#7C7E80</color>
+    <color name="grey_custom_module">#7C7F80</color>
+    <color name="indicator_grey">#80FFFFFF</color>
+    <color name="tab_bar_background_catalog">#252424</color>
+    <color name="filter_font_color">#16181A</color>
+    <color name="black_garage">#252424</color>
+
+    <color name="grey_dark">#BBBBBB</color>
+
+    <color name="confirm_ownership_bottom_bar_background">#309A2301</color>
+    <color name="confirm_ownership_card_background">#F2F0F1</color>
+    <color name="confirm_ownership_background">#D5B043</color>
+
+
+    <!-->Notification Access page <-->
+    <color name="background_notification_access">#1A1919</color>
+    <color name="text_welcome_name_color">#40d8d8d8</color>
+    <color name="text_h1_notification_access">#d8d8d8</color>
+    <color name="text_h2_notification_access">#9b9b9b</color>
+    <color name="no_button_notification_access">#80d8d8d8</color>
+
+    <color name="survey_footer_color">#DBAD1B</color>
+    <color name="survey_background">#E3BC3C</color>
+
+    <color name="home_page_black">#1A1919</color>
+
+</resources>

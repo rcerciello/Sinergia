@@ -20,8 +20,9 @@
             android:title="@string/action_week_view"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>
-        <item android:id="@+id/action_details"
-            android:title="@string/action_details"
+        <item
+            android:id="@+id/action_details"
+            android:icon="@drawable/ic_right_arrow_black"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>
     </group>

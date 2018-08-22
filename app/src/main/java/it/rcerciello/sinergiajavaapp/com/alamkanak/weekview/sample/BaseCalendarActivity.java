@@ -26,8 +26,8 @@ import butterknife.ButterKnife;
 import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.MainActivity;
 import it.rcerciello.sinergiajavaapp.R;
-import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog.AddAppointmentActivity;
+import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.DateTimeInterpreter;
 import it.rcerciello.weekLibrary.weekview.MonthLoader;
@@ -272,21 +272,13 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
                 switch (which) {
                     case 0:
                         //TODO API CALL AND REFRESH VIEW Se l'api risponde OK, rimuovo l'evento dal calendario
-                        mPresenter.deleteAppointment(String.valueOf(event.getId()), event);
+                        mPresenter.deleteAppointment(String.valueOf(event.getAppointmentId()), event);
                         break;
                     case 1:
                         Intent i = new Intent(getApplicationContext(), AddAppointmentActivity.class);
-
-//                        i.putExtra("isEditable", true);
-//                        i.putExtra("name", event.getName());
-//                        i.putExtra("endTime", event.getEndTime());
-//                        i.putExtra("id", event.getId());
-//                        i.putExtra("startTime", event.getStartTime());
-//
-//                        Log.e("name", "name" + event.getName());
-//                        Log.e("getEndTime", "getEndTime" + event.getEndTime());
-//                        Log.e("getId", "getId" + String.valueOf(event.getId()));
-//                        Log.e("getStartTime", "getStartTime" + event.getStartTime());
+                        String data = ApiClient.getGson().toJson(event);
+                        i.putExtra("isEditable", true);
+                        i.putExtra("AppointmentModel",data);
                         startActivity(i);
                         break;
                     default:
@@ -333,7 +325,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void removeEventFromCalendar(WeekViewEvent event) {
-        Timber.e("evento rimosso dal calendario = " + event.getId());
+        Timber.e("evento rimosso dal calendario = " + event.getAppointmentId());
         if (GlobalUtils.isNotNullAndNotEmpty(event.getIdCollaborator())) {
             switch (event.getIdCollaborator()) {
                 case GeneralConstants.ID_LELLA:

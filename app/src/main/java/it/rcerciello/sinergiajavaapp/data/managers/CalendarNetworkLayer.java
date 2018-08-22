@@ -164,7 +164,7 @@ public class CalendarNetworkLayer {
         Calendar endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR, 1);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        WeekViewEvent event = new WeekViewEvent(1, "Cerciello Raffaella", GeneralConstants.ID_LELLA, startTime, endTime, "ciao");
+        WeekViewEvent event = new WeekViewEvent(1, "Cerciello Raffaella", GeneralConstants.ID_LELLA, "Ceretta",  startTime, endTime, "ciao");
         allAppointments.add(event);
 
 
@@ -178,7 +178,7 @@ public class CalendarNetworkLayer {
         endTime.set(Calendar.HOUR_OF_DAY, 4);
         endTime.set(Calendar.MINUTE, 30);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(2, "Angela Cerciello",GeneralConstants.ID_MARIA,  startTime, endTime, "ciao");
+        event = new WeekViewEvent(2, "Angela Cerciello",GeneralConstants.ID_MARIA, "Sopracciglia",  startTime, endTime, "ciao");
         allAppointments.add(event);
 
 //        startTime = Calendar.getInstance();

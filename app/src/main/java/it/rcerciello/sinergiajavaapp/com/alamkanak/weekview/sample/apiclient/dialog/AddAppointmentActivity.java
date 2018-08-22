@@ -2,7 +2,6 @@ package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.di
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
@@ -11,15 +10,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
-import timber.log.Timber;
+import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
+import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
+import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 
 
 public class AddAppointmentActivity extends AppCompatActivity implements AddAppointmentContract.View {
@@ -39,7 +41,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @BindView(R.id.etData)
     EditText etData;
 
-
     @BindView(R.id.btnOK)
     Button btnOk;
 
@@ -49,14 +50,20 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
+    @BindView(R.id.rbLella)
+    RadioButton rbLella;
+
+    @BindView(R.id.rbAnna)
+    RadioButton rbAnna;
+
+    @BindView(R.id.rbMaria)
+    RadioButton rbMaria;
 
     private boolean isEditable = false;
-    private String name;
-    private String endDate;
-    private String startDate;
-    private String id;
 
     private AddAppointmentContract.Presenter mPresenter;
+
+    private WeekViewEvent editableModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,20 +77,33 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         Intent i = getIntent();
         if (i != null) {
             isEditable = i.getBooleanExtra("isEditable", false);
-            Timber.e("isEditable", "" + isEditable);
             if (isEditable) {
-//                name = i.getStringExtra("name");
-//                Timber.e("name" , ""+name);
-//                endDate = i.getStringExtra("endDate");
-//                Timber.e("endDate" , ""+endDate);
-//                startDate = i.getStringExtra("startDate");
-//                Timber.e("startDate" , ""+startDate);
-//                id = i.getStringExtra("id");
-//                Timber.e("id" , ""+id);
-//
-//                if (isNonNullAndNotEmpty(id)) {
-//                    clientId.setText(id);
-//                }
+                editableModel = ApiClient.getGson().fromJson(getIntent().getStringExtra("AppointmentModel"), WeekViewEvent.class);
+                if (editableModel != null) {
+                    if (GlobalUtils.isNotNullAndNotEmpty(editableModel.getIdCliente())) {
+                        clientId.setText(editableModel.getIdCliente());
+                    }
+                    if (GlobalUtils.isNotNullAndNotEmpty(editableModel.getIdCollaborator())) {
+                        switch (editableModel.getIdCollaborator())
+                        {
+                            case GeneralConstants.ID_LELLA:
+                                rbLella.performClick();
+                                break;
+                            case GeneralConstants.ID_MARIA:
+                                rbMaria.performClick();
+                                break;
+                            case GeneralConstants.ID_ANNA:
+                                rbAnna.performClick();
+                                break;
+                        }
+                    }
+
+                    if (GlobalUtils.isNotNullAndNotEmpty(String.valueOf(editableModel.getIdService()))) {
+                        serviceId.setText(editableModel.getIdService());
+                    }
+
+                }
+
             }
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -103,9 +123,32 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                 return false;
             }
         });
-
-
     }
+
+    @OnClick(R.id.rbLella)
+    public void clickLellaAction()
+    {
+        rbLella.setChecked(true);
+        rbAnna.setChecked(false);
+        rbMaria.setChecked(false);
+    }
+
+    @OnClick(R.id.rbMaria)
+    public void clickLMariaAction()
+    {
+        rbLella.setChecked(false);
+        rbAnna.setChecked(false);
+        rbMaria.setChecked(true);
+    }
+
+    @OnClick(R.id.rbAnna)
+    public void clickAnnaaAction()
+    {
+        rbLella.setChecked(false);
+        rbAnna.setChecked(true);
+        rbMaria.setChecked(false);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -122,7 +165,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             mPresenter.addAppointment(new AppointmentEvent());
         }
     }
-
 
 
     @OnClick(R.id.etOraInizio)

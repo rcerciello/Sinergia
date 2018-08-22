@@ -19,6 +19,7 @@ public class WeekViewEvent {
     private String idCliente;
     private String idCollaborator;
     private int mColor;
+    private String idService;
     private boolean mAllDay;
 
     public WeekViewEvent() {
@@ -41,9 +42,10 @@ public class WeekViewEvent {
      * @param endHour         Hour (in 24-hour format) when the event ends.
      * @param endMinute       Minute when the event ends.
      */
-    public WeekViewEvent(long idAppuntamento, String appointmentName, String idCollaborator, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
+    public WeekViewEvent(long idAppuntamento, String appointmentName, String idCollaborator, String idService, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
         this.idAppuntamento = idAppuntamento;
         this.idCollaborator = idCollaborator;
+        this.idService = idService;
 
         this.mStartTime = Calendar.getInstance();
         this.mStartTime.set(Calendar.YEAR, startYear);
@@ -72,10 +74,11 @@ public class WeekViewEvent {
      * @param endTime   The time when the event ends.
      * @param allDay    Is the event an all day event.
      */
-    public WeekViewEvent(long idAppuntamento, String appointmentName,String idCollaborator, String location, Calendar startTime, Calendar endTime, boolean allDay, String cliente) {
+    public WeekViewEvent(long idAppuntamento, String appointmentName,String idCollaborator,  String idService,String location, Calendar startTime, Calendar endTime, boolean allDay, String cliente) {
         this.idAppuntamento = idAppuntamento;
         this.idCollaborator = idCollaborator;
         this.appointmentName = appointmentName;
+        this.idService = idService;
         this.mLocation = location;
         this.mStartTime = startTime;
         this.mEndTime = endTime;
@@ -92,8 +95,8 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime   The time when the event ends.
      */
-    public WeekViewEvent(long idAppointment, String appointmentName, String idCollaborator, String location, Calendar startTime, Calendar endTime, String cliente) {
-        this(idAppointment, appointmentName, idCollaborator, location, startTime, endTime, false, cliente);
+    public WeekViewEvent(long idAppointment, String appointmentName, String idCollaborator, String idService, String location, Calendar startTime, Calendar endTime, String cliente) {
+        this(idAppointment, appointmentName, idCollaborator, idService, location, startTime, endTime, false, cliente);
     }
 
     /**
@@ -104,8 +107,8 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime   The time when the event ends.
      */
-    public WeekViewEvent(long idAppointment, String appointmentName, String idCollaborator,Calendar startTime, Calendar endTime, String cliente) {
-        this(idAppointment, appointmentName,idCollaborator, null, startTime, endTime, cliente);
+    public WeekViewEvent(long idAppointment, String appointmentName, String idCollaborator, String idService,Calendar startTime, Calendar endTime, String cliente) {
+        this(idAppointment, appointmentName,idCollaborator, idService, null, startTime, endTime, cliente);
     }
 
 
@@ -157,11 +160,11 @@ public class WeekViewEvent {
         this.mAllDay = allDay;
     }
 
-    public long getId() {
+    public long getAppointmentId() {
         return idAppuntamento;
     }
 
-    public void setId(long id) {
+    public void setAppointmentId(long id) {
         this.idAppuntamento = id;
     }
 
@@ -171,6 +174,14 @@ public class WeekViewEvent {
 
     public void setIdCliente(String idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public String getIdService() {
+        return idService;
+    }
+
+    public void setIdService(String idService) {
+        this.idService = idService;
     }
 
     @Override
@@ -205,7 +216,7 @@ public class WeekViewEvent {
             endTime = (Calendar) this.getStartTime().clone();
             endTime.set(Calendar.HOUR_OF_DAY, 23);
             endTime.set(Calendar.MINUTE, 59);
-            WeekViewEvent event1 = new WeekViewEvent(this.getId(), this.getName(),this.idCollaborator,  this.getLocation(), this.getStartTime(), endTime, this.isAllDay(), this.getIdCliente());
+            WeekViewEvent event1 = new WeekViewEvent(this.getAppointmentId(), this.getName(),this.idCollaborator,  this.idService, this.getLocation(), this.getStartTime(), endTime, this.isAllDay(), this.getIdCliente());
             event1.setColor(this.getColor());
             events.add(event1);
 
@@ -219,7 +230,7 @@ public class WeekViewEvent {
                 Calendar endOfOverDay = (Calendar) overDay.clone();
                 endOfOverDay.set(Calendar.HOUR_OF_DAY, 23);
                 endOfOverDay.set(Calendar.MINUTE, 59);
-                WeekViewEvent eventMore = new WeekViewEvent(this.getId(), this.getName(),this.idCollaborator, null, overDay, endOfOverDay, this.isAllDay(), this.getIdCliente());
+                WeekViewEvent eventMore = new WeekViewEvent(this.getAppointmentId(), this.getName(),this.idCollaborator,  this.idService, null, overDay, endOfOverDay, this.isAllDay(), this.getIdCliente());
                 eventMore.setColor(this.getColor());
                 events.add(eventMore);
 
@@ -231,7 +242,7 @@ public class WeekViewEvent {
             Calendar startTime = (Calendar) this.getEndTime().clone();
             startTime.set(Calendar.HOUR_OF_DAY, 0);
             startTime.set(Calendar.MINUTE, 0);
-            WeekViewEvent event2 = new WeekViewEvent(this.getId(), this.getName(), this.idCollaborator,this.getLocation(), startTime, this.getEndTime(), this.isAllDay(), this.getIdCliente());
+            WeekViewEvent event2 = new WeekViewEvent(this.getAppointmentId(), this.getName(), this.idCollaborator, this.idService, this.getLocation(), startTime, this.getEndTime(), this.isAllDay(), this.getIdCliente());
             event2.setColor(this.getColor());
             events.add(event2);
         } else {

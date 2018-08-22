@@ -1,123 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:animateLayoutChanges="true"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:background="@color/white"
-    android:paddingBottom="5dp"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingBottom="5dp">
 
     <RelativeLayout
         android:id="@+id/root"
-        android:paddingTop="24dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
         android:background="@color/white"
-        >
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="24dp">
+
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <LinearLayout
-            android:id="@+id/myView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
 
-            <TextView
-                android:text="ID Cliente"
-                android:textColor="@color/black"
+            <LinearLayout
+                android:id="@+id/myView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/etClientName"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ID Cliente"
+                    android:textColor="@color/dark_gray" />
 
-            <TextView
-                android:layout_marginTop="5dp"
-                android:text="ID Servizio"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/etClientName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/etServiceId"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_marginBottom="@dimen/space_24"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="ID Servizio"
+                    android:textColor="@color/dark_gray" />
 
-            <TextView
-                android:layout_marginTop="5dp"
-                android:text="Ora Di Inizio"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/etServiceId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/etOraInizio"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_marginBottom="@dimen/space_24"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="ID Collaboratore"
+                    android:textColor="@color/dark_gray" />
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_marginTop="5dp"
-                android:text="Data"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+                        <RadioButton
+                            android:id="@+id/rbLella"
+                            android:text="Lella"
+                            android:textColor="@color/black"
+                            android:checked="true"
+                            android:layout_weight="1"
+                            android:buttonTint="@color/accent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/etData"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                        <RadioButton
+                            android:id="@+id/rbAnna"
+                            android:text="Anna"
+                            android:textColor="@color/black"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:buttonTint="@color/accent"
+                            android:layout_height="wrap_content" />
 
-        </LinearLayout>
+                        <RadioButton
+                            android:id="@+id/rbMaria"
+                            android:text="Maria"
+                            android:textColor="@color/black"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:buttonTint="@color/accent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_marginBottom="@dimen/space_24"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Ora Di Inizio"
+                    android:textColor="@color/dark_gray" />
+
+                <EditText
+                    android:id="@+id/etOraInizio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_gray" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_marginBottom="@dimen/space_24"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Data"
+                    android:textColor="@color/dark_gray" />
+
+                <EditText
+                    android:id="@+id/etData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
         </ScrollView>
 
     </RelativeLayout>
+
     <Button
         android:id="@+id/btnOK"
-        android:text="OK"
-        android:background="@color/black"
-        android:textColor="@color/white"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_width="80dp"
         android:layout_margin="24dp"
-        android:layout_height="50dp"/>
+        android:background="@color/black"
+        android:text="OK"
+        android:textColor="@color/white" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        app:navigationIcon="@drawable/ic_close_black"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_close_black"></android.support.v7.widget.Toolbar>
 
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:visibility="gone"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>

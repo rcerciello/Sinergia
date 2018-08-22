@@ -15,7 +15,7 @@ public class BaseCalendarContract {
 
         void refreshCalendar();
 
-        void removeEventFromCalendar(AppointmentEvent event);
+        void removeEventFromCalendar(WeekViewEvent event);
 
         void showSnackbar(String message);
 
@@ -30,7 +30,7 @@ public class BaseCalendarContract {
 
 
     public interface Presenter extends BasePresenter {
-        void deleteAppointment(String appointmentId, final AppointmentEvent event);
+        void deleteAppointment(String appointmentId, final WeekViewEvent event);
 
         void editAppointment(AppointmentEvent event);
 

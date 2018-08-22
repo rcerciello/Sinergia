@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.MainActivity;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
@@ -269,10 +270,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
                 switch (which) {
                     case 0:
                         //TODO API CALL AND REFRESH VIEW Se l'api risponde OK, rimuovo l'evento dal calendario
-
-                        AppointmentEvent appointmentEvent = new AppointmentEvent();
-                        appointmentEvent.setId(String.valueOf(event.getId()));
-                        mPresenter.deleteAppointment(String.valueOf(event.getId()), appointmentEvent);
+                        mPresenter.deleteAppointment(String.valueOf(event.getId()), event);
                         break;
                     case 1:
                         Intent i = new Intent(getApplicationContext(), AddAppointmentActivity.class);
@@ -306,14 +304,13 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(String collaboratorId, int newYear, int newMonth) {
-        Timber.e("collaboratorId => "+ collaboratorId +"newYear =>" + newYear + " newMonth " + newMonth);
         switch (collaboratorId) {
             case GeneralConstants.ID_LELLA:
-               return allAppointmentsLella;
+                return allAppointmentsLella;
             case GeneralConstants.ID_MARIA:
-               return allAppointmentsMaria;
+                return allAppointmentsMaria;
             case GeneralConstants.ID_ANNA:
-             return allAppointmentsAnna;
+                return allAppointmentsAnna;
         }
         return new ArrayList<>();
     }
@@ -333,19 +330,23 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     }
 
     @Override
-    public void removeEventFromCalendar(AppointmentEvent event) {
-        Timber.e("evento rimosso dal calendario");
-        allAppointmentsLella.remove(event);
-        switch (event.getDependentId()) {
-            case GeneralConstants.ID_LELLA:
-                mWeekViewLella.notifyDatasetChanged();
-                break;
-            case GeneralConstants.ID_MARIA:
-                mWeekViewMaria.notifyDatasetChanged();
-                break;
-            case GeneralConstants.ID_ANNA:
-                mWeekViewAnna.notifyDatasetChanged();
-                break;
+    public void removeEventFromCalendar(WeekViewEvent event) {
+        Timber.e("evento rimosso dal calendario = " + event.getId());
+        if (GlobalUtils.isNotNullAndNotEmpty(event.getIdCollaborator())) {
+            switch (event.getIdCollaborator()) {
+                case GeneralConstants.ID_LELLA:
+                    allAppointmentsLella.remove(event);
+                    mWeekViewLella.notifyDatasetChanged();
+                    break;
+                case GeneralConstants.ID_MARIA:
+                    allAppointmentsMaria.remove(event);
+                    mWeekViewMaria.notifyDatasetChanged();
+                    break;
+                case GeneralConstants.ID_ANNA:
+                    allAppointmentsAnna.remove(event);
+                    mWeekViewAnna.notifyDatasetChanged();
+                    break;
+            }
         }
     }
 

@@ -22,7 +22,7 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
 
 
     @Override
-    public void deleteAppointment(String appointmentId, final AppointmentEvent event) {
+    public void deleteAppointment(String appointmentId, final WeekViewEvent event) {
 
         mView.showInProgress(true);
         CalendarNetworkLayer.getInstance().deleteAppointment(appointmentId, new APICallback<Boolean>() {

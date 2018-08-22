@@ -1,5 +1,16 @@
 package it.rcerciello.sinergiajavaapp.data.network;
 
+import com.alamkanak.weekview.WeekViewEvent;
+
+import java.util.List;
+
+import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+
 /**
  * All the API endpoints that we use across the app.
  * <p>
@@ -16,6 +27,20 @@ public interface ApiInterfaces {
 //
 //    @DELETE("userservice/users/current")
 //    Call<Void> deleteCurrentUserInformations(@Header(GeneralConstants.AUTHORIZATION_BEARER) String authorization);
+
+
+    @POST("")
+    Call<Boolean> editAppointment(@Body AppointmentEvent event);
+
+    @DELETE("userservice/users/current")
+    Call<Boolean> deleteAppointment();
+
+
+    @POST("")
+    Call<Boolean> addAppointment(@Body AppointmentEvent event);
+
+    @GET("user/bla")
+    Call<List<WeekViewEvent>> getAllAppointments();
 
 }
 

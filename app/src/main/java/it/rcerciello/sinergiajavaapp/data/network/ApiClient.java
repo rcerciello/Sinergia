@@ -1,7 +1,3 @@
-/*
- * Copyright © 2018 Automobili Lamborghini S.p.A. a sole shareholder company part of Audi Group. All rights reserved. VAT no. IT 00591801204
- */
-
 package it.rcerciello.sinergiajavaapp.data.network;
 
 /**
@@ -14,8 +10,7 @@ import com.google.gson.GsonBuilder;
 import java.util.concurrent.TimeUnit;
 
 import it.rcerciello.sinergiajavaapp.BuildConfig;
-import it.rcerciello.sinergiajavaapp.R;
-import it.rcerciello.sinergiajavaapp.Sinergia;
+import it.rcerciello.sinergiajavaapp.NetworkConstants;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -24,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
     private static Retrofit retrofit = null;
     private static Gson gson;
-    private static ApiInterfaces apiInterfaceForLambo;
+    private static ApiInterfaces apiInterfaces;
 
 
     private static final HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor()
@@ -36,12 +31,12 @@ public class ApiClient {
 
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(httpLoggingInterceptor)
-                    .readTimeout(120, TimeUnit.SECONDS)
-                    .connectTimeout(120, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .connectTimeout(60, TimeUnit.SECONDS)
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(Sinergia.INSTANCE.getResources().getString(R.string.base_url))
+                    .baseUrl(NetworkConstants.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(getGson()))
                     .client(okHttpClient)
                     .build();
@@ -61,10 +56,10 @@ public class ApiClient {
 
 
     public synchronized static ApiInterfaces getApiClient() {
-        if (apiInterfaceForLambo == null) {
-            apiInterfaceForLambo = getClient().create(ApiInterfaces.class);
+        if (apiInterfaces == null) {
+            apiInterfaces = getClient().create(ApiInterfaces.class);
         }
 
-        return apiInterfaceForLambo;
+        return apiInterfaces;
     }
 }

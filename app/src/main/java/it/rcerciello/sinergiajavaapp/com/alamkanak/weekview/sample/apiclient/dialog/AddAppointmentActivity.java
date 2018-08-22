@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -17,10 +18,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.rcerciello.sinergiajavaapp.R;
+import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
 import timber.log.Timber;
 
 
-public class AddAppointmentActivity extends AppCompatActivity {
+public class AddAppointmentActivity extends AppCompatActivity implements AddAppointmentContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -44,12 +46,17 @@ public class AddAppointmentActivity extends AppCompatActivity {
     @BindView(R.id.scrollView)
     ScrollView scrollView;
 
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
 
     private boolean isEditable = false;
     private String name;
     private String endDate;
     private String startDate;
     private String id;
+
+    private AddAppointmentContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,24 +65,26 @@ public class AddAppointmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_appointment);
         ButterKnife.bind(this);
 
+        mPresenter = new AddAppointmentPresenter(this);
+
         Intent i = getIntent();
         if (i != null) {
             isEditable = i.getBooleanExtra("isEditable", false);
-            Timber.e("isEditable" , ""+isEditable);
+            Timber.e("isEditable", "" + isEditable);
             if (isEditable) {
-                name = i.getStringExtra("name");
-                Timber.e("name" , ""+name);
-                endDate = i.getStringExtra("endDate");
-                Timber.e("endDate" , ""+endDate);
-                startDate = i.getStringExtra("startDate");
-                Timber.e("startDate" , ""+startDate);
-                id = i.getStringExtra("id");
-                Timber.e("id" , ""+id);
-
-                if (isNonNullAndNotEmpty(id)) {
-                    clientId.setText(id);
-                }
-                }
+//                name = i.getStringExtra("name");
+//                Timber.e("name" , ""+name);
+//                endDate = i.getStringExtra("endDate");
+//                Timber.e("endDate" , ""+endDate);
+//                startDate = i.getStringExtra("startDate");
+//                Timber.e("startDate" , ""+startDate);
+//                id = i.getStringExtra("id");
+//                Timber.e("id" , ""+id);
+//
+//                if (isNonNullAndNotEmpty(id)) {
+//                    clientId.setText(id);
+//                }
+            }
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,32 +116,48 @@ public class AddAppointmentActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnOK)
     public void okAction() {
-        String clientIdText = clientId.getText().toString();
-        String serviceIdText = serviceId.getText().toString();
-
-        if (isNonNullAndNotEmpty((clientIdText)) && isNonNullAndNotEmpty(serviceIdText)) {
-            //TODO Do API Call
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    onBackPressed();
-                }
-            }, 1000);
-            Toast.makeText(this, "Do APi Call", Toast.LENGTH_SHORT).show();
-
+        if (isEditable) {
+            mPresenter.editAppointment(new AppointmentEvent());
         } else {
-            Toast.makeText(this, "I campi non possono essere vuoti", Toast.LENGTH_SHORT).show();
+            mPresenter.addAppointment(new AppointmentEvent());
         }
     }
 
 
-    private boolean isNonNullAndNotEmpty(String value) {
-        return value != null && !value.trim().equals("");
-    }
 
     @OnClick(R.id.etOraInizio)
     public void oraAction() {
 //        new TimePikerDialog(this).show();
+    }
+
+    @Override
+    public void showInProgress(boolean showOrHide) {
+        if (showOrHide) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void dismissView() {
+        onBackPressed();
+        //Todo refresh calendar
+    }
+
+
+    @Override
+    public void showSnackbar(String message) {
+
+    }
+
+    @Override
+    public void setPresenter(AddAppointmentContract.Presenter presenter) {
+        this.mPresenter = presenter;
+    }
+
+    @Override
+    public void logout() {
+
     }
 }

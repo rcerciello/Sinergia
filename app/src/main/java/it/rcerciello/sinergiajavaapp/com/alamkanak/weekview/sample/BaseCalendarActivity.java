@@ -10,12 +10,16 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,8 +27,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import it.rcerciello.sinergiajavaapp.MainActivity;
 import it.rcerciello.sinergiajavaapp.R;
+import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog.AddAppointmentActivity;
 import timber.log.Timber;
 
@@ -34,15 +41,26 @@ import timber.log.Timber;
  * Created by Raquib-ul-Alam Kanak on 1/3/2014.
  * Website: http://alamkanak.github.io
  */
-public abstract class BaseCalendarActivity extends AppCompatActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
+public class BaseCalendarActivity extends AppCompatActivity implements BaseCalendarContract.View, WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
-    private WeekView mWeekViewOne;
-    private WeekView mWeekViewTwo;
-    private WeekView mWeekViewThree;
-    List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+
+    @BindView(R.id.weekView)
+    WeekView mWeekViewOne;
+
+    @BindView(R.id.weekViewTwo)
+    WeekView mWeekViewTwo;
+
+    @BindView(R.id.weekViewThree)
+    WeekView mWeekViewThree;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    List<WeekViewEvent> allAppointments = new ArrayList<WeekViewEvent>();
+    private BaseCalendarContract.Presenter mPresenter;
 
 
     @Override
@@ -50,11 +68,8 @@ public abstract class BaseCalendarActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        // Get a reference for the week view in the layout.
-        mWeekViewOne = (WeekView) findViewById(R.id.weekView);
-        mWeekViewTwo = (WeekView) findViewById(R.id.weekViewTwo);
-        mWeekViewThree = (WeekView) findViewById(R.id.weekViewThree);
-
+        ButterKnife.bind(this);
+        mPresenter = new BaseCalendarPresenter(this);
 
         setCalendaarWidgetListener();
         // Set up a date time interpreter to interpret how the date and time will be formatted in
@@ -65,26 +80,16 @@ public abstract class BaseCalendarActivity extends AppCompatActivity implements 
 
     private void setCalendaarWidgetListener() {
         // Show a toast message about the touched event.
-        mWeekViewOne.setOnEventClickListener(this);
-        mWeekViewTwo.setOnEventClickListener(this);
-        mWeekViewThree.setOnEventClickListener(this);
+        setEventListener(mWeekViewOne);
+        setEventListener(mWeekViewTwo);
+        setEventListener(mWeekViewThree);
+    }
 
-
-        // The week view has infinite scrolling horizontally. We have to provide the events of a
-        // month every time the month changes on the week view.
-        mWeekViewOne.setMonthChangeListener(this);
-        mWeekViewTwo.setMonthChangeListener(this);
-        mWeekViewThree.setMonthChangeListener(this);
-
-        // Set long press listener for events.
-        mWeekViewOne.setEventLongPressListener(this);
-        mWeekViewTwo.setEventLongPressListener(this);
-        mWeekViewThree.setEventLongPressListener(this);
-
-        // Set long press listener for empty view
-        mWeekViewOne.setEmptyViewLongPressListener(this);
-        mWeekViewTwo.setEmptyViewLongPressListener(this);
-        mWeekViewThree.setEmptyViewLongPressListener(this);
+    private void setEventListener(WeekView weekView) {
+        weekView.setOnEventClickListener(this);
+        weekView.setMonthChangeListener(this);
+        weekView.setEventLongPressListener(this);
+        weekView.setEmptyViewLongPressListener(this);
     }
 
     @Override
@@ -115,9 +120,7 @@ public abstract class BaseCalendarActivity extends AppCompatActivity implements 
                 return true;
             case R.id.action_week_view:
                 if (mWeekViewType != TYPE_WEEK_VIEW) {
-
                     setWeekView(item);
-
                 }
                 return true;
             case R.id.action_details:
@@ -214,9 +217,6 @@ public abstract class BaseCalendarActivity extends AppCompatActivity implements 
         });
     }
 
-    protected String getEventTitle(Calendar time) {
-        return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH));
-    }
 
     /**
      * Listener per i giorni pieni
@@ -245,10 +245,8 @@ public abstract class BaseCalendarActivity extends AppCompatActivity implements 
 
     @Override
     public void onEmptyViewLongPress(Calendar time) {
-//        new CustomDialog(this, this).show();
         Intent i = new Intent(this, AddAppointmentActivity.class);
         startActivity(i);
-        Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -267,14 +265,14 @@ public abstract class BaseCalendarActivity extends AppCompatActivity implements 
                 // the user clicked on options[which]
                 switch (which) {
                     case 0:
-                        //TODO API CALL AND REFRESH VIEW
-                        events.remove(event);
-                        mWeekViewOne.notifyDatasetChanged();
+                        //TODO API CALL AND REFRESH VIEW Se l'api risponde OK, rimuovo l'evento dal calendario
 
-                        Toast.makeText(getApplicationContext(), "hai scelto di cancellare", Toast.LENGTH_LONG).show();
+                        AppointmentEvent appointmentEvent = new AppointmentEvent();
+                        appointmentEvent.setId(String.valueOf(event.getId()));
+                        mPresenter.deleteAppointment(String.valueOf(event.getId()), appointmentEvent);
                         break;
                     case 1:
-                        Intent i = new Intent(getApplicationContext(),AddAppointmentActivity.class);
+                        Intent i = new Intent(getApplicationContext(), AddAppointmentActivity.class);
 
                         i.putExtra("isEditable", true);
                         i.putExtra("name", event.getName());
@@ -282,10 +280,10 @@ public abstract class BaseCalendarActivity extends AppCompatActivity implements 
                         i.putExtra("id", event.getId());
                         i.putExtra("startTime", event.getStartTime());
 
-                        Log.e("name" , "name"+event.getName());
-                        Log.e("getEndTime" , "getEndTime"+event.getEndTime());
-                        Log.e("getId" , "getId"+String.valueOf(event.getId()));
-                        Log.e("getStartTime" , "getStartTime"+event.getStartTime());
+                        Log.e("name", "name" + event.getName());
+                        Log.e("getEndTime", "getEndTime" + event.getEndTime());
+                        Log.e("getId", "getId" + String.valueOf(event.getId()));
+                        Log.e("getStartTime", "getStartTime" + event.getStartTime());
                         startActivity(i);
                         break;
                     default:
@@ -305,148 +303,58 @@ public abstract class BaseCalendarActivity extends AppCompatActivity implements 
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        // Populate the week view with some events.
-        events = new ArrayList<WeekViewEvent>();
+        Timber.e("newYear =>"+newYear+" newMonth "+newMonth);
+        return allAppointments;
+    }
 
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 1);
-        endTime.set(Calendar.MONTH, newMonth - 1);
-        WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_01));
-        events.add(event);
+    @Override
+    public void showInProgress(boolean showOrHide) {
+        if (showOrHide) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 30);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.set(Calendar.HOUR_OF_DAY, 4);
-        endTime.set(Calendar.MINUTE, 30);
-        endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_02));
-        events.add(event);
+    @Override
+    public void refreshCalendar() {
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 4);
-        startTime.set(Calendar.MINUTE, 20);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.set(Calendar.HOUR_OF_DAY, 5);
-        endTime.set(Calendar.MINUTE, 0);
-        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_03));
-        events.add(event);
+    }
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 5);
-        startTime.set(Calendar.MINUTE, 30);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR_OF_DAY, 2);
-        endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(2, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_02));
-        events.add(event);
+    @Override
+    public void removeEventFromCalendar(AppointmentEvent event) {
+        Timber.e("evento rimosso dal calendario");
+        allAppointments.remove(event);
+        mWeekViewOne.notifyDatasetChanged();
+        mWeekViewTwo.notifyDatasetChanged();
+        mWeekViewThree.notifyDatasetChanged();
+        Toast.makeText(getApplicationContext(), "hai scelto di cancellare", Toast.LENGTH_LONG).show();
+    }
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 5);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        startTime.add(Calendar.DATE, 1);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR_OF_DAY, 3);
-        endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(3, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_03));
-        events.add(event);
+    @Override
+    public void showSnackbar(String message) {
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.DAY_OF_MONTH, 15);
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR_OF_DAY, 3);
-        event = new WeekViewEvent(4, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_04));
-        events.add(event);
+    }
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.DAY_OF_MONTH, 1);
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR_OF_DAY, 3);
-        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_01));
-        events.add(event);
+    @Override
+    public void setPresenter(BaseCalendarContract.Presenter presenter) {
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.DAY_OF_MONTH, startTime.getActualMaximum(Calendar.DAY_OF_MONTH));
-        startTime.set(Calendar.HOUR_OF_DAY, 15);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR_OF_DAY, 3);
-        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_02));
-        events.add(event);
+    }
 
-        //AllDay event
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 0);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR_OF_DAY, 23);
-        event = new WeekViewEvent(7, getEventTitle(startTime), null, startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_04));
-        events.add(event);
-        events.add(event);
+    @Override
+    public void logout() {
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.DAY_OF_MONTH, 8);
-        startTime.set(Calendar.HOUR_OF_DAY, 2);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.set(Calendar.DAY_OF_MONTH, 10);
-        endTime.set(Calendar.HOUR_OF_DAY, 23);
-        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_03));
-        events.add(event);
+    }
 
-        // All day event until 00:00 next day
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.DAY_OF_MONTH, 10);
-        startTime.set(Calendar.HOUR_OF_DAY, 0);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.SECOND, 0);
-        startTime.set(Calendar.MILLISECOND, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.set(Calendar.DAY_OF_MONTH, 11);
-        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_01));
-        events.add(event);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getAllAppointments();
+    }
 
-        return events;
+
+    @Override
+    public void showAllAppointments(List<WeekViewEvent> appointments) {
+        allAppointments = appointments;
     }
 }

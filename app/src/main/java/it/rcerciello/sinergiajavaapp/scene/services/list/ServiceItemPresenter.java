@@ -55,6 +55,11 @@ public class ServiceItemPresenter implements ServiceItemFragmentContract.Present
             public void onSessionExpired() {
                 mView.showOrHideProgressBar(false);
             }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+                
+            }
         });
     }
 }

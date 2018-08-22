@@ -10,7 +10,7 @@
     <string name="save">Salva</string>
     <string name="add_client">Aggiungi un cliente</string>
     <string name="offline_title">Sei offline</string>
-    <string name="base_url">\"\"</string>
+    <string name="base_url"></string>
     <string name="field_required">Il campo è obbligatorio</string>
     <string name="something_went_wrong">C\'è stato un problema,riprova.</string>
     <string name="empty_fields">Il campo è obbligatorio</string>

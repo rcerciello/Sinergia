@@ -8,6 +8,8 @@ public interface APICallback<T> {
     void onFailure(String error);
 
     void onSessionExpired();
+
+    void onFailure(boolean isFailure);
 }
 
 

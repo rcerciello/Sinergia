@@ -52,6 +52,11 @@ public class RegistrationPresenter implements RegistrazioneContract.Presenter {
             public void onSessionExpired() {
 
             }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+
+            }
         });
     }
 }

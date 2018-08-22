@@ -54,6 +54,11 @@ public class ClientItemPresenter implements ClientItemFragmentContract.Presenter
             public void onSessionExpired() {
 
             }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+
+            }
         });
     }
 }

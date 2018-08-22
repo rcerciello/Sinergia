@@ -51,6 +51,11 @@ public class LoginPresenter implements LoginContract.Presenter {
             public void onSessionExpired() {
 
             }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+
+            }
         });
     }
 }

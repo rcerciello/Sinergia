@@ -58,6 +58,11 @@ public class AddClientsPresenter implements AddClientsContract.Presenter {
             public void onSessionExpired() {
 
             }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+
+            }
         });
 
     }

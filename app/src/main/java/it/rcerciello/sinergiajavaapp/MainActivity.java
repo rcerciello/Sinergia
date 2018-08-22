@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.BasicCalendarActivity;
+import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.BaseCalendarActivity;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.EmployeeModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ClientItemFragmen
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    Intent i = new Intent(getApplicationContext(), BasicCalendarActivity.class);
+                    Intent i = new Intent(getApplicationContext(), BaseCalendarActivity.class);
                     startActivity(i);
                     return true;
                 case R.id.navigation_clients:

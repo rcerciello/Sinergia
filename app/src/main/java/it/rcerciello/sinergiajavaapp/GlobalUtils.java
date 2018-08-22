@@ -6,7 +6,9 @@ import android.os.Environment;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import it.rcerciello.sinergiajavaapp.utils.RegexUtils;
 
@@ -43,5 +45,19 @@ public class GlobalUtils {
         return email.matches(RegexUtils.getEmail());
     }
 
+
+    public static boolean isNotNullAndNotEmpty(String text) {
+        return text != null && !text.trim().equals("");
+    }
+
+
+    public static boolean isNotNullAndNotEmpty(List<Object> text) {
+        return text != null && text.size()>0;
+    }
+
+
+    public static boolean isNotNullAndNotEmpty(ArrayList<Object> text) {
+        return text != null && text.size()>0;
+    }
 
 }

@@ -17,8 +17,9 @@ import java.util.Date;
  * Created by Raquib-ul-Alam Kanak on 1/3/16.
  * Website: http://alamkanak.github.io
  */
-public class Event {
-
+public class AppointmentEvent {
+    @Expose @SerializedName("eventId")
+    private String id;
     @Expose @SerializedName("name")
     private String mName;
     @Expose @SerializedName("dayOfMonth")
@@ -29,6 +30,18 @@ public class Event {
     private String mEndTime;
     @Expose @SerializedName("color")
     private String mColor;
+    @Expose @SerializedName("dependentId")
+    private String dependentId;
+
+
+    public String getId() {
+
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return mName;
@@ -68,6 +81,14 @@ public class Event {
 
     public void setColor(String color) {
         this.mColor = color;
+    }
+
+    public String getDependentId() {
+        return dependentId;
+    }
+
+    public void setDependentId(String dependentId) {
+        this.dependentId = dependentId;
     }
 
     @SuppressLint("SimpleDateFormat")

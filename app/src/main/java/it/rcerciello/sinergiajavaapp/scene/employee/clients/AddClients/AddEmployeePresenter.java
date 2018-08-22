@@ -58,6 +58,11 @@ public class AddEmployeePresenter implements AddEmployeeContract.Presenter {
             public void onSessionExpired() {
 
             }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+
+            }
         });
 
     }

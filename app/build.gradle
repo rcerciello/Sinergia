@@ -58,4 +58,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.github.alamkanak:android-week-view:1.2.6'
 
+
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
+
 }

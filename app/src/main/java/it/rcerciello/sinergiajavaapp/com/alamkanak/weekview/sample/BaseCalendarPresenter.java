@@ -2,17 +2,13 @@ package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample;
 
 import android.support.annotation.NonNull;
 
-import com.alamkanak.weekview.WeekViewEvent;
-
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import it.rcerciello.sinergiajavaapp.GlobalUtils;
-import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
 import it.rcerciello.sinergiajavaapp.data.managers.CalendarNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
+import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 
 public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
 

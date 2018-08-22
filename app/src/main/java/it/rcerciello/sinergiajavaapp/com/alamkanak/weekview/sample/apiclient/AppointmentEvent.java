@@ -3,7 +3,6 @@ package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 
-import com.alamkanak.weekview.WeekViewEvent;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,6 +10,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 
 /**
  * An event model that was built for automatic serialization from json to object.

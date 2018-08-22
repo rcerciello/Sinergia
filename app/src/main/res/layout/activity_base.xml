@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:weightSum="3">
 
-        <com.alamkanak.weekview.WeekView
+        <it.rcerciello.weekLibrary.weekview.WeekView
             android:id="@+id/weekView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -32,7 +32,7 @@
             app:todayBackgroundColor="#1848adff"
             app:todayHeaderTextColor="@color/accent" />
 
-        <com.alamkanak.weekview.WeekView
+        <it.rcerciello.weekLibrary.weekview.WeekView
             android:id="@+id/weekViewTwo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -52,7 +52,7 @@
             app:todayBackgroundColor="#1848adff"
             app:todayHeaderTextColor="@color/accent" />
 
-        <com.alamkanak.weekview.WeekView
+        <it.rcerciello.weekLibrary.weekview.WeekView
             android:id="@+id/weekViewThree"
             android:layout_width="0dp"
             android:layout_height="match_parent"

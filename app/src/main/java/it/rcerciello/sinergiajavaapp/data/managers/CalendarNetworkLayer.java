@@ -1,9 +1,5 @@
 package it.rcerciello.sinergiajavaapp.data.managers;
 
-import com.alamkanak.weekview.WeekViewEvent;
-import com.google.gson.Gson;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -11,6 +7,7 @@ import java.util.List;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
+import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -166,7 +163,7 @@ public class CalendarNetworkLayer {
         Calendar endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR, 1);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
+        WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime, "ciao");
         allAppointments.add(event);
 
         startTime = Calendar.getInstance();
@@ -178,7 +175,7 @@ public class CalendarNetworkLayer {
         endTime.set(Calendar.HOUR_OF_DAY, 4);
         endTime.set(Calendar.MINUTE, 30);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime, "ciao");
         allAppointments.add(event);
 
         startTime = Calendar.getInstance();
@@ -189,7 +186,7 @@ public class CalendarNetworkLayer {
         endTime = (Calendar) startTime.clone();
         endTime.set(Calendar.HOUR_OF_DAY, 5);
         endTime.set(Calendar.MINUTE, 0);
-        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime, "ciao");
         allAppointments.add(event);
 
         startTime = Calendar.getInstance();
@@ -200,7 +197,7 @@ public class CalendarNetworkLayer {
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 2);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(2, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent(2, getEventTitle(startTime), startTime, endTime, "ciao");
         allAppointments.add(event);
 
         startTime = Calendar.getInstance();
@@ -212,7 +209,7 @@ public class CalendarNetworkLayer {
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 3);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(3, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent(3, getEventTitle(startTime), startTime, endTime, "ciao");
         allAppointments.add(event);
 
         startTime = Calendar.getInstance();
@@ -223,7 +220,7 @@ public class CalendarNetworkLayer {
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 3);
-        event = new WeekViewEvent(4, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent(4, getEventTitle(startTime), startTime, endTime, "ciao");
         allAppointments.add(event);
 
         startTime = Calendar.getInstance();
@@ -234,7 +231,7 @@ public class CalendarNetworkLayer {
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 3);
-        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime, "ciao");
         allAppointments.add(event);
 
         startTime = Calendar.getInstance();
@@ -245,7 +242,7 @@ public class CalendarNetworkLayer {
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 3);
-        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime, "ciao");
         allAppointments.add(event);
 
         //AllDay event
@@ -256,7 +253,7 @@ public class CalendarNetworkLayer {
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 23);
-        event = new WeekViewEvent(7, getEventTitle(startTime), null, startTime, endTime);
+        event = new WeekViewEvent(7, getEventTitle(startTime), null, startTime, endTime, "ciao");
         allAppointments.add(event);
 
         startTime = Calendar.getInstance();
@@ -268,7 +265,7 @@ public class CalendarNetworkLayer {
         endTime = (Calendar) startTime.clone();
         endTime.set(Calendar.DAY_OF_MONTH, 10);
         endTime.set(Calendar.HOUR_OF_DAY, 23);
-        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime);
+        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, "ciao");
         allAppointments.add(event);
 
         // All day event until 00:00 next day
@@ -282,7 +279,7 @@ public class CalendarNetworkLayer {
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.set(Calendar.DAY_OF_MONTH, 11);
-        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime);
+        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, "ciao");
         allAppointments.add(event);
         /* *********** */
         mCallback.onSuccess(allAppointments);

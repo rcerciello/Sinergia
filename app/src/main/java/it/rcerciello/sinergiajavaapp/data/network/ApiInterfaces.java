@@ -1,10 +1,10 @@
 package it.rcerciello.sinergiajavaapp.data.network;
 
-import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.List;
 
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
+import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

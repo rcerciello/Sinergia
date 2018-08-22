@@ -81,14 +81,11 @@ public class ServiceItemFragment extends Fragment implements ServiceItemFragment
     }
 
     public void createFakeModel() {
-        serviceModel.add(new ServiceModel("Ceretta Inguine", 60, 10));
-        serviceModel.add(new ServiceModel("Ceretta Completa", 90, 15));
-        serviceModel.add(new ServiceModel("Baffetto", 5, 2));
-        serviceModel.add(new ServiceModel("Sopracciglia con cera", 5, 5));
-        serviceModel.add(new ServiceModel("Sopracciglia con pinzetta", 5, 5));
-        serviceModel.add(new ServiceModel("Massaggio Rilassante", 45, 50));
-        serviceModel.add(new ServiceModel("Massaggio Tonificante", 45, 50));
-        serviceModel.add(new ServiceModel("Massaggio con il fuoco", 45, 50));
+        serviceModel.add(new ServiceModel("1","CI",  "Ceretta Inguine", 60, 10));
+        serviceModel.add(new ServiceModel("2","CC","Ceretta Completa", 90, 15));
+        serviceModel.add(new ServiceModel("3","B","Baffetto", 5, 2));
+        serviceModel.add(new ServiceModel("4","SPC","Sopracciglia con cera", 5, 5));
+        serviceModel.add(new ServiceModel("5","SPP","Sopracciglia con pinzetta", 5, 5));
     }
 
 

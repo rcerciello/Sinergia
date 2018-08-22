@@ -37,6 +37,7 @@
                     app:toolbarId="@+id/toolbar">
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -78,6 +79,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/space_24">
+
+                <TextView
+                    android:text="DETTAGLI SERVIZIO"
+                    android:textColor="@color/black"
+                    android:textAllCaps="true"
+                    fontPath="Roboto/RobotoBold.ttf"
+                    android:textSize="@dimen/font_34"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="MissingPrefix" />
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/nome_servizio"

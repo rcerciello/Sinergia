@@ -95,7 +95,7 @@ public class EmployeeDetailsActivity extends AppCompatActivity implements Employ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_details);
+        setContentView(R.layout.activity_employee_details);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 

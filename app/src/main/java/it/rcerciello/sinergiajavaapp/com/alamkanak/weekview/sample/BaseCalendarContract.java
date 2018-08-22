@@ -32,9 +32,9 @@ public class BaseCalendarContract {
     public interface Presenter extends BasePresenter {
         void deleteAppointment(String appointmentId, final WeekViewEvent event);
 
-        void editAppointment(AppointmentEvent event);
+        void editAppointment(WeekViewEvent event);
 
-        void addAppointment(AppointmentEvent event);
+        void addAppointment(WeekViewEvent event);
 
         void getAllAppointments();
     }

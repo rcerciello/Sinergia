@@ -29,7 +29,7 @@ public class CalendarNetworkLayer {
     }
 
 
-    public void editAppointment(AppointmentEvent event, final APICallback<Boolean> mCallback) {
+    public void editAppointment(WeekViewEvent event, final APICallback<Boolean> mCallback) {
         Call<Boolean> call = ApiClient.getApiClient().editAppointment(event);
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -91,7 +91,7 @@ public class CalendarNetworkLayer {
 
 
 
-    public void addAppointment(AppointmentEvent event, final APICallback<Boolean> mCallback) {
+    public void addAppointment(WeekViewEvent event, final APICallback<Boolean> mCallback) {
         Call<Boolean> call = ApiClient.getApiClient().addAppointment(event);
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -181,16 +181,16 @@ public class CalendarNetworkLayer {
         event = new WeekViewEvent(2, "Angela Cerciello",GeneralConstants.ID_MARIA, "Sopracciglia",  startTime, endTime, "ciao");
         allAppointments.add(event);
 
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.HOUR_OF_DAY, 4);
-//        startTime.set(Calendar.MINUTE, 20);
-//        startTime.set(Calendar.MONTH, newMonth - 1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.set(Calendar.HOUR_OF_DAY, 5);
-//        endTime.set(Calendar.MINUTE, 0);
-//        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime, "ciao");
-//        allAppointments.add(event);
+        startTime = Calendar.getInstance();
+        startTime.set(Calendar.HOUR_OF_DAY, 4);
+        startTime.set(Calendar.MINUTE, 20);
+        startTime.set(Calendar.MONTH, newMonth - 1);
+        startTime.set(Calendar.YEAR, newYear);
+        endTime = (Calendar) startTime.clone();
+        endTime.set(Calendar.HOUR_OF_DAY, 5);
+        endTime.set(Calendar.MINUTE, 0);
+        event = new WeekViewEvent(2, "Russo Antonio",GeneralConstants.ID_ANNA, "Sopracciglia",  startTime, endTime, "ciao");
+        allAppointments.add(event);
 //
 //        startTime = Calendar.getInstance();
 //        startTime.set(Calendar.HOUR_OF_DAY, 5);

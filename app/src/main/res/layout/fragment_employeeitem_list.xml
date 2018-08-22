@@ -39,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/space_24"
                 android:layout_marginRight="@dimen/space_24"
-                app:layoutManager="LinearLayoutManager"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 tools:context="it.rcerciello.sinergiajavaapp.scene.clients.list.ClientItemFragment"
                 tools:listitem="@layout/fragment_clientitem" />
 
@@ -53,7 +53,7 @@
         android:layout_margin="@dimen/space_24"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        app:srcCompat="@drawable/ic_black_plus" />
+        app:srcCompat="@drawable/ic_white_plus" />
 
     <ProgressBar
         android:id="@+id/progressBar"

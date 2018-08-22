@@ -30,14 +30,14 @@ public interface ApiInterfaces {
 
 
     @POST("user/BlaBla")
-    Call<Boolean> editAppointment(@Body AppointmentEvent event);
+    Call<Boolean> editAppointment(@Body WeekViewEvent event);
 
     @DELETE("userservice/users/current")
     Call<Boolean> deleteAppointment();
 
 
-    @POST("")
-    Call<Boolean> addAppointment(@Body AppointmentEvent event);
+    @POST("url")
+    Call<Boolean> addAppointment(@Body WeekViewEvent event);
 
     @GET("user/bla")
     Call<List<WeekViewEvent>> getAllAppointments();

@@ -84,7 +84,7 @@
                 android:orientation="vertical"
                 android:padding="@dimen/space_24">
                 <TextView
-                    android:text="DETTAGLI CLIENTE"
+                    android:text="DETTAGLI DIPENDENTE"
                     android:textColor="@color/black"
                     android:textAllCaps="true"
                     fontPath="Roboto/RobotoBold.ttf"

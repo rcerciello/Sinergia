@@ -2,11 +2,13 @@ package it.rcerciello.sinergiajavaapp.data.modelli;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
 /**
  * Created by rcerciello on 28/04/2018.
  */
 
-public class ClientModel {
+public class ClientModel extends RealmObject{
 
     @SerializedName("id")
     String id = "";
@@ -44,6 +46,13 @@ public class ClientModel {
         this.mobile_phone = mobile_phone;
         this.nextAppointment = nextAppointment;
         this.email = email;
+    }
+
+
+    public ClientModel(String id, String name, String surname) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
     }
 
     @Override

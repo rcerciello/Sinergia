@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.rcerciello.sinergiajavaapp.GlobalUtils;
-import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
 import it.rcerciello.sinergiajavaapp.data.managers.CalendarNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
@@ -56,7 +55,7 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
     }
 
     @Override
-    public void editAppointment(AppointmentEvent event) {
+    public void editAppointment(WeekViewEvent event) {
         mView.showInProgress(true);
         CalendarNetworkLayer.getInstance().editAppointment(event, new APICallback<Boolean>() {
             @Override
@@ -88,7 +87,7 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
     }
 
     @Override
-    public void addAppointment(AppointmentEvent event) {
+    public void addAppointment(WeekViewEvent event) {
         CalendarNetworkLayer.getInstance().addAppointment(event, new APICallback<Boolean>() {
             @Override
             public void onSuccess(Boolean object) {

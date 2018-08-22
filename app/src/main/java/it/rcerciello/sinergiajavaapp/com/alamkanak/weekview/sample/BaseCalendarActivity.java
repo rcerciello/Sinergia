@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 
 import java.text.SimpleDateFormat;
@@ -26,7 +25,7 @@ import butterknife.ButterKnife;
 import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.MainActivity;
 import it.rcerciello.sinergiajavaapp.R;
-import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog.AddAppointmentActivity;
+import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AddAppointment.AddAppointmentActivity;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.DateTimeInterpreter;
@@ -247,8 +246,10 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     }
 
     @Override
-    public void onEmptyViewLongPress(Calendar time) {
+    public void onEmptyViewLongPress(String collaboratorId, Calendar time) {
         Intent i = new Intent(this, AddAppointmentActivity.class);
+
+        i.putExtra("collaboratorID", collaboratorId);
         startActivity(i);
     }
 

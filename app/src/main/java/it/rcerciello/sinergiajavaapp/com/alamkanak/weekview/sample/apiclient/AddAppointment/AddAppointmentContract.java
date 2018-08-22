@@ -1,9 +1,10 @@
-package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog;
+package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AddAppointment;
 
 import it.rcerciello.sinergiajavaapp.BasePresenter;
 import it.rcerciello.sinergiajavaapp.BaseView;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.BaseCalendarContract;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
+import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 
 public class AddAppointmentContract {
     public interface View extends BaseView<Presenter> {
@@ -18,8 +19,8 @@ public class AddAppointmentContract {
 
 
     public interface Presenter  extends BasePresenter {
-        void addAppointment(AppointmentEvent event);
+        void addAppointment(WeekViewEvent event);
 
-        void editAppointment(AppointmentEvent event);
+        void editAppointment(WeekViewEvent event);
     }
 }

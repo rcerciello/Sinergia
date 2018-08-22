@@ -297,7 +297,7 @@ public class WeekView extends View {
                 Calendar selectedTime = getTimeFromPoint(e.getX(), e.getY());
                 if (selectedTime != null) {
                     performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                    mEmptyViewLongPressListener.onEmptyViewLongPress(selectedTime);
+                    mEmptyViewLongPressListener.onEmptyViewLongPress(collaboratorId,selectedTime);
                 }
             }
         }
@@ -2034,7 +2034,7 @@ public class WeekView extends View {
          * Similar to {@link WeekView.EmptyViewClickListener} but with long press.
          * @param time: {@link Calendar} object set with the date and time of the long pressed position on the view.
          */
-        void onEmptyViewLongPress(Calendar time);
+        void onEmptyViewLongPress(String collaboratorId, Calendar time);
     }
 
     public interface ScrollListener {

@@ -56,7 +56,7 @@
             android:windowSoftInputMode="adjustResize" />
 
 
-        <activity android:name=".com.alamkanak.weekview.sample.apiclient.dialog.AddAppointmentActivity"
+        <activity android:name=".com.alamkanak.weekview.sample.apiclient.AddAppointment.AddAppointmentActivity"
             android:windowSoftInputMode="adjustResize"/>
 
         <activity android:name=".MainActivity"

@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements ClientItemFragmen
     public void onEmployeeInteraction(EmployeeModel item) {
         Intent i = new Intent(this, EmployeeDetailsActivity.class);
         String data = ApiClient.getGson().toJson(item);
-        i.putExtra("ServiceModel", data);
+        i.putExtra("EmployeeeModel", data);
         startActivity(i);
     }
 }

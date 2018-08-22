@@ -82,7 +82,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
             @Override
             public void onClick(View v) {
                 saveButton.changeState();
-                ServiceModel service = new ServiceModel(nome.getText().toString(), Integer.valueOf( durata.getText().toString()), Float.valueOf(prezzo.getText().toString()));
+                ServiceModel service = new ServiceModel("1", "Ad", nome.getText().toString(), Integer.valueOf( durata.getText().toString()), Float.valueOf(prezzo.getText().toString()));
                 mPresenter.addService(service);
             }
         });
@@ -217,8 +217,8 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
         }
 
         if (!thereIsError) {
-            ServiceModel model = new ServiceModel(nome.getText(),Integer.valueOf( durata.getText()), Float.valueOf(prezzo.getText()));
-            mPresenter.addService(model);
+            ServiceModel service = new ServiceModel("1", "Ad", nome.getText().toString(), Integer.valueOf( durata.getText().toString()), Float.valueOf(prezzo.getText().toString()));
+            mPresenter.addService(service);
         }
 
         Toast.makeText(this, "Save", Toast.LENGTH_LONG).show();

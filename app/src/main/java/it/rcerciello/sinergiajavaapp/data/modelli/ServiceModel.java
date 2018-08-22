@@ -2,13 +2,18 @@ package it.rcerciello.sinergiajavaapp.data.modelli;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
 /**
  * Created by rcerciello on 28/04/2018.
  */
 
-public class ServiceModel {
+public class ServiceModel extends RealmObject {
     @SerializedName("id")
     String id = "";
+
+    @SerializedName("identifier")
+    String serviceIdentifier = "";
 
     @SerializedName("name")
     String name ="";
@@ -18,19 +23,6 @@ public class ServiceModel {
 
     @SerializedName("price")
     float price ;
-
-    public ServiceModel(String id, String name, int duration, float price) {
-        this.id = id;
-        this.name = name;
-        this.duration = duration;
-        this.price = price;
-    }
-
-    public ServiceModel(String name, int duration, float price) {
-        this.name = name;
-        this.duration = duration;
-        this.price = price;
-    }
 
     public String getId() {
         return id;
@@ -64,13 +56,24 @@ public class ServiceModel {
         this.price = price;
     }
 
-    @Override
-    public String toString() {
-        return "ServiceModel{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", duration=" + duration +
-                ", price=" + price +
-                '}';
+    public String getServiceIdentifier() {
+        return serviceIdentifier;
+    }
+
+    public void setServiceIdentifier(String serviceIdentifier) {
+        this.serviceIdentifier = serviceIdentifier;
+    }
+
+    public ServiceModel(String id, String serviceIdentifier, String name, int duration, float price) {
+        this.id = id;
+        this.serviceIdentifier = serviceIdentifier;
+        this.name = name;
+        this.duration = duration;
+        this.price = price;
+    }
+
+    public ServiceModel()
+    {
+
     }
 }

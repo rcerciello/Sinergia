@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Maria"
+                android:text="Anna"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 tools:ignore="MissingPrefix" />
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Anna"
+                android:text="Maria"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 tools:ignore="MissingPrefix" />

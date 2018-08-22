@@ -1,11 +1,11 @@
-package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog;
+package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AddAppointment;
 
 import android.support.annotation.NonNull;
 
 import it.rcerciello.sinergiajavaapp.GlobalUtils;
-import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
 import it.rcerciello.sinergiajavaapp.data.managers.CalendarNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
+import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 
 public class AddAppointmentPresenter implements AddAppointmentContract.Presenter {
 
@@ -16,7 +16,7 @@ public class AddAppointmentPresenter implements AddAppointmentContract.Presenter
     }
 
     @Override
-    public void addAppointment(AppointmentEvent event) {
+    public void addAppointment(WeekViewEvent event) {
         mView.showInProgress(true);
         CalendarNetworkLayer.getInstance().addAppointment(event, new APICallback<Boolean>() {
             @Override
@@ -51,7 +51,7 @@ public class AddAppointmentPresenter implements AddAppointmentContract.Presenter
     }
 
     @Override
-    public void editAppointment(AppointmentEvent event) {
+    public void editAppointment(WeekViewEvent event) {
         mView.showInProgress(true);
         CalendarNetworkLayer.getInstance().editAppointment(event, new APICallback<Boolean>() {
             @Override

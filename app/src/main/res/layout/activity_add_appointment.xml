@@ -45,8 +45,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/light_grey"
-                    android:layout_marginBottom="@dimen/space_24"/>
+                    android:layout_marginBottom="@dimen/space_24"
+                    android:background="@color/light_grey" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -64,8 +64,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/light_grey"
-                    android:layout_marginBottom="@dimen/space_24"/>
+                    android:layout_marginBottom="@dimen/space_24"
+                    android:background="@color/light_grey" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -84,41 +84,42 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:weightSum="3">
+
                         <RadioButton
                             android:id="@+id/rbLella"
-                            android:text="Lella"
-                            android:textColor="@color/black"
-                            android:checked="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:buttonTint="@color/accent"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content" />
+                            android:checked="true"
+                            android:text="Lella"
+                            android:textColor="@color/black" />
 
                         <RadioButton
                             android:id="@+id/rbAnna"
-                            android:text="Anna"
-                            android:textColor="@color/black"
-                            android:layout_weight="1"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:buttonTint="@color/accent"
-                            android:layout_height="wrap_content" />
+                            android:text="Anna"
+                            android:textColor="@color/black" />
 
                         <RadioButton
                             android:id="@+id/rbMaria"
-                            android:text="Maria"
-                            android:textColor="@color/black"
-                            android:layout_weight="1"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:buttonTint="@color/accent"
-                            android:layout_height="wrap_content" />
+                            android:text="Maria"
+                            android:textColor="@color/black" />
                     </LinearLayout>
                 </RadioGroup>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/light_grey"
-                    android:layout_marginBottom="@dimen/space_24"/>
+                    android:layout_marginBottom="@dimen/space_24"
+                    android:background="@color/light_grey" />
 
 
                 <TextView
@@ -128,18 +129,29 @@
                     android:text="Ora Di Inizio"
                     android:textColor="@color/dark_gray" />
 
-                <EditText
-                    android:id="@+id/etOraInizio"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/dark_gray" />
+                    android:layout_height="wrap_content">
 
+                    <EditText
+                        android:id="@+id/etOraInizio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/dark_gray" />
+
+                    <Button
+                        android:id="@+id/btnTimePicker"
+                        android:background="@color/transparent"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" />
+
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/light_grey"
-                    android:layout_marginBottom="@dimen/space_24"/>
+                    android:layout_marginBottom="@dimen/space_24"
+                    android:background="@color/light_grey" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -148,11 +160,23 @@
                     android:text="Data"
                     android:textColor="@color/dark_gray" />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <EditText
                     android:id="@+id/etData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black" />
+
+
+                    <Button
+                        android:id="@+id/btnDatePicker"
+                        android:background="@color/transparent"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" />
+
+                </RelativeLayout>
 
             </LinearLayout>
         </ScrollView>

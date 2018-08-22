@@ -1,5 +1,7 @@
 package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +10,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +45,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     EditText etOraInizio;
 
     @BindView(R.id.etData)
-    EditText etData;
+    EditText etDate;
 
     @BindView(R.id.btnOK)
     Button btnOk;
@@ -58,6 +64,12 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
     @BindView(R.id.rbMaria)
     RadioButton rbMaria;
+
+    @BindView(R.id.btnTimePicker)
+    Button btnTimePicker;
+
+    @BindView(R.id.btnDatePicker)
+    Button btnDatePicker;
 
     private boolean isEditable = false;
 
@@ -84,8 +96,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                         clientId.setText(editableModel.getIdCliente());
                     }
                     if (GlobalUtils.isNotNullAndNotEmpty(editableModel.getIdCollaborator())) {
-                        switch (editableModel.getIdCollaborator())
-                        {
+                        switch (editableModel.getIdCollaborator()) {
                             case GeneralConstants.ID_LELLA:
                                 rbLella.performClick();
                                 break;
@@ -126,24 +137,21 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     }
 
     @OnClick(R.id.rbLella)
-    public void clickLellaAction()
-    {
+    public void clickLellaAction() {
         rbLella.setChecked(true);
         rbAnna.setChecked(false);
         rbMaria.setChecked(false);
     }
 
     @OnClick(R.id.rbMaria)
-    public void clickLMariaAction()
-    {
+    public void clickLMariaAction() {
         rbLella.setChecked(false);
         rbAnna.setChecked(false);
         rbMaria.setChecked(true);
     }
 
     @OnClick(R.id.rbAnna)
-    public void clickAnnaaAction()
-    {
+    public void clickAnnaaAction() {
         rbLella.setChecked(false);
         rbAnna.setChecked(true);
         rbMaria.setChecked(false);
@@ -201,5 +209,50 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @Override
     public void logout() {
 
+    }
+
+
+    @OnClick(R.id.btnTimePicker)
+    public void timePickerAction() {
+        // Get Current Time
+        final Calendar c = Calendar.getInstance();
+        int mHour = c.get(Calendar.HOUR_OF_DAY);
+        int mMinute = c.get(Calendar.MINUTE);
+
+        // Launch Time Picker Dialog
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+                        etOraInizio.setText(hourOfDay + ":" + minute);
+                    }
+                }, mHour, mMinute, false);
+        timePickerDialog.show();
+    }
+
+
+    @OnClick(R.id.btnDatePicker)
+    public void datePickerAction() {
+        // Get Current Date
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+                        etDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 }

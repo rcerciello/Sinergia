@@ -232,7 +232,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
      */
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        setAlertDialogForAnEvent(event);
     }
 
     /**
@@ -243,10 +243,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
      */
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-        setAlertDialogForAnEvent(event);
-
-
-        Toast.makeText(this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
+//        setAlertDialogForAnEvent(event);
     }
 
     @Override

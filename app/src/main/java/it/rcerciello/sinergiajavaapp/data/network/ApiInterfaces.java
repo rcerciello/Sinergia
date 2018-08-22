@@ -29,7 +29,7 @@ public interface ApiInterfaces {
 //    Call<Void> deleteCurrentUserInformations(@Header(GeneralConstants.AUTHORIZATION_BEARER) String authorization);
 
 
-    @POST("")
+    @POST("user/BlaBla")
     Call<Boolean> editAppointment(@Body AppointmentEvent event);
 
     @DELETE("userservice/users/current")

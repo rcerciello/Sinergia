@@ -17,4 +17,9 @@ public class GeneralConstants {
     public static final int INTENT_CHOOSE_PHOTO = 2;
 
 
+    public static final String ID_LELLA = "idLella";
+    public static final String ID_MARIA = "idMaria";
+    public static final String ID_ANNA  = "idAnna";
+
+
 }

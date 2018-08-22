@@ -17,8 +17,8 @@ public class MonthLoader implements WeekViewLoader {
     }
 
     @Override
-    public List<? extends WeekViewEvent> onLoad(int periodIndex){
-        return mOnMonthChangeListener.onMonthChange(periodIndex / 12, periodIndex % 12 + 1);
+    public List<? extends WeekViewEvent> onLoad(String collaboratorId,int periodIndex){
+        return mOnMonthChangeListener.onMonthChange(collaboratorId, periodIndex / 12, periodIndex % 12 + 1);
     }
 
     public MonthChangeListener getOnMonthChangeListener() {
@@ -38,6 +38,6 @@ public class MonthLoader implements WeekViewLoader {
          * @param newMonth : month of the events required by the view <br/><strong>1 based (not like JAVA API) --> January = 1 and December = 12</strong>.
          * @return a list of the events happening <strong>during the specified month</strong>.
          */
-        List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth);
+        List<? extends WeekViewEvent> onMonthChange(String collaboratorId, int newYear, int newMonth);
     }
 }

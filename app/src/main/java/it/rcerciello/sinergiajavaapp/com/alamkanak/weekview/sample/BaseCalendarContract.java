@@ -19,15 +19,18 @@ public class BaseCalendarContract {
 
         void showSnackbar(String message);
 
-        void showAllAppointments(List<WeekViewEvent> appointments);
+        void showMariaAppointments(List<WeekViewEvent> appointments);
+
+        void showAnnaAppointments(List<WeekViewEvent> appointments);
+
+        void showLellaAppointments(List<WeekViewEvent> appointments);
 
 
     }
 
 
-
-    public interface Presenter  extends BasePresenter {
-        void deleteAppointment(String appointmentId,final AppointmentEvent event);
+    public interface Presenter extends BasePresenter {
+        void deleteAppointment(String appointmentId, final AppointmentEvent event);
 
         void editAppointment(AppointmentEvent event);
 

@@ -2,12 +2,14 @@ package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
 import it.rcerciello.sinergiajavaapp.data.managers.CalendarNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
+import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 
 public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
@@ -126,8 +128,8 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
             @Override
             public void onSuccess(List<WeekViewEvent> appointments) {
                 if (appointments != null && appointments.size() > 0) {
-
-                    mView.showAllAppointments(appointments);
+//                    mView.showAllAppointments(appointments);
+                    divideAppointments(appointments);
                 }
                 mView.showInProgress(false);
             }
@@ -149,4 +151,29 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
         });
     }
 
+
+    private void divideAppointments(List<WeekViewEvent> appointments) {
+        List<WeekViewEvent> appointmentsLella = new ArrayList<>();
+        List<WeekViewEvent> appointmentsMaria = new ArrayList<>();
+        List<WeekViewEvent> appointmentsAnna = new ArrayList<>();
+
+        for (WeekViewEvent appointment : appointments) {
+            if (GlobalUtils.isNotNullAndNotEmpty(appointment.getIdCollaborator())) {
+                switch (appointment.getIdCollaborator()) {
+                    case GeneralConstants.ID_LELLA:
+                        appointmentsLella.add(appointment);
+                        break;
+                    case GeneralConstants.ID_ANNA:
+                        appointmentsAnna.add(appointment);
+                        break;
+                    case GeneralConstants.ID_MARIA:
+                        appointmentsMaria.add(appointment);
+                        break;
+                }
+            }
+        }
+        mView.showMariaAppointments(appointmentsMaria);
+        mView.showLellaAppointments(appointmentsLella);
+        mView.showAnnaAppointments(appointmentsAnna);
+    }
 }

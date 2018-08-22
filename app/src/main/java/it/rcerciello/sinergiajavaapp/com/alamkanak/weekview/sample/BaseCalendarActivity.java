@@ -6,7 +6,6 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +26,7 @@ import it.rcerciello.sinergiajavaapp.MainActivity;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog.AddAppointmentActivity;
+import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.DateTimeInterpreter;
 import it.rcerciello.weekLibrary.weekview.MonthLoader;
 import it.rcerciello.weekLibrary.weekview.WeekView;
@@ -39,25 +39,27 @@ import timber.log.Timber;
  * Created by Raquib-ul-Alam Kanak on 1/3/2014.
  * Website: http://alamkanak.github.io
  */
-public class BaseCalendarActivity extends AppCompatActivity implements BaseCalendarContract.View, WeekView.EventClickListener, MonthLoader.MonthChangeListener,  WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
+public class BaseCalendarActivity extends AppCompatActivity implements BaseCalendarContract.View, WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
 
     @BindView(R.id.weekView)
-    WeekView mWeekViewOne;
+    WeekView mWeekViewLella;
 
     @BindView(R.id.weekViewTwo)
-    WeekView mWeekViewTwo;
+    WeekView mWeekViewAnna;
 
     @BindView(R.id.weekViewThree)
-    WeekView mWeekViewThree;
+    WeekView mWeekViewMaria;
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    List<WeekViewEvent> allAppointments = new ArrayList<WeekViewEvent>();
+    List<WeekViewEvent> allAppointmentsLella = new ArrayList<>();
+    List<WeekViewEvent> allAppointmentsMaria = new ArrayList<>();
+    List<WeekViewEvent> allAppointmentsAnna = new ArrayList<>();
     private BaseCalendarContract.Presenter mPresenter;
 
 
@@ -68,6 +70,9 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
         ButterKnife.bind(this);
         mPresenter = new BaseCalendarPresenter(this);
+        mWeekViewLella.setCollaboratorId(GeneralConstants.ID_LELLA);
+        mWeekViewAnna.setCollaboratorId(GeneralConstants.ID_ANNA);
+        mWeekViewMaria.setCollaboratorId(GeneralConstants.ID_MARIA);
 
         setCalendaarWidgetListener();
         // Set up a date time interpreter to interpret how the date and time will be formatted in
@@ -78,9 +83,9 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     private void setCalendaarWidgetListener() {
         // Show a toast message about the touched event.
-        setEventListener(mWeekViewOne);
-        setEventListener(mWeekViewTwo);
-        setEventListener(mWeekViewThree);
+        setEventListener(mWeekViewLella);
+        setEventListener(mWeekViewAnna);
+        setEventListener(mWeekViewMaria);
     }
 
     private void setEventListener(WeekView weekView) {
@@ -102,9 +107,9 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
         setupDateTimeInterpreter(id == R.id.action_week_view);
         switch (id) {
             case R.id.action_today:
-                mWeekViewOne.goToToday();
-                mWeekViewThree.goToToday();
-                mWeekViewTwo.goToToday();
+                mWeekViewLella.goToToday();
+                mWeekViewMaria.goToToday();
+                mWeekViewAnna.goToToday();
                 return true;
             case R.id.action_day_view:
                 if (mWeekViewType != TYPE_DAY_VIEW) {
@@ -133,9 +138,9 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     private void setThreeDayView(MenuItem item) {
         item.setChecked(!item.isChecked());
         mWeekViewType = TYPE_THREE_DAY_VIEW;
-        setThreeDayStyle(mWeekViewOne);
-        setThreeDayStyle(mWeekViewTwo);
-        setThreeDayStyle(mWeekViewThree);
+        setThreeDayStyle(mWeekViewLella);
+        setThreeDayStyle(mWeekViewAnna);
+        setThreeDayStyle(mWeekViewMaria);
 
     }
 
@@ -152,9 +157,9 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
         item.setChecked(!item.isChecked());
         mWeekViewType = TYPE_WEEK_VIEW;
-        setWeekStyle(mWeekViewOne);
-        setWeekStyle(mWeekViewTwo);
-        setWeekStyle(mWeekViewThree);
+        setWeekStyle(mWeekViewLella);
+        setWeekStyle(mWeekViewAnna);
+        setWeekStyle(mWeekViewMaria);
     }
 
 
@@ -172,9 +177,9 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
         item.setChecked(!item.isChecked());
         mWeekViewType = TYPE_DAY_VIEW;
 
-        setDailyStyle(mWeekViewOne);
-        setDailyStyle(mWeekViewTwo);
-        setDailyStyle(mWeekViewThree);
+        setDailyStyle(mWeekViewLella);
+        setDailyStyle(mWeekViewAnna);
+        setDailyStyle(mWeekViewMaria);
     }
 
     private void setDailyStyle(WeekView weekView) {
@@ -193,7 +198,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
      * @param shortDate True if the date values should be short.
      */
     private void setupDateTimeInterpreter(final boolean shortDate) {
-        mWeekViewOne.setDateTimeInterpreter(new DateTimeInterpreter() {
+        mWeekViewLella.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
             public String interpretDate(Calendar date) {
                 SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
@@ -249,7 +254,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
 
     public WeekView getWeekView() {
-        return mWeekViewOne;
+        return mWeekViewLella;
     }
 
 
@@ -272,16 +277,16 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
                     case 1:
                         Intent i = new Intent(getApplicationContext(), AddAppointmentActivity.class);
 
-                        i.putExtra("isEditable", true);
-                        i.putExtra("name", event.getName());
-                        i.putExtra("endTime", event.getEndTime());
-                        i.putExtra("id", event.getId());
-                        i.putExtra("startTime", event.getStartTime());
-
-                        Log.e("name", "name" + event.getName());
-                        Log.e("getEndTime", "getEndTime" + event.getEndTime());
-                        Log.e("getId", "getId" + String.valueOf(event.getId()));
-                        Log.e("getStartTime", "getStartTime" + event.getStartTime());
+//                        i.putExtra("isEditable", true);
+//                        i.putExtra("name", event.getName());
+//                        i.putExtra("endTime", event.getEndTime());
+//                        i.putExtra("id", event.getId());
+//                        i.putExtra("startTime", event.getStartTime());
+//
+//                        Log.e("name", "name" + event.getName());
+//                        Log.e("getEndTime", "getEndTime" + event.getEndTime());
+//                        Log.e("getId", "getId" + String.valueOf(event.getId()));
+//                        Log.e("getStartTime", "getStartTime" + event.getStartTime());
                         startActivity(i);
                         break;
                     default:
@@ -300,9 +305,17 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
 
     @Override
-    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        Timber.e("newYear =>"+newYear+" newMonth "+newMonth);
-        return allAppointments;
+    public List<? extends WeekViewEvent> onMonthChange(String collaboratorId, int newYear, int newMonth) {
+        Timber.e("collaboratorId => "+ collaboratorId +"newYear =>" + newYear + " newMonth " + newMonth);
+        switch (collaboratorId) {
+            case GeneralConstants.ID_LELLA:
+               return allAppointmentsLella;
+            case GeneralConstants.ID_MARIA:
+               return allAppointmentsMaria;
+            case GeneralConstants.ID_ANNA:
+             return allAppointmentsAnna;
+        }
+        return new ArrayList<>();
     }
 
     @Override
@@ -322,11 +335,18 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     @Override
     public void removeEventFromCalendar(AppointmentEvent event) {
         Timber.e("evento rimosso dal calendario");
-        allAppointments.remove(event);
-        mWeekViewOne.notifyDatasetChanged();
-        mWeekViewTwo.notifyDatasetChanged();
-        mWeekViewThree.notifyDatasetChanged();
-        Toast.makeText(getApplicationContext(), "hai scelto di cancellare", Toast.LENGTH_LONG).show();
+        allAppointmentsLella.remove(event);
+        switch (event.getDependentId()) {
+            case GeneralConstants.ID_LELLA:
+                mWeekViewLella.notifyDatasetChanged();
+                break;
+            case GeneralConstants.ID_MARIA:
+                mWeekViewMaria.notifyDatasetChanged();
+                break;
+            case GeneralConstants.ID_ANNA:
+                mWeekViewAnna.notifyDatasetChanged();
+                break;
+        }
     }
 
     @Override
@@ -352,7 +372,18 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
 
     @Override
-    public void showAllAppointments(List<WeekViewEvent> appointments) {
-        allAppointments = appointments;
+    public void showMariaAppointments(List<WeekViewEvent> appointments) {
+        allAppointmentsMaria = appointments;
+    }
+
+    @Override
+    public void showAnnaAppointments(List<WeekViewEvent> appointments) {
+        allAppointmentsAnna = appointments;
+
+    }
+
+    @Override
+    public void showLellaAppointments(List<WeekViewEvent> appointments) {
+        allAppointmentsLella = appointments;
     }
 }

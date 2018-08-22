@@ -158,6 +158,9 @@ public class WeekView extends View {
     private DateTimeInterpreter mDateTimeInterpreter;
     private ScrollListener mScrollListener;
 
+
+    private String collaboratorId;
+
     private final GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
         @Override
@@ -1002,11 +1005,11 @@ public class WeekView extends View {
                     }
                 }
                 if (currentPeriodEvents == null)
-                    currentPeriodEvents = mWeekViewLoader.onLoad(periodToFetch);
+                    currentPeriodEvents = mWeekViewLoader.onLoad(collaboratorId, periodToFetch);
                 if (previousPeriodEvents == null)
-                    previousPeriodEvents = mWeekViewLoader.onLoad(periodToFetch-1);
+                    previousPeriodEvents = mWeekViewLoader.onLoad(collaboratorId,periodToFetch-1);
                 if (nextPeriodEvents == null)
-                    nextPeriodEvents = mWeekViewLoader.onLoad(periodToFetch+1);
+                    nextPeriodEvents = mWeekViewLoader.onLoad(collaboratorId,periodToFetch+1);
 
 
                 // Clear events.
@@ -2043,5 +2046,13 @@ public class WeekView extends View {
          * @param oldFirstVisibleDay The old first visible day (is null on the first call).
          */
         void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay);
+    }
+
+    public String getCollaboratorId() {
+        return collaboratorId;
+    }
+
+    public void setCollaboratorId(String collaboratorId) {
+        this.collaboratorId = collaboratorId;
     }
 }

@@ -31,7 +31,7 @@ public class AppointmentEvent {
     private String mEndTime;
     @Expose @SerializedName("color")
     private String mColor;
-    @Expose @SerializedName("dependentId")
+    @Expose @SerializedName("idCollaborator")
     private String dependentId;
 
 

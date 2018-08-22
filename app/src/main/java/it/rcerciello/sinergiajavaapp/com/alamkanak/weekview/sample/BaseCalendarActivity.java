@@ -1,5 +1,6 @@
 package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.RectF;
@@ -33,6 +34,7 @@ import it.rcerciello.weekLibrary.weekview.MonthLoader;
 import it.rcerciello.weekLibrary.weekview.WeekView;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 import timber.log.Timber;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * This is a base activity which contains week view and all the codes necessary to initialize the
@@ -387,4 +389,10 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     public void showLellaAppointments(List<WeekViewEvent> appointments) {
         allAppointmentsLella = appointments;
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 }

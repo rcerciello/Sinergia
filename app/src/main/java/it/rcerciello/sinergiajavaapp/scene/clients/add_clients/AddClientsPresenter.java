@@ -1,4 +1,4 @@
-package it.rcerciello.sinergiajavaapp.scene.employee.clients.AddClients;
+package it.rcerciello.sinergiajavaapp.scene.clients.add_clients;
 
 import javax.annotation.Nonnull;
 
@@ -12,11 +12,11 @@ import it.rcerciello.sinergiajavaapp.data.network.APICallback;
  * Created by rcerciello on 02/05/2018.
  */
 
-public class AddEmployeePresenter implements AddEmployeeContract.Presenter {
+public class AddClientsPresenter implements AddClientsContract.Presenter {
 
-    private AddEmployeeContract.View mView;
+    private AddClientsContract.View mView;
 
-    public AddEmployeePresenter(@Nonnull AddEmployeeContract.View mView) {
+    public AddClientsPresenter(@Nonnull AddClientsContract.View mView) {
         this.mView = mView;
     }
 

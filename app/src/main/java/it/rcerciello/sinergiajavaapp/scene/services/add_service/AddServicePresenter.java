@@ -1,11 +1,10 @@
-package it.rcerciello.sinergiajavaapp.scene.services.AddService;
+package it.rcerciello.sinergiajavaapp.scene.services.add_service;
 
 import javax.annotation.Nonnull;
 
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.Sinergia;
 import it.rcerciello.sinergiajavaapp.data.managers.ServiceNetworkLayer;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 

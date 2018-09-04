@@ -13,6 +13,9 @@ public class ClientModel extends RealmObject{
     @SerializedName("id")
     String id = "";
 
+    @SerializedName("identifier")
+    String clientIdentifier = "";
+
     @SerializedName("name")
     String name = "";
 
@@ -32,19 +35,16 @@ public class ClientModel extends RealmObject{
     String email = "";
 
 
-    @SerializedName("nextAppointment")
-    String nextAppointment = "";
-
     public ClientModel() {
     }
 
-    public ClientModel(String name, String surname, String address, String landlinePhone, String mobile_phone, String nextAppointment, String email) {
+    public ClientModel(String clientIdentifier, String name, String surname, String address, String landlinePhone, String mobile_phone, String email) {
         this.name = name;
+        this.clientIdentifier = clientIdentifier;
         this.surname = surname;
         this.address = address;
         this.landlinePhone = landlinePhone;
         this.mobile_phone = mobile_phone;
-        this.nextAppointment = nextAppointment;
         this.email = email;
     }
 
@@ -65,7 +65,6 @@ public class ClientModel extends RealmObject{
                 ", landlinePhone='" + landlinePhone + '\'' +
                 ", mobile_phone='" + mobile_phone + '\'' +
                 ", email='" + email + '\'' +
-                ", nextAppointment='" + nextAppointment + '\'' +
                 '}';
     }
 
@@ -123,14 +122,6 @@ public class ClientModel extends RealmObject{
 
     public void setMobile_phone(String mobile_phone) {
         this.mobile_phone = mobile_phone;
-    }
-
-    public String getNextAppointment() {
-        return nextAppointment;
-    }
-
-    public void setNextAppointment(String nextAppointment) {
-        this.nextAppointment = nextAppointment;
     }
 
 }

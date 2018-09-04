@@ -3,8 +3,7 @@ package it.rcerciello.sinergiajavaapp.scene.employee.clients.detail;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.scene.BasePresenter;
 import it.rcerciello.sinergiajavaapp.scene.BaseView;
-
-public class EmployeeDetailsContract
+ class EmployeeDetailsContract
 {
     interface View extends BaseView<Presenter> {
 

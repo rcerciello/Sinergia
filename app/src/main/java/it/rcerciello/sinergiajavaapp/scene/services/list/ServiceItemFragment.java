@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
-import it.rcerciello.sinergiajavaapp.scene.services.AddService.AddServiceActivity;
+import it.rcerciello.sinergiajavaapp.scene.services.add_service.AddServiceActivity;
 import it.rcerciello.sinergiajavaapp.scene.services.list.adapter.ServiceAdapter;
 
 /**
@@ -32,9 +32,7 @@ import it.rcerciello.sinergiajavaapp.scene.services.list.adapter.ServiceAdapter;
  */
 public class ServiceItemFragment extends Fragment implements ServiceItemFragmentContract.View {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 10;
     private OnServiceInteractionListener mListener;
 
@@ -52,11 +50,6 @@ public class ServiceItemFragment extends Fragment implements ServiceItemFragment
     private ServiceAdapter adapter;
 
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static ServiceItemFragment newInstance(int columnCount) {
         ServiceItemFragment fragment = new ServiceItemFragment();

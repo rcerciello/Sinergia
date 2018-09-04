@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -58,6 +59,8 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
     @BindView(R.id.prezzo)
     CustomSharedEditTextView prezzo;
 
+    @BindView(R.id.identificativo)
+    CustomSharedEditTextView identificativo;
 
     @BindView(R.id.btnSave)
     CustomSaveButton saveButton;
@@ -94,18 +97,15 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
 
         mPesenter = new ServiceDetailsPresenter(this);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener((View v) ->
+                onBackPressed());
 
         initLayout();
 
         setTextChangedListener(nome_servizio, FieldType.TEXT, true);
         setTextChangedListener(durata_servizio, FieldType.TEXT, true);
         setTextChangedListener(prezzo, FieldType.TEXT, true);
+        setTextChangedListener(identificativo, FieldType.TEXT, true);
     }
 
     private void setTextChangedListener(final CustomEditText editText, final FieldType type, final boolean mandatory) {
@@ -196,15 +196,17 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
 
 
     private void initLayout() {
+        nome_servizio.getEditTextReference().setInputType(InputType.TYPE_CLASS_TEXT);
+        durata_servizio.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
+        prezzo.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
+        identificativo.getEditTextReference().setInputType(InputType.TYPE_CLASS_TEXT);
+
         if (serviceModel != null) {
             if (serviceModel.getName() != null && !serviceModel.getName().isEmpty()) {
                 nome_servizio.setText(serviceModel.getName());
             }
-
-            durata_servizio.setText(serviceModel.getDuration() + " min");
-
-
-            prezzo.setText(serviceModel.getPrice() + " €");
+            durata_servizio.setText(String.valueOf(serviceModel.getDuration()));
+            prezzo.setText(String.valueOf(serviceModel.getPrice()));
         }
     }
 

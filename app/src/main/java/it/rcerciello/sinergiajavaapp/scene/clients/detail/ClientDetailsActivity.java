@@ -1,7 +1,6 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.detail;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,9 +17,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.irozon.library.HideKey;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,8 +64,8 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
     @BindView(R.id.mobilePhone)
     CustomSharedEditTextView mobilePhone;
 
-    @BindView(R.id.nextAppointment)
-    CustomSharedEditTextView nextAppointment;
+    @BindView(R.id.identificativo)
+    CustomSharedEditTextView identificativo;
 
 
     @BindView(R.id.email)
@@ -73,8 +74,6 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
     @BindView(R.id.btnSave)
     CustomSaveButton saveButton;
 
-    @BindView(R.id.camera)
-    ImageView camera;
 
     @BindView(R.id.ivProfile)
     ImageView ivProfile;
@@ -89,15 +88,13 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
     }
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_details);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-
+        HideKey.initialize(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             clientModel = ApiClient.getGson().fromJson(extras.getString("ClientModel"), ClientModel.class);
@@ -106,29 +103,18 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
         mPesenter = new ClientDetailsPresenter(this);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
 
         setKeyboardType();
         initLayout();
 
-        setTextChangedListener(nome, FieldType.TEXT, true );
-        setTextChangedListener(cognome, FieldType.TEXT, true );
-        setTextChangedListener(indirizzo, FieldType.TEXT, false );
-        setTextChangedListener(landline, FieldType.TEXT, true );
-        setTextChangedListener(mobilePhone, FieldType.TEXT, false );
-        setTextChangedListener(email, FieldType.TEXT, true );
+        setTextChangedListener(identificativo, FieldType.TEXT, true);
+        setTextChangedListener(nome, FieldType.TEXT, true);
+        setTextChangedListener(cognome, FieldType.TEXT, true);
 
-        saveButton.getButtonReference().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveButton.changeState();
-                mPesenter.editClient(new ClientModel());
-            }
+        saveButton.getButtonReference().setOnClickListener(v -> {
+            saveButton.changeState();
+            mPesenter.editClient(new ClientModel());
         });
     }
 
@@ -146,7 +132,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         showSaveButton();
-                            enableSaveButton();
+                        enableSaveButton();
                         switch (type) {
                             case TEXT:
                                 if (mandatory) {
@@ -187,8 +173,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
             editText.showError(null);
         }
 
-        if(!result)
-        {
+        if (!result) {
             disableSaveButton();
         }
         return result;
@@ -218,7 +203,6 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
         }
         return result;
     }
-
 
 
     private void initLayout() {
@@ -284,7 +268,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
     @Override
     public void updateImage(String url) {
-        if (url!=null && !url.isEmpty()) {
+        if (url != null && !url.isEmpty()) {
             Glide.with(this)
                     .load(url)
                     .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
@@ -301,99 +285,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
     @Override
     public void saveButtonClick() {
-//            saveButton.changeState();
-//            mPesenter.editClient(new ClientModel());
     }
-
-    @OnClick({R.id.camera})
-    public void takePhoto(View v) {
-        PermissionsUtils.checkPermission(this, android.Manifest.permission.CAMERA, PermissionConstants.CAMERA);
-
-        final String[] options = {"Scatta Foto", "Scegli dalla galleria", "Annulla"};
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setItems(options, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent;
-                    String optionChoice = options[which].toString();
-
-                    switch (which) {
-                        case 0:
-                            intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            if (intent.resolveActivity(getPackageManager()) != null) {
-                                try {
-                                    File photoFile = GlobalUtils.createImageFile(getApplicationContext());
-                                    // Continue only if the File was successfully created
-                                    if (photoFile != null) {
-                                        Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),
-                                                "sinergia.android.fileprovider",
-                                                photoFile);
-                                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                        startActivityForResult(intent, GeneralConstants.INTENT_TAKE_PHOTO);
-                                    }
-                                } catch (IOException ex) {
-                                    // Error occurred while creating the File
-                                    ex.printStackTrace();
-                                }
-                            }
-                            break;
-
-                        case 1:
-                            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                            intent.addCategory(Intent.CATEGORY_OPENABLE);
-                            intent.setType("image/*");
-                            startActivityForResult(intent, GeneralConstants.INTENT_CHOOSE_PHOTO);//one can be replaced with any action code
-                            break;
-
-                        default:
-                            dialog.dismiss();
-                            break;
-                    }
-                }
-            });
-
-            builder.show();
-        }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intentResponse) {
-        super.onActivityResult(requestCode, resultCode, intentResponse);
-
-        switch (requestCode) {
-            case GeneralConstants.INTENT_TAKE_PHOTO: //Photo from camera
-                if (resultCode == RESULT_OK) {
-                    if (imageToUpload != null) {
-                        Bitmap photo = BitmapFactory.decodeFile(imageToUpload);
-                        mPesenter.uploadPhoto();
-                        //TODO Load Photo
-                    }
-                }
-                break;
-
-            case GeneralConstants.INTENT_CHOOSE_PHOTO: //Photo  from gallery
-                if (resultCode == RESULT_OK) {
-                    Uri photoUri = intentResponse.getData();
-                    if (photoUri != null) {
-                        File newFilePhoto = new File(photoUri.toString());
-                        try {
-                            Bitmap photo = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
-                            String path = newFilePhoto.getAbsolutePath();
-                            mPesenter.uploadPhoto();
-                            //TODO Load Photo
-                        } catch (IOException e) {
-                            Timber.e(e, "Failed to fetch photo from gallery, photoUri: %s", photoUri);
-                        }
-                    }
-                }
-                break;
-
-            default:
-                break;
-        }
-    }
-
 
     private void enableSaveButton() {
         saveButton.setButtonState(ButtonStates.ENABLED);

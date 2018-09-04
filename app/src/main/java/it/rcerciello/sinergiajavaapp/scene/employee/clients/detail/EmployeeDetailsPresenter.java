@@ -8,11 +8,14 @@ import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
  * Created by rcerciello on 02/05/2018.
  */
 
-public class EmployeeDetailsPresenter implements EmployeeDetailsContract.Presenter {
+class EmployeeDetailsPresenter implements EmployeeDetailsContract.Presenter {
 
     private EmployeeDetailsContract.View mView;
 
-    public EmployeeDetailsPresenter(@Nonnull EmployeeDetailsContract.View mView) {
+    /**
+     * @param mView: view
+     */
+    EmployeeDetailsPresenter(@Nonnull EmployeeDetailsContract.View mView) {
         this.mView = mView;
     }
 

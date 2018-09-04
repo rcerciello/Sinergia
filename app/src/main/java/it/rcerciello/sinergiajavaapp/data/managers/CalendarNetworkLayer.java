@@ -153,7 +153,7 @@ public class CalendarNetworkLayer {
         // Populate the week view with some events.
         List<WeekViewEvent> allAppointments = new ArrayList<WeekViewEvent>();
 
-        int newMonth=8 ;
+        int newMonth=9 ;
         int newYear = 2018;
 
         Calendar startTime = Calendar.getInstance();

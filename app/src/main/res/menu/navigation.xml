@@ -7,10 +7,10 @@
         android:icon="@drawable/ic_customer"
         android:title="@string/title_clients" />
 
-    <item
-        android:id="@+id/navigation_employee"
-        android:icon="@drawable/ic_hand_shake"
-        android:title="@string/title_employee" />
+    <!--<item-->
+        <!--android:id="@+id/navigation_employee"-->
+        <!--android:icon="@drawable/ic_hand_shake"-->
+        <!--android:title="@string/title_employee" />-->
 
     <item
         android:id="@+id/navigation_services"

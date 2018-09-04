@@ -7,12 +7,11 @@ import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 /**
  * Created by rcerciello on 02/05/2018.
  */
-
-public class ServiceDetailsPresenter implements ServiceDetailsContract.Presenter {
+class ServiceDetailsPresenter implements ServiceDetailsContract.Presenter {
 
     private ServiceDetailsContract.View mView;
 
-    public ServiceDetailsPresenter(@Nonnull ServiceDetailsContract.View mView) {
+    ServiceDetailsPresenter(@Nonnull ServiceDetailsContract.View mView) {
         this.mView = mView;
     }
 

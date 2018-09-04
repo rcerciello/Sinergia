@@ -15,10 +15,12 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
 
     private BaseCalendarContract.View mView;
 
-    public BaseCalendarPresenter(@NonNull BaseCalendarContract.View view) {
+    /**
+     * @param view: view
+     */
+    BaseCalendarPresenter(@NonNull BaseCalendarContract.View view) {
         this.mView = view;
     }
-
 
     @Override
     public void deleteAppointment(String appointmentId, final WeekViewEvent event) {

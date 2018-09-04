@@ -47,12 +47,9 @@ public class ClientSelectListAdapter extends RecyclerView.Adapter<ClientSelectLi
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_client_selected_item,
                 parent, false);
         final ServiceItemViewHolder holder = new ServiceItemViewHolder(itemView);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (itemClickListener != null) {
-                    itemClickListener.onItemClicked(data.get(holder.getAdapterPosition()));
-                }
+        itemView.setOnClickListener(v -> {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClicked(data.get(holder.getAdapterPosition()));
             }
         });
 

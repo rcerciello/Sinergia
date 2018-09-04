@@ -22,10 +22,10 @@ public class ServiceNetworkLayer {
 
     public static void getServices( APICallback<ArrayList<ServiceModel>> mCallback)
     {
-        mCallback.onSuccess(new ArrayList<ServiceModel>());
+        mCallback.onSuccess(new ArrayList<>());
     }
 
-    public static void addService(ServiceModel model, APICallback<Boolean> mCallback)
+    public void addService(ServiceModel model, APICallback<Boolean> mCallback)
     {
         mCallback.onSuccess(true);
     }

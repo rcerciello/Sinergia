@@ -53,15 +53,6 @@
                             android:scaleType="center"
                             android:src="@drawable/profile_placeholder" />
 
-                        <ImageView
-                            android:id="@+id/camera"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_margin="@dimen/space_24"
-                            android:src="@drawable/ic_camera_white" />
-
                     </RelativeLayout>
 
 
@@ -93,49 +84,51 @@
                     android:layout_height="wrap_content"
                     tools:ignore="MissingPrefix" />
 
+
+                <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
+                    android:id="@+id/identificativo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sharedEditTextTitle="Identificativo Cliente"/>
+
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/nome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Nome"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Nome"/>
 
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/cognome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Cognome"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Cognome"/>
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Email"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Email"/>
 
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/indirizzo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Indirizzo"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Indirizzo"/>
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/landline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Telefono fisso"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Telefono fisso"/>
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/mobilePhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Cellulare"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Cellulare"/>
 
-                <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
-                    android:id="@+id/nextAppointment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Prossimo Appuntamento"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -158,6 +151,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:padding="@dimen/space_24"
-        app:layout_anchor="@id/scroll"></it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton>
+        app:layout_anchor="@id/scroll"/>
 
 </RelativeLayout>

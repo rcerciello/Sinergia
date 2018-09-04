@@ -51,23 +51,29 @@
                     tools:ignore="MissingPrefix" />
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
+                    android:id="@+id/identificativo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sharedEditTextTitle="Identificativo del Servizio"/>
+
+                <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/nome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Nome Servizio"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Nome Servizio"/>
 
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/durata"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Durata Servizio"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Durata Servizio (min)"/>
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/prezzo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Prezzo Servizio"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Prezzo Servizio (€)"/>
 
 
             </LinearLayout>
@@ -81,6 +87,6 @@
         android:layout_alignParentBottom="true"
         android:padding="@dimen/space_24"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton>
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

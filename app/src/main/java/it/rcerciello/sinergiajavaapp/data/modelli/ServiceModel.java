@@ -64,7 +64,7 @@ public class ServiceModel extends RealmObject {
         this.serviceIdentifier = serviceIdentifier;
     }
 
-    public ServiceModel(String id, String serviceIdentifier, String name, int duration, float price) {
+    public ServiceModel(String identi, String serviceIdentifier, String name, int duration, float price) {
         this.id = id;
         this.serviceIdentifier = serviceIdentifier;
         this.name = name;

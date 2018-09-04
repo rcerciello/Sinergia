@@ -33,15 +33,10 @@ import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
  */
 public class ServiceSelectDialogFragment extends DialogFragment  {
 
-    private static final String ARGUMENT_TITLE = "ARGUMENT_TITLE";
-
-    private static final String DEFAULT_TITLE = "";
-
     @BindView(R.id.servicesListView)
     RecyclerView countryListView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
 
 
     public interface ServiceSelectedListener {
@@ -55,8 +50,7 @@ public class ServiceSelectDialogFragment extends DialogFragment  {
 
 
     public static ServiceSelectDialogFragment newInstance() {
-        ServiceSelectDialogFragment instance = new ServiceSelectDialogFragment();
-        return instance;
+        return new ServiceSelectDialogFragment();
     }
 
 
@@ -88,13 +82,10 @@ public class ServiceSelectDialogFragment extends DialogFragment  {
 
 
         adapter = new ServiceSelectListAdapter();
-        adapter.setItemClickListener(new ServiceSelectListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClicked(ServiceModel item) {
-                if (serviceSelectedListener != null) {
-                    serviceSelectedListener.onServiceSelected(item);
-                    dismiss();
-                }
+        adapter.setItemClickListener(item -> {
+            if (serviceSelectedListener != null) {
+                serviceSelectedListener.onServiceSelected(item);
+                dismiss();
             }
         });
 
@@ -109,12 +100,7 @@ public class ServiceSelectDialogFragment extends DialogFragment  {
 
 
     private void initializeToolbar() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> dismiss());
 
     }
 

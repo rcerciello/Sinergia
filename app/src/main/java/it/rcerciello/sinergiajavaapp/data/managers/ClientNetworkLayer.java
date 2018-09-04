@@ -19,12 +19,12 @@ public class ClientNetworkLayer {
     private ClientNetworkLayer() {
     }
 
-    public static void addClient(ClientModel model, APICallback<Boolean> mCallback)
+    public void addClient(ClientModel model, APICallback<Boolean> mCallback)
     {
         mCallback.onSuccess(true);
     }
 
-    public static void getClients( APICallback<ArrayList<ClientModel>> mCallback)
+    public void getClients( APICallback<ArrayList<ClientModel>> mCallback)
     {
         mCallback.onSuccess(new ArrayList<ClientModel>());
     }

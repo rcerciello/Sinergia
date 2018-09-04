@@ -20,6 +20,9 @@ public class CalendarModel {
     @SerializedName("service_id")
     String service_id = "";
 
+    @SerializedName("date")
+    String date = "";
+
     public String getId() {
         return id;
     }

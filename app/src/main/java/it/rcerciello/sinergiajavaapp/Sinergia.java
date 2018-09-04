@@ -54,7 +54,7 @@ public class Sinergia extends MultiDexApplication {
         initCalligraphy();
         initRealm();
 
-        ClientNetworkLayer.getClients(new APICallback<ArrayList<ClientModel>>() {
+        ClientNetworkLayer.getInstance().getClients(new APICallback<ArrayList<ClientModel>>() {
             @Override
             public void onSuccess(ArrayList<ClientModel> object) {
                 if (object != null && !object.isEmpty()) {

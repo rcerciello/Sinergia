@@ -1,7 +1,6 @@
 package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -25,7 +24,7 @@ import butterknife.ButterKnife;
 import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.MainActivity;
 import it.rcerciello.sinergiajavaapp.R;
-import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AddAppointment.AddAppointmentActivity;
+import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.add_appointment.AddAppointmentActivity;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.DateTimeInterpreter;
@@ -263,32 +262,26 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
         CharSequence options[] = new CharSequence[]{"Cancella Evento", "Modifica Evento"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // the user clicked on options[which]
-                switch (which) {
-                    case 0:
-                        //TODO API CALL AND REFRESH VIEW Se l'api risponde OK, rimuovo l'evento dal calendario
-                        mPresenter.deleteAppointment(String.valueOf(event.getAppointmentId()), event);
-                        break;
-                    case 1:
-                        Intent i = new Intent(getApplicationContext(), AddAppointmentActivity.class);
-                        String data = ApiClient.getGson().toJson(event);
-                        i.putExtra("isEditable", true);
-                        i.putExtra("AppointmentModel",data);
-                        startActivity(i);
-                        break;
-                    default:
-                        break;
-                }
+        builder.setItems(options, (dialog, which) -> {
+            // the user clicked on options[which]
+            switch (which) {
+                case 0:
+                    //TODO API CALL AND REFRESH VIEW Se l'api risponde OK, rimuovo l'evento dal calendario
+                    mPresenter.deleteAppointment(String.valueOf(event.getAppointmentId()), event);
+                    break;
+                case 1:
+                    Intent i = new Intent(getApplicationContext(), AddAppointmentActivity.class);
+                    String data = ApiClient.getGson().toJson(event);
+                    i.putExtra("isEditable", true);
+                    i.putExtra("AppointmentModel",data);
+                    startActivity(i);
+                    break;
+                default:
+                    break;
             }
         });
-        builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //the user clicked on Cancel
-            }
+        builder.setNegativeButton("Annulla", (dialog, which) -> {
+            //the user clicked on Cancel
         });
         builder.show();
     }

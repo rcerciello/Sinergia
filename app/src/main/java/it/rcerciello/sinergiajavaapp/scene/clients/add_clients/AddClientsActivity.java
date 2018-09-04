@@ -1,4 +1,4 @@
-package it.rcerciello.sinergiajavaapp.scene.clients.AddClients;
+package it.rcerciello.sinergiajavaapp.scene.clients.add_clients;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.irozon.library.HideKey;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +46,8 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
     @BindView(R.id.mobilePhone)
     CustomSharedEditTextView mobilePhone;
 
-    @BindView(R.id.nextAppointment)
-    CustomSharedEditTextView nextAppointment;
+    @BindView(R.id.identificativo)
+    CustomSharedEditTextView identificativo;
 
 
     @BindView(R.id.email)
@@ -73,21 +75,16 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clients);
         ButterKnife.bind(this);
-
+        HideKey.initialize(this);
         mPresenter = new AddClientsPresenter(this);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         nome.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         cognome.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         indirizzo.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         landline.getEditTextReference().setInputType(InputType.TYPE_CLASS_PHONE);
         mobilePhone.getEditTextReference().setInputType(InputType.TYPE_CLASS_PHONE);
-        nextAppointment.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        identificativo.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         email.getEditTextReference().setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
         areThereFiledRequired.put(FieldRequired.NOME, false);
@@ -100,13 +97,10 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
         setTextChangedListener(email, FieldRequired.EMAIL, true );
 
 
-        saveButton.getButtonReference().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveButton.changeState();
-                ClientModel  client = new ClientModel(nome.getText().toString(), cognome.getText().toString(), indirizzo.getText().toString(), landline.getText().toLowerCase(), mobilePhone.getText().toString(), nextAppointment.getText().toString(), email.toString());
-                mPresenter.addClient(client);
-            }
+        saveButton.getButtonReference().setOnClickListener(v -> {
+            saveButton.changeState();
+            ClientModel  client = new ClientModel(identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText().toLowerCase(), mobilePhone.getText(), email.toString());
+            mPresenter.addClient(client);
         });
     }
 
@@ -246,21 +240,21 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
     @Override
     public void saveButtonClick() {
         boolean thereIsError = false;
-        if (nome.getText().toString().isEmpty()) {
+        if (nome.getText().isEmpty()) {
             nome.showError(getResources().getString(R.string.field_required));
             thereIsError = true;
         } else {
             nome.showError(null);
         }
 
-        if (cognome.getText().toString().isEmpty()) {
+        if (cognome.getText().isEmpty()) {
             cognome.showError(getResources().getString(R.string.field_required));
             thereIsError = true;
         } else {
             cognome.showError(null);
         }
 
-        if (landline.getText().toString().isEmpty()) {
+        if (landline.getText().isEmpty()) {
             landline.showError(getResources().getString(R.string.field_required));
             thereIsError = true;
         } else {
@@ -268,7 +262,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
         }
 
         if (!thereIsError) {
-            ClientModel model = new ClientModel(nome.getText().toString(), cognome.getText().toString(), indirizzo.getText().toString(), landline.getText().toString(), mobilePhone.getText().toString(), nextAppointment.getText().toString(), email.getText().toString());
+            ClientModel model = new ClientModel(identificativo.getText(),nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText(), mobilePhone.getText(), email.getText());
             mPresenter.addClient(model);
         }
 

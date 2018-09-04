@@ -20,9 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.rcerciello.sinergiajavaapp.R;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.EmployeeModel;
-import it.rcerciello.sinergiajavaapp.scene.employee.clients.AddClients.AddEmployeeActivity;
+import it.rcerciello.sinergiajavaapp.scene.employee.clients.add_clients.AddEmployeeActivity;
 import it.rcerciello.sinergiajavaapp.scene.employee.clients.list.adapter.EmployeeAdapter;
 
 /**

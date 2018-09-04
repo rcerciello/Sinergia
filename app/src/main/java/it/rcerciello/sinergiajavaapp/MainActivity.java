@@ -35,43 +35,39 @@ public class MainActivity extends AppCompatActivity implements ClientItemFragmen
     BottomNavigationView navigation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    Intent i = new Intent(getApplicationContext(), BaseCalendarActivity.class);
-                    startActivity(i);
-                    return true;
-                case R.id.navigation_clients:
-                    ClientItemFragment fragmentClient = ClientItemFragment.newInstance(1);
-                    if (fragmentClient != null) {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.fragment, fragmentClient);
-                        ft.commit();
-                    }
-                    return true;
-                case R.id.navigation_employee:
-                    EmployeeFragment fragmentEmployee = EmployeeFragment.newInstance(1);
-                    if (fragmentEmployee != null) {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.fragment, fragmentEmployee);
-                        ft.commit();
-                    }
-                    return true;
-                case R.id.navigation_services:
-                    ServiceItemFragment fragmentService = ServiceItemFragment.newInstance(1);
-                    if (fragmentService != null) {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.fragment, fragmentService);
-                        ft.commit();
-                    }
-                    return true;
-            }
-            return false;
-        }
-    };
+            = item -> {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        Intent i = new Intent(getApplicationContext(), BaseCalendarActivity.class);
+                        startActivity(i);
+                        return true;
+                    case R.id.navigation_clients:
+                        ClientItemFragment fragmentClient = ClientItemFragment.newInstance(1);
+                        if (fragmentClient != null) {
+                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            ft.replace(R.id.fragment, fragmentClient);
+                            ft.commit();
+                        }
+                        return true;
+    //                case R.id.navigation_employee:
+    //                    EmployeeFragment fragmentEmployee = EmployeeFragment.newInstance(1);
+    //                    if (fragmentEmployee != null) {
+    //                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    //                        ft.replace(R.id.fragment, fragmentEmployee);
+    //                        ft.commit();
+    //                    }
+    //                    return true;
+                    case R.id.navigation_services:
+                        ServiceItemFragment fragmentService = ServiceItemFragment.newInstance(1);
+                        if (fragmentService != null) {
+                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            ft.replace(R.id.fragment, fragmentService);
+                            ft.commit();
+                        }
+                        return true;
+                }
+                return false;
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

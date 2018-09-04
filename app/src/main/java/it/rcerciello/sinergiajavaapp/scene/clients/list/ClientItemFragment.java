@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
-import it.rcerciello.sinergiajavaapp.scene.clients.AddClients.AddClientsActivity;
+import it.rcerciello.sinergiajavaapp.scene.clients.add_clients.AddClientsActivity;
 import it.rcerciello.sinergiajavaapp.scene.clients.list.adapter.ClientAdapter;
 
 /**
@@ -32,9 +31,7 @@ import it.rcerciello.sinergiajavaapp.scene.clients.list.adapter.ClientAdapter;
  */
 public class ClientItemFragment extends Fragment implements ClientItemFragmentContract.View {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 10;
     private OnClientInteractionListener mListener;
 
@@ -49,12 +46,6 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
     private ArrayList<ClientModel> clientModel = new ArrayList<>();
     private ClientAdapter adapter;
 
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static ClientItemFragment newInstance(int columnCount) {
         ClientItemFragment fragment = new ClientItemFragment();
@@ -79,21 +70,10 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
     }
 
     public void createFakeModel() {
-        clientModel.add(new ClientModel("Raffaella", "Cerciello", "Via Selva, 19 Mariglianella", "081 885 43 16", "333 26 55 698", "", "a@a.com"));
-        clientModel.add(new ClientModel("Angela", "Cerciello", "Via Selva, 19 Mariglianella", "081 885 43 16", "333 34 56 67", "","a@a.com"));
-        clientModel.add(new ClientModel("Michela", "Panico", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 32 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Domenico", "Cerciello", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Giusy", "Magri", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Giovanna", "Magri", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Antonio", "Russo", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Paolo", "Rossi", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Mario", "Rossi", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Nello", "Santorelli", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Dario", "Santorelli", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Margherita", "Santorelli", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Tommaso", "Stranieri", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Valentina", "Scuotto", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
-        clientModel.add(new ClientModel("Gianluca", "Zeta", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32", "","a@a.com"));
+        clientModel.add(new ClientModel("RC","Raffaella", "Cerciello", "Via Selva, 19 Mariglianella", "081 885 43 16", "333 26 55 698",  "a@a.com"));
+        clientModel.add(new ClientModel("AC","Angela", "Cerciello", "Via Selva, 19 Mariglianella", "081 885 43 16", "333 34 56 67", "a@a.com"));
+        clientModel.add(new ClientModel("MP","Michela", "Panico", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 32 32 32","a@a.com"));
+        clientModel.add(new ClientModel("DC","Domenico", "Cerciello", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32","a@a.com"));
     }
 
 

@@ -4,7 +4,7 @@ import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.scene.BasePresenter;
 import it.rcerciello.sinergiajavaapp.scene.BaseView;
 
-public class ServiceDetailsContract
+ class ServiceDetailsContract
 {
     interface View extends BaseView<Presenter> {
 

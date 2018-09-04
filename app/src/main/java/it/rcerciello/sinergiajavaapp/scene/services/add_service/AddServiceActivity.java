@@ -1,4 +1,4 @@
-package it.rcerciello.sinergiajavaapp.scene.services.AddService;
+package it.rcerciello.sinergiajavaapp.scene.services.add_service;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.irozon.library.HideKey;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,14 +21,12 @@ import butterknife.ButterKnife;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.ButtonStates;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.widgets.CustomEditText;
 import it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class AddServiceActivity extends AppCompatActivity implements AddServiceContract.View, CustomSaveButton.CustomSaveButtonInterface {
-
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -38,6 +38,9 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
 
     @BindView(R.id.prezzo)
     CustomSharedEditTextView prezzo;
+
+    @BindView(R.id.identificativo)
+    CustomSharedEditTextView identificativo;
 
 
     @BindView(R.id.btnSave)
@@ -60,35 +63,30 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_service);
         ButterKnife.bind(this);
-
+        HideKey.initialize(this);
         mPresenter = new AddServicePresenter(this);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
 
         nome.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         durata.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
         prezzo.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
+        identificativo.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        setTextChangedListener(nome, FieldRequired.NOME, true );
-        setTextChangedListener(durata, FieldRequired.NOME, true );
-        setTextChangedListener(prezzo, FieldRequired.NOME, true );
+        setTextChangedListener(nome, FieldRequired.NOME, true);
+        setTextChangedListener(durata, FieldRequired.NOME, true);
+        setTextChangedListener(prezzo, FieldRequired.NOME, true);
+        setTextChangedListener(identificativo, FieldRequired.NOME, true);
 
 
-        saveButton.getButtonReference().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveButton.changeState();
-                ServiceModel service = new ServiceModel("1", "Ad", nome.getText().toString(), Integer.valueOf( durata.getText().toString()), Float.valueOf(prezzo.getText().toString()));
-                mPresenter.addService(service);
-            }
-        });
+        saveButton.getButtonReference().setOnClickListener((View v) -> {
+                    saveButton.changeState();
+                    ServiceModel service = new ServiceModel("1", "Ad", nome.getText(), Integer.valueOf(durata.getText()), Float.valueOf(prezzo.getText()));
+                    mPresenter.addService(service);
+                }
+        );
     }
 
-    private void setTextChangedListener(final CustomEditText editText,final FieldRequired type, final boolean mandatory) {
+    private void setTextChangedListener(final CustomEditText editText, final FieldRequired type, final boolean mandatory) {
         if (editText != null) {
             final EditText wrappedEditText = editText.getEditTextReference();
             if (wrappedEditText != null) {
@@ -107,8 +105,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
                                 if (!s.toString().isEmpty()) {
                                     areThereFiledRequired.remove(FieldRequired.NOME);
                                     areThereFiledRequired.put(FieldRequired.NOME, true);
-                                }else
-                                {
+                                } else {
                                     areThereFiledRequired.remove(FieldRequired.NOME);
                                     areThereFiledRequired.put(FieldRequired.NOME, false);
                                 }
@@ -195,21 +192,21 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
     @Override
     public void saveButtonClick() {
         boolean thereIsError = false;
-        if (nome.getText().toString().isEmpty()) {
+        if (nome.getText().isEmpty()) {
             nome.showError(getResources().getString(R.string.field_required));
             thereIsError = true;
         } else {
             nome.showError(null);
         }
 
-        if (durata.getText().toString().isEmpty()) {
+        if (durata.getText().isEmpty()) {
             durata.showError(getResources().getString(R.string.field_required));
             thereIsError = true;
         } else {
             durata.showError(null);
         }
 
-        if (prezzo.getText().toString().isEmpty()) {
+        if (prezzo.getText().isEmpty()) {
             prezzo.showError(getResources().getString(R.string.field_required));
             thereIsError = true;
         } else {
@@ -217,7 +214,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
         }
 
         if (!thereIsError) {
-            ServiceModel service = new ServiceModel("1", "Ad", nome.getText().toString(), Integer.valueOf( durata.getText().toString()), Float.valueOf(prezzo.getText().toString()));
+            ServiceModel service = new ServiceModel("1", "Ad", nome.getText(), Integer.valueOf(durata.getText()), Float.valueOf(prezzo.getText()));
             mPresenter.addService(service);
         }
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="it.rcerciello.sinergiajavaapp.scene.clients.AddClients.AddClientsActivity"
+    tools:context="it.rcerciello.sinergiajavaapp.scene.clients.add_clients.AddClientsActivity"
     tools:showIn="@layout/activity_add_clients">
 
     <TextView

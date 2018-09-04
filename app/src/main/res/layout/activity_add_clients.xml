@@ -51,48 +51,49 @@
                     tools:ignore="MissingPrefix" />
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
+                    android:id="@+id/identificativo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sharedEditTextTitle="Identificativo Cliente"/>
+
+                <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/nome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Nome"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Nome"/>
 
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/cognome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Cognome"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Cognome"/>
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Email"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Email"/>
 
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/indirizzo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Indirizzo"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Indirizzo"/>
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/landline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Telefono fisso"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Telefono fisso"/>
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/mobilePhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Cellulare"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
+                    app:sharedEditTextTitle="Cellulare"/>
 
-                <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
-                    android:id="@+id/nextAppointment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Prossimo Appuntamento"></it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
@@ -104,6 +105,6 @@
         android:layout_alignParentBottom="true"
         android:padding="@dimen/space_24"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton>
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

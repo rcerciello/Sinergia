@@ -31,8 +31,6 @@ import it.rcerciello.sinergiajavaapp.scene.clients.list.adapter.ClientAdapter;
  */
 public class ClientItemFragment extends Fragment implements ClientItemFragmentContract.View {
 
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 10;
     private OnClientInteractionListener mListener;
 
     @BindView(R.id.list)
@@ -49,9 +47,6 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
     @SuppressWarnings("unused")
     public static ClientItemFragment newInstance(int columnCount) {
         ClientItemFragment fragment = new ClientItemFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -63,17 +58,6 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
         super.onCreate(savedInstanceState);
 
         mPresenter = new ClientItemPresenter(this);
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
-        createFakeModel();
-    }
-
-    public void createFakeModel() {
-        clientModel.add(new ClientModel("RC","Raffaella", "Cerciello", "Via Selva, 19 Mariglianella", "081 885 43 16", "333 26 55 698",  "a@a.com"));
-        clientModel.add(new ClientModel("AC","Angela", "Cerciello", "Via Selva, 19 Mariglianella", "081 885 43 16", "333 34 56 67", "a@a.com"));
-        clientModel.add(new ClientModel("MP","Michela", "Panico", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 32 32 32","a@a.com"));
-        clientModel.add(new ClientModel("DC","Domenico", "Cerciello", "Via Selva, 19 Mariglianella", "081 885 43 16", "323 12 32 32","a@a.com"));
     }
 
 
@@ -83,12 +67,7 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
         View view = inflater.inflate(R.layout.fragment_clientitem_list, container, false);
 
         ButterKnife.bind(this, view);
-
-        if (mColumnCount <= 1) {
-            list.setLayoutManager(new LinearLayoutManager(getContext()));
-        } else {
-            list.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
-        }
+        list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ClientAdapter(clientModel, mListener);
         list.setAdapter(adapter);
         return view;

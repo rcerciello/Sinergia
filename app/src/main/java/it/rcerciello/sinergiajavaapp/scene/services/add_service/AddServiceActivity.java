@@ -80,7 +80,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
 
         saveButton.getButtonReference().setOnClickListener((View v) -> {
                     saveButton.changeState();
-                    ServiceModel service = new ServiceModel("1", "Ad", nome.getText(), Integer.valueOf(durata.getText()), Float.valueOf(prezzo.getText()));
+                    ServiceModel service = new ServiceModel(identificativo.getText(), nome.getText(), Integer.valueOf(durata.getText()), Float.valueOf(prezzo.getText()));
                     mPresenter.addService(service);
                 }
         );
@@ -214,7 +214,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
         }
 
         if (!thereIsError) {
-            ServiceModel service = new ServiceModel("1", "Ad", nome.getText(), Integer.valueOf(durata.getText()), Float.valueOf(prezzo.getText()));
+            ServiceModel service = new ServiceModel(identificativo.getText(),  nome.getText(), Integer.valueOf(durata.getText()), Float.valueOf(prezzo.getText()));
             mPresenter.addService(service);
         }
 

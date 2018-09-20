@@ -32,8 +32,6 @@ import it.rcerciello.sinergiajavaapp.scene.services.list.adapter.ServiceAdapter;
  */
 public class ServiceItemFragment extends Fragment implements ServiceItemFragmentContract.View {
 
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 10;
     private OnServiceInteractionListener mListener;
 
     @BindView(R.id.list)
@@ -53,9 +51,6 @@ public class ServiceItemFragment extends Fragment implements ServiceItemFragment
     @SuppressWarnings("unused")
     public static ServiceItemFragment newInstance(int columnCount) {
         ServiceItemFragment fragment = new ServiceItemFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -67,20 +62,7 @@ public class ServiceItemFragment extends Fragment implements ServiceItemFragment
         super.onCreate(savedInstanceState);
 
         mPresenter = new ServiceItemPresenter(this);
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
-        createFakeModel();
     }
-
-    public void createFakeModel() {
-        serviceModel.add(new ServiceModel("1","CI",  "Ceretta Inguine", 60, 10));
-        serviceModel.add(new ServiceModel("2","CC","Ceretta Completa", 90, 15));
-        serviceModel.add(new ServiceModel("3","B","Baffetto", 5, 2));
-        serviceModel.add(new ServiceModel("4","SPC","Sopracciglia con cera", 5, 5));
-        serviceModel.add(new ServiceModel("5","SPP","Sopracciglia con pinzetta", 5, 5));
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,11 +71,7 @@ public class ServiceItemFragment extends Fragment implements ServiceItemFragment
 
         ButterKnife.bind(this, view);
 
-        if (mColumnCount <= 1) {
-            list.setLayoutManager(new LinearLayoutManager(getContext()));
-        } else {
-            list.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
-        }
+        list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ServiceAdapter(serviceModel, mListener);
         list.setAdapter(adapter);
         return view;

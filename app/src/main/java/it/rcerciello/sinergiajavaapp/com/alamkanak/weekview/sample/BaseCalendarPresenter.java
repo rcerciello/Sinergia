@@ -129,7 +129,6 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
             @Override
             public void onSuccess(List<WeekViewEvent> appointments) {
                 if (appointments != null && appointments.size() > 0) {
-//                    mView.showAllAppointments(appointments);
                     divideAppointments(appointments);
                 }
                 mView.showInProgress(false);

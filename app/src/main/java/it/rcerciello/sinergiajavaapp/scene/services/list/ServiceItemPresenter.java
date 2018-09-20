@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
+import it.rcerciello.sinergiajavaapp.data.managers.ServiceModelResponse;
 import it.rcerciello.sinergiajavaapp.data.managers.ServiceNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
@@ -39,11 +40,13 @@ public class ServiceItemPresenter implements ServiceItemFragmentContract.Present
     @Override
     public void refreshServiceList() {
         mView.showOrHideProgressBar(true);
-        ServiceNetworkLayer.getInstance().getServices(new APICallback<ArrayList<ServiceModel>>() {
+        ServiceNetworkLayer.getInstance().getServices(new APICallback<ServiceModelResponse>() {
             @Override
-            public void onSuccess(ArrayList<ServiceModel> services) {
+            public void onSuccess(ServiceModelResponse response) {
                 mView.showOrHideProgressBar(false);
-                mView.updateAdapterDataSource(services);
+                if (response!=null && response.getServices()!=null && response.getServices().size()>0) {
+                    mView.updateAdapterDataSource(response.getServices());
+                }
             }
 
             @Override

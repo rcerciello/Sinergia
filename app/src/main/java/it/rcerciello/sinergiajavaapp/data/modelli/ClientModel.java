@@ -1,6 +1,10 @@
 package it.rcerciello.sinergiajavaapp.data.modelli;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Nullable;
 
 import io.realm.RealmObject;
 
@@ -10,27 +14,35 @@ import io.realm.RealmObject;
 
 public class ClientModel extends RealmObject{
 
+    @Nullable
     @SerializedName("id")
     String id = "";
 
+    @NonNull
     @SerializedName("identifier")
     String clientIdentifier = "";
 
+    @Nullable
     @SerializedName("name")
     String name = "";
 
+    @Nullable
     @SerializedName("surname")
     String surname = "";
 
+    @Nullable
     @SerializedName("address")
     String address = "";
 
+    @Nullable
     @SerializedName("landline_phone")
     String landlinePhone = "";
 
+    @Nullable
     @SerializedName("mobile_phone")
     String mobile_phone = "";
 
+    @Nullable
     @SerializedName("email")
     String email = "";
 
@@ -38,7 +50,7 @@ public class ClientModel extends RealmObject{
     public ClientModel() {
     }
 
-    public ClientModel(String clientIdentifier, String name, String surname, String address, String landlinePhone, String mobile_phone, String email) {
+    public ClientModel(@NonNull String clientIdentifier, String name, String surname, String address, String landlinePhone, String mobile_phone, String email) {
         this.name = name;
         this.clientIdentifier = clientIdentifier;
         this.surname = surname;

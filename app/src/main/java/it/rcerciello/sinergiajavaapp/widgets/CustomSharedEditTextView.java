@@ -25,7 +25,6 @@ public class CustomSharedEditTextView extends LinearLayout implements CustomEdit
     private TextView titleTextView;
     private EditText customEditText;
     private TextInputLayout customTextInputLayout;
-
     private String editTextTitle;
 
 
@@ -139,11 +138,11 @@ public class CustomSharedEditTextView extends LinearLayout implements CustomEdit
     public void showError(String error) {
         if (error != null) {
             customTextInputLayout.setErrorEnabled(true);
-            Log.e("","Error enabled = true");
+            Log.e("", "Error enabled = true");
             customTextInputLayout.setError(error);
         } else {
 
-            Log.e("","Error enabled = false");
+            Log.e("", "Error enabled = false");
             customTextInputLayout.setErrorEnabled(false);
         }
     }
@@ -158,8 +157,7 @@ public class CustomSharedEditTextView extends LinearLayout implements CustomEdit
 
 
     public void setKeyboardType(String type) {
-        switch (type)
-        {
+        switch (type) {
             case "decimal":
                 customEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
@@ -172,13 +170,13 @@ public class CustomSharedEditTextView extends LinearLayout implements CustomEdit
     }
 
 
-
     /**
      * return the text inside the edit text
+     *
      * @return
      */
-   public String getText()
-   {
-       return customEditText.getText().toString();
-   }
+
+    public String getText() {
+        return customEditText.getText().toString();
+    }
 }

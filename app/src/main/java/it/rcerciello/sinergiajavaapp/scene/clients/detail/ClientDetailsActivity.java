@@ -1,14 +1,7 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.detail;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -23,24 +16,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.irozon.library.HideKey;
 
-import java.io.File;
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import it.rcerciello.sinergiajavaapp.GlobalUtils;
-import it.rcerciello.sinergiajavaapp.PermissionConstants;
-import it.rcerciello.sinergiajavaapp.PermissionsUtils;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.ButtonStates;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
-import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.sinergiajavaapp.widgets.CustomEditText;
 import it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView;
-import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ClientDetailsActivity extends AppCompatActivity implements ClientDetailsContract.View, CustomSaveButton.CustomSaveButtonInterface {
@@ -69,7 +54,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
 
     @BindView(R.id.email)
-    CustomSharedEditTextView email;
+    CustomSharedEditTextView tvEmail;
 
     @BindView(R.id.btnSave)
     CustomSaveButton saveButton;
@@ -180,10 +165,10 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
     }
 
     /**
-     * Validate the email field to not be empty and also be a valid email.
+     * Validate the tvEmail field to not be empty and also be a valid tvEmail.
      *
-     * @param editText the email field
-     * @return true if the email field is valid
+     * @param editText the tvEmail field
+     * @return true if the tvEmail field is valid
      */
     private boolean validateEmail(CustomEditText editText) {
         boolean result;
@@ -228,7 +213,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
             }
 
             if (clientModel.getEmail() != null && !clientModel.getEmail().isEmpty()) {
-                email.setText(clientModel.getEmail());
+                tvEmail.setText(clientModel.getEmail());
             }
         }
     }

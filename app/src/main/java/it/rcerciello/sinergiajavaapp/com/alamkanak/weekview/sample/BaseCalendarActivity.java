@@ -247,7 +247,6 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     @Override
     public void onEmptyViewLongPress(String collaboratorId, Calendar time) {
         Intent i = new Intent(this, AddAppointmentActivity.class);
-
         i.putExtra("collaboratorID", collaboratorId);
         startActivity(i);
     }

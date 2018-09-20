@@ -1,5 +1,7 @@
 package it.rcerciello.sinergiajavaapp.data.managers;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,24 +35,24 @@ public class CalendarNetworkLayer {
         Call<Boolean> call = ApiClient.getApiClient().editAppointment(event);
         call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if (response.isSuccessful()) { //200.300
-                    switch (response.code()) {
-                        case 201://OK
-                            mCallback.onSuccess(true);
-                            break;
+            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
+                //200.300
+                if (response.isSuccessful()) switch (response.code()) {
+                    case 201://OK
+                        mCallback.onSuccess(true);
+                        break;
 
-                        default:// ok but others code
-                            mCallback.onSuccess(true);
-                            break;
-                    }
-                } else {
+                    default:// ok but others code
+                        mCallback.onSuccess(true);
+                        break;
+                }
+                else {
                     mCallback.onFailure(true);
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
                 Timber.e(t.getMessage());
                 mCallback.onFailure(true);
             }
@@ -60,27 +62,19 @@ public class CalendarNetworkLayer {
 
 
     public void deleteAppointment(String appointmentId, final APICallback<Boolean> mCallback) {
-        Call<Boolean> call = ApiClient.getApiClient().deleteAppointment();
+        Call<Boolean> call = ApiClient.getApiClient().deleteAppointment(appointmentId);
         call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 if (response.isSuccessful()) { //200.300
-                    switch (response.code()) {
-                        case 201://OK
-                            mCallback.onSuccess(true);
-                            break;
-
-                        default:// ok but others code
-                            mCallback.onSuccess(true);
-                            break;
-                    }
+                    mCallback.onSuccess(true);
                 } else {
                     mCallback.onFailure(true);
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
                 Timber.e(t.getMessage());
                 mCallback.onFailure(true);
             }
@@ -88,31 +82,30 @@ public class CalendarNetworkLayer {
 
         mCallback.onSuccess(true);
     }
-
 
 
     public void addAppointment(WeekViewEvent event, final APICallback<Boolean> mCallback) {
         Call<Boolean> call = ApiClient.getApiClient().addAppointment(event);
         call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if (response.isSuccessful()) { //200.300
-                    switch (response.code()) {
-                        case 201://OK
-                            mCallback.onSuccess(true);
-                            break;
+            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
+                //200.300
+                if (response.isSuccessful()) switch (response.code()) {
+                    case 201://OK
+                        mCallback.onSuccess(true);
+                        break;
 
-                        default:// ok but others code
-                            mCallback.onSuccess(true);
-                            break;
-                    }
-                } else {
+                    default:// ok but others code
+                        mCallback.onSuccess(true);
+                        break;
+                }
+                else {
                     mCallback.onFailure(true);
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
                 Timber.e(t.getMessage());
                 mCallback.onFailure(true);
             }
@@ -121,12 +114,11 @@ public class CalendarNetworkLayer {
     }
 
 
-
     public void getAllAppointments(final APICallback<List<WeekViewEvent>> mCallback) {
         Call<List<WeekViewEvent>> call = ApiClient.getApiClient().getAllAppointments();
         call.enqueue(new Callback<List<WeekViewEvent>>() {
             @Override
-            public void onResponse(Call<List<WeekViewEvent>> call, Response<List<WeekViewEvent>> response) {
+            public void onResponse(@NonNull Call<List<WeekViewEvent>> call, @NonNull Response<List<WeekViewEvent>> response) {
                 if (response.isSuccessful()) { //200.300
                     switch (response.code()) {
                         case 201://OK
@@ -143,7 +135,7 @@ public class CalendarNetworkLayer {
             }
 
             @Override
-            public void onFailure(Call<List<WeekViewEvent>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<WeekViewEvent>> call, @NonNull Throwable t) {
                 Timber.e(t.getMessage());
                 mCallback.onFailure(true);
             }
@@ -153,7 +145,7 @@ public class CalendarNetworkLayer {
         // Populate the week view with some events.
         List<WeekViewEvent> allAppointments = new ArrayList<WeekViewEvent>();
 
-        int newMonth=9 ;
+        int newMonth = 9;
         int newYear = 2018;
 
         Calendar startTime = Calendar.getInstance();
@@ -164,9 +156,8 @@ public class CalendarNetworkLayer {
         Calendar endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR, 1);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        WeekViewEvent event = new WeekViewEvent(1, "Cerciello Raffaella", GeneralConstants.ID_LELLA, "Ceretta",  startTime, endTime, "ciao");
+        WeekViewEvent event = new WeekViewEvent(1, "Cerciello Raffaella", GeneralConstants.ID_LELLA, "Ceretta", startTime, endTime, "ciao");
         allAppointments.add(event);
-
 
 
         startTime = Calendar.getInstance();
@@ -178,7 +169,7 @@ public class CalendarNetworkLayer {
         endTime.set(Calendar.HOUR_OF_DAY, 4);
         endTime.set(Calendar.MINUTE, 30);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(2, "Angela Cerciello",GeneralConstants.ID_MARIA, "Sopracciglia",  startTime, endTime, "ciao");
+        event = new WeekViewEvent(2, "Angela Cerciello", GeneralConstants.ID_MARIA, "Sopracciglia", startTime, endTime, "ciao");
         allAppointments.add(event);
 
         startTime = Calendar.getInstance();
@@ -189,7 +180,7 @@ public class CalendarNetworkLayer {
         endTime = (Calendar) startTime.clone();
         endTime.set(Calendar.HOUR_OF_DAY, 5);
         endTime.set(Calendar.MINUTE, 0);
-        event = new WeekViewEvent(2, "Russo Antonio",GeneralConstants.ID_ANNA, "Sopracciglia",  startTime, endTime, "ciao");
+        event = new WeekViewEvent(2, "Russo Antonio", GeneralConstants.ID_ANNA, "Sopracciglia", startTime, endTime, "ciao");
         allAppointments.add(event);
 //
 //        startTime = Calendar.getInstance();
@@ -292,7 +283,6 @@ public class CalendarNetworkLayer {
         Timber.e(String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH)));
         return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH));
     }
-
 
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 
 import it.rcerciello.sinergiajavaapp.data.managers.ClientNetworkLayer;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 
@@ -38,16 +39,20 @@ public class ClientItemPresenter implements ClientItemFragmentContract.Presenter
     @Override
     public void refreshClientList() {
         mView.showOrHideProgressBar(true);
-        ClientNetworkLayer.getInstance().getClients(new APICallback<ArrayList<ClientModel>>() {
+        ClientNetworkLayer.getInstance().getClients(new APICallback<ClientListResponseModel>() {
             @Override
-            public void onSuccess(ArrayList<ClientModel> clients) {
+            public void onSuccess(ClientListResponseModel clients) {
                 mView.showOrHideProgressBar(false);
-                mView.updateAdapterDataSource(clients);
+                mView.updateAdapterDataSource(clients.getClients());
             }
 
             @Override
             public void onFailure(String error) {
-
+                mView.showOrHideProgressBar(false);
+                if (error!=null)
+                {
+                    mView.showSnackbarError(error);
+                }
             }
 
             @Override

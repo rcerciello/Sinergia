@@ -5,7 +5,14 @@ package it.rcerciello.sinergiajavaapp.data.managers;
  */
 
 public class EmployeeNetworkLayer {
-    private static final EmployeeNetworkLayer ourInstance = new EmployeeNetworkLayer();
+    /**
+     *
+     */
+    private static final EmployeeNetworkLayer ourInstance;
+
+    static {
+        ourInstance = new EmployeeNetworkLayer();
+    }
 
     public static EmployeeNetworkLayer getInstance() {
         return ourInstance;

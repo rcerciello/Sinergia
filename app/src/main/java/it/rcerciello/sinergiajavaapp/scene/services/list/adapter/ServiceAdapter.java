@@ -17,7 +17,7 @@ import it.rcerciello.sinergiajavaapp.scene.services.list.ServiceItemFragment;
 
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
 
-    private  ArrayList<ServiceModel> mValues;
+    private ArrayList<ServiceModel> mValues;
     private final ServiceItemFragment.OnServiceInteractionListener mListener;
 
     public ServiceAdapter(ArrayList<ServiceModel> items, ServiceItemFragment.OnServiceInteractionListener listener) {
@@ -79,10 +79,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         }
     }
 
-    public void updateDataSoure(ArrayList<ServiceModel> clients)
-    {
-        if(mValues==null)
-        {
+    public void updateDataSoure(ArrayList<ServiceModel> clients) {
+        if (mValues == null) {
             mValues = new ArrayList<>();
         }
 

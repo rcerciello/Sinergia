@@ -40,12 +40,4 @@ class EmployeeDetailsPresenter implements EmployeeDetailsContract.Presenter {
     public void editClient(ClientModel model) {
         mView.closeView();
     }
-
-    @Override
-    public void uploadPhoto() {
-
-        //TODO Make api call
-        mView.updateImage("http://img2.tgcom24.mediaset.it/binary/articolo/istockphoto/41.$plit/C_2_articolo_3076498_upiImagepp.jpg");
-
-    }
 }

@@ -99,7 +99,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
 
         saveButton.getButtonReference().setOnClickListener(v -> {
             saveButton.changeState();
-            ClientModel  client = new ClientModel(identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText().toLowerCase(), mobilePhone.getText(), email.toString());
+            ClientModel  client = new ClientModel(identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText().toLowerCase(), mobilePhone.getText(), email.getText());
             mPresenter.addClient(client);
         });
     }

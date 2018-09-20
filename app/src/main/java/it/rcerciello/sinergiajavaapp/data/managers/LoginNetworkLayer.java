@@ -12,7 +12,11 @@ import it.rcerciello.sinergiajavaapp.data.network.APICallback;
  */
 
 public class LoginNetworkLayer {
-    private static final LoginNetworkLayer ourInstance = new LoginNetworkLayer();
+    private static final LoginNetworkLayer ourInstance;
+
+    static {
+        ourInstance = new LoginNetworkLayer();
+    }
 
     public static LoginNetworkLayer getInstance() {
         return ourInstance;

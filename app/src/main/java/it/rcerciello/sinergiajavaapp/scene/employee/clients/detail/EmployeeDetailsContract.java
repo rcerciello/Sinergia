@@ -18,6 +18,5 @@ import it.rcerciello.sinergiajavaapp.scene.BaseView;
     interface Presenter extends BasePresenter {
         void editClient(ClientModel model);
 
-        void uploadPhoto();
     }
 }

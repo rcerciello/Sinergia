@@ -5,7 +5,11 @@ package it.rcerciello.sinergiajavaapp.data.managers;
  */
 
 public class ProfileNetworkLayer {
-    private static final ProfileNetworkLayer ourInstance = new ProfileNetworkLayer();
+    private static final ProfileNetworkLayer ourInstance;
+
+    static {
+        ourInstance = new ProfileNetworkLayer();
+    }
 
     public static ProfileNetworkLayer getInstance() {
         return ourInstance;

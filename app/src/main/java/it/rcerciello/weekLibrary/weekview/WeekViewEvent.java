@@ -251,4 +251,20 @@ public class WeekViewEvent {
 
         return events;
     }
+
+    @Override
+    public String toString() {
+        return "WeekViewEvent{" +
+                "idAppuntamento=" + idAppuntamento +
+                ", mStartTime=" + mStartTime +
+                ", mEndTime=" + mEndTime +
+                ", appointmentName='" + appointmentName + '\'' +
+                ", mLocation='" + mLocation + '\'' +
+                ", idCliente='" + idCliente + '\'' +
+                ", idCollaborator='" + idCollaborator + '\'' +
+                ", mColor=" + mColor +
+                ", idService='" + idService + '\'' +
+                ", mAllDay=" + mAllDay +
+                '}';
+    }
 }

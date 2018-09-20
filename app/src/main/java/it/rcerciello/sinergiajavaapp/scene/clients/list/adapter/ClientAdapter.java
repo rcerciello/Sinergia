@@ -38,14 +38,9 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
         holder.mNome.setText(mValues.get(position).getName());
         holder.mCognome.setText(mValues.get(position).getSurname());
 
-        holder.root.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onClientInteraction(holder.mItem);
-                }
+        holder.root.setOnClickListener(v -> {
+            if (null != mListener) {
+                mListener.onClientInteraction(holder.mItem);
             }
         });
     }

@@ -14,10 +14,11 @@ import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.scene.clients.list.ClientItemFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder> {
 
-    private  ArrayList<ClientModel> mValues;
+    private ArrayList<ClientModel> mValues;
     private final ClientItemFragment.OnClientInteractionListener mListener;
 
     public ClientAdapter(ArrayList<ClientModel> items, ClientItemFragment.OnClientInteractionListener listener) {
@@ -79,13 +80,11 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
         }
     }
 
-    public void updateDataSoure(ArrayList<ClientModel> clients)
-    {
-        if(mValues==null)
-        {
+    public void updateDataSoure(List<ClientModel> clients) {
+        if (mValues == null) {
             mValues = new ArrayList<>();
         }
-
+        mValues.clear();
         mValues.addAll(clients);
         notifyDataSetChanged();
 

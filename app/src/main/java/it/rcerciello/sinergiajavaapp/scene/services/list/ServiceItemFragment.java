@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -131,7 +132,7 @@ public class ServiceItemFragment extends Fragment implements ServiceItemFragment
     }
 
     @Override
-    public void updateAdapterDataSource(ArrayList<ServiceModel> clients) {
+    public void updateAdapterDataSource(List<ServiceModel> clients) {
         if (clients != null) {
             adapter.updateDataSoure(clients);
         }

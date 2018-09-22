@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,7 +129,7 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
     }
 
     @Override
-    public void updateAdapterDataSource(ArrayList<ClientModel> clients) {
+    public void updateAdapterDataSource(List<ClientModel> clients) {
         if (clients != null) {
             adapter.updateDataSoure(clients);
         }

@@ -4,27 +4,11 @@
 
 package it.rcerciello.sinergiajavaapp;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
+import android.app.Application;
 import android.support.multidex.MultiDexApplication;
-import android.util.Base64;
-import android.util.Log;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import it.rcerciello.sinergiajavaapp.data.managers.ClientNetworkLayer;
-import it.rcerciello.sinergiajavaapp.data.managers.ServiceNetworkLayer;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
-import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
-import it.rcerciello.sinergiajavaapp.data.network.APICallback;
-import it.rcerciello.sinergiajavaapp.data.repository.SinergiaRepo;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -32,7 +16,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 /**
  * Created by rcerciello on 01/10/2017.
  */
-public class Sinergia extends MultiDexApplication {
+public class Sinergia extends Application {
     public static Sinergia INSTANCE;
 
 
@@ -72,14 +56,13 @@ public class Sinergia extends MultiDexApplication {
      * Inizialize realm
      */
     private void initRealm() {
-//        Realm.init(getApplicationContext());
-//        RealmConfiguration config = new RealmConfiguration.Builder()
-//                .deleteRealmIfMigrationNeeded()
-//                .build();
-//        Realm.setDefaultConfiguration(config);
-//        LamboRepository.getInstance();
+        Realm.init(getApplicationContext());
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("SinergiaDB.realm")
+                .deleteRealmIfMigrationNeeded()
+                .schemaVersion(1)
+                .build();
+        Realm.setDefaultConfiguration(config);
     }
-
-
 }
 

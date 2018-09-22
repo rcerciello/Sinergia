@@ -14,6 +14,8 @@ public class AddClientsContract {
         void showSnackbarError(String message);
 
         void closeView();
+
+        void changeStateButton();
     }
 
 

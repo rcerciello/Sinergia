@@ -1,6 +1,7 @@
 package it.rcerciello.sinergiajavaapp.scene.services.detail;
 
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.scene.BasePresenter;
 import it.rcerciello.sinergiajavaapp.scene.BaseView;
 
@@ -17,8 +18,9 @@ import it.rcerciello.sinergiajavaapp.scene.BaseView;
 
 
     interface Presenter extends BasePresenter {
-        void editClient(ClientModel model);
 
         void uploadPhoto();
+
+        void editService(ServiceModel serviceModel);
     }
 }

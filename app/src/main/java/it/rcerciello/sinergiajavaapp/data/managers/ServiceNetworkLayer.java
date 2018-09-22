@@ -32,8 +32,9 @@ public class ServiceNetworkLayer {
         call.enqueue(new Callback<ServiceModelResponse>() {
             @Override
             public void onResponse(Call<ServiceModelResponse> call, Response<ServiceModelResponse> response) {
-                Timber.e(response.toString());
+                Timber.e("GET SERVICES LIST"+response.toString());
                 if (response.isSuccessful()) {
+                    Timber.e("GET SERVICES LIST"+response.body());
                     mCallback.onSuccess(response.body());
                 } else {
                     mCallback.onFailure(response.errorBody().toString());
@@ -51,6 +52,27 @@ public class ServiceNetworkLayer {
     public void addService(ServiceModel model, APICallback<Boolean> mCallback)
     {
         Call<Void> call = ApiClient.getApiClient().addService(model);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Timber.e(response.toString());
+                if (response.isSuccessful()) {
+                    mCallback.onSuccess(true);
+                } else {
+                    mCallback.onFailure(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Timber.e(t.getMessage());
+                mCallback.onFailure(null);
+            }
+        });
+    }
+
+    public void editService(ServiceModel serviceModel, APICallback<Boolean> mCallback) {
+        Call<Void> call = ApiClient.getApiClient().putService(serviceModel);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

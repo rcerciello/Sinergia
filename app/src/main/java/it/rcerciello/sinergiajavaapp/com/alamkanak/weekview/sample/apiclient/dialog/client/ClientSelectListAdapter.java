@@ -99,8 +99,8 @@ public class ClientSelectListAdapter extends RecyclerView.Adapter<ClientSelectLi
 
         void bind(ClientModel model) {
             if (model != null) {
-                if (GlobalUtils.isNotNullAndNotEmpty(model.getId())) {
-                    serviceId.setText(model.getId());
+                if (GlobalUtils.isNotNullAndNotEmpty(model.getPrimaryKeyModel().getPrimaryKey())) {
+                    serviceId.setText(model.getPrimaryKeyModel().getPrimaryKey());
                 }
 
 

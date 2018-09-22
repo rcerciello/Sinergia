@@ -310,14 +310,15 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void refreshCalendar() {
-
+        Timber.d("-- Refresh Calendar --");
+        mPresenter.getAllAppointments();
     }
 
     @Override
     public void removeEventFromCalendar(WeekViewEvent event) {
         Timber.e("evento rimosso dal calendario = " + event.getAppointmentId());
-        if (GlobalUtils.isNotNullAndNotEmpty(event.getIdCollaborator())) {
-            switch (event.getIdCollaborator()) {
+        if (GlobalUtils.isNotNullAndNotEmpty(event.getId_staff())) {
+            switch (event.getId_staff()) {
                 case GeneralConstants.ID_LELLA:
                     allAppointmentsLella.remove(event);
                     mWeekViewLella.notifyDatasetChanged();

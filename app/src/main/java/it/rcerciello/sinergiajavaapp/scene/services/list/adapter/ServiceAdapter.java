@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,11 +80,11 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         }
     }
 
-    public void updateDataSoure(ArrayList<ServiceModel> clients) {
+    public void updateDataSoure(List<ServiceModel> clients) {
         if (mValues == null) {
             mValues = new ArrayList<>();
         }
-
+        mValues.clear();
         mValues.addAll(clients);
         notifyDataSetChanged();
 

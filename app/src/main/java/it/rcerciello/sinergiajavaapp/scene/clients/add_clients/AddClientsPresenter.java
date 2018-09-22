@@ -43,6 +43,7 @@ public class AddClientsPresenter implements AddClientsContract.Presenter {
                 if (object) {
                     mView.closeView();
                 } else {
+                    mView.changeStateButton();
                     mView.showSnackbarError(Sinergia.INSTANCE.getResources().getString(R.string.something_went_wrong));
                 }
             }
@@ -50,6 +51,7 @@ public class AddClientsPresenter implements AddClientsContract.Presenter {
             @Override
             public void onFailure(String error) {
                 if (error != null) {
+                    mView.changeStateButton();
                     mView.showSnackbarError(error);
                 }
             }

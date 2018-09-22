@@ -1,6 +1,7 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.detail;
 
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.scene.BasePresenter;
 import it.rcerciello.sinergiajavaapp.scene.BaseView;
 
@@ -17,7 +18,7 @@ public class ClientDetailsContract
 
 
     interface Presenter extends BasePresenter {
-        void editClient(ClientModel model);
+        void editClient(ClientModelAdd model);
 
         void uploadPhoto();
     }

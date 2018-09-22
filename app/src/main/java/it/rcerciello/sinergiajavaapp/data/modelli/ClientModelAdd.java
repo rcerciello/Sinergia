@@ -12,7 +12,7 @@ import io.realm.RealmObject;
  * Created by rcerciello on 28/04/2018.
  */
 
-public class ClientModel extends RealmObject{
+public class ClientModelAdd extends RealmObject{
 
     @SerializedName("id")
     String id;
@@ -44,15 +44,12 @@ public class ClientModel extends RealmObject{
     @SerializedName("email")
     String email ;
 
-    @SerializedName("_id")
-    ApiPrimaryKeyModel primaryKeyModel = new ApiPrimaryKeyModel();
 
 
-
-    public ClientModel() {
+    public ClientModelAdd() {
     }
 
-    public ClientModel(@NonNull String id, @NonNull String clientIdentifier, String name, String surname, String address, String landlinePhone, String mobile_phone, String email) {
+    public ClientModelAdd(@NonNull String id, @NonNull String clientIdentifier, String name, String surname, String address, String landlinePhone, String mobile_phone, String email) {
         this.id = id;
         this.name = name;
         this.clientIdentifier = clientIdentifier;
@@ -64,28 +61,9 @@ public class ClientModel extends RealmObject{
     }
 
 
-    public ClientModel( @NonNull String clientIdentifier, String name, String surname, String address, String landlinePhone, String mobile_phone, String email) {
-        this.name = name;
-        this.clientIdentifier = clientIdentifier;
-        this.surname = surname;
-        this.address = address;
-        this.landlinePhone = landlinePhone;
-        this.mobile_phone = mobile_phone;
-        this.email = email;
-    }
-
-
-
-
-    public ClientModel(String id, String name, String surname) {
-        this.primaryKeyModel.setPrimaryKey(id);
-        this.name = name;
-        this.surname = surname;
-    }
-
     @Override
     public String toString() {
-        return "ClientModel{" +
+        return "ClientModelAdd{" +
                 "id='" + id + '\'' +
                 ", clientIdentifier='" + clientIdentifier + '\'' +
                 ", name='" + name + '\'' +
@@ -94,7 +72,6 @@ public class ClientModel extends RealmObject{
                 ", landlinePhone='" + landlinePhone + '\'' +
                 ", mobile_phone='" + mobile_phone + '\'' +
                 ", email='" + email + '\'' +
-                ", primaryKeyModel=" + primaryKeyModel +
                 '}';
     }
 
@@ -147,13 +124,6 @@ public class ClientModel extends RealmObject{
         this.mobile_phone = mobile_phone;
     }
 
-    public ApiPrimaryKeyModel getPrimaryKeyModel() {
-        return primaryKeyModel;
-    }
-
-    public void setPrimaryKeyModel(ApiPrimaryKeyModel primaryKeyModel) {
-        this.primaryKeyModel = primaryKeyModel;
-    }
 
     @NonNull
     public String getClientIdentifier() {

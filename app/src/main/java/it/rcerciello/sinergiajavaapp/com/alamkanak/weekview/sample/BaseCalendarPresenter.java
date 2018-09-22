@@ -56,66 +56,67 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
 
     }
 
-    @Override
-    public void editAppointment(WeekViewEvent event) {
-        mView.showInProgress(true);
-        CalendarNetworkLayer.getInstance().editAppointment(event, new APICallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean object) {
-                mView.showInProgress(false);
-                mView.refreshCalendar();
-            }
-
-            @Override
-            public void onFailure(String error) {
-                mView.showInProgress(false);
-                if (GlobalUtils.isNotNullAndNotEmpty(error)) {
-                    mView.showSnackbar(error);
-                }
-            }
-
-            @Override
-            public void onSessionExpired() {
-                mView.showInProgress(false);
-            }
-
-            @Override
-            public void onFailure(boolean isFailure) {
-                mView.showInProgress(false);
-            }
-        });
-
-
-    }
-
-    @Override
-    public void addAppointment(WeekViewEvent event) {
-        CalendarNetworkLayer.getInstance().addAppointment(event, new APICallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean object) {
-                mView.showInProgress(false);
-                mView.refreshCalendar();
-            }
-
-            @Override
-            public void onFailure(String error) {
-                mView.showInProgress(false);
-                if (GlobalUtils.isNotNullAndNotEmpty(error)) {
-                    mView.showSnackbar(error);
-                }
-            }
-
-            @Override
-            public void onSessionExpired() {
-                mView.showInProgress(false);
-            }
-
-            @Override
-            public void onFailure(boolean isFailure) {
-                mView.showInProgress(false);
-            }
-        });
-    }
+//    @Override
+//    public void editAppointment(WeekViewEvent event) {
+//        mView.showInProgress(true);
+//        CalendarNetworkLayer.getInstance().editAppointment(event, new APICallback<Boolean>() {
+//            @Override
+//            public void onSuccess(Boolean object) {
+//                mView.showInProgress(false);
+//                mView.refreshCalendar();
+//            }
+//
+//            @Override
+//            public void onFailure(String error) {
+//                mView.showInProgress(false);
+//                if (GlobalUtils.isNotNullAndNotEmpty(error)) {
+//                    mView.showSnackbar(error);
+//                }
+//            }
+//
+//            @Override
+//            public void onSessionExpired() {
+//                mView.showInProgress(false);
+//            }
+//
+//            @Override
+//            public void onFailure(boolean isFailure) {
+//                mView.showInProgress(false);
+//            }
+//        });
+//
+//
+//    }
+//
+//    @Override
+//    public void addAppointment(WeekViewEvent event) {
+//        mView.showInProgress(true);
+//        CalendarNetworkLayer.getInstance().addAppointment(event, new APICallback<Boolean>() {
+//            @Override
+//            public void onSuccess(Boolean object) {
+//                mView.showInProgress(false);
+//                mView.refreshCalendar();
+//            }
+//
+//            @Override
+//            public void onFailure(String error) {
+//                mView.showInProgress(false);
+//                if (GlobalUtils.isNotNullAndNotEmpty(error)) {
+//                    mView.showSnackbar(error);
+//                }
+//            }
+//
+//            @Override
+//            public void onSessionExpired() {
+//                mView.showInProgress(false);
+//            }
+//
+//            @Override
+//            public void onFailure(boolean isFailure) {
+//                mView.showInProgress(false);
+//            }
+//        });
+//    }
 
     @Override
     public void start() {
@@ -158,8 +159,8 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
         List<WeekViewEvent> appointmentsAnna = new ArrayList<>();
 
         for (WeekViewEvent appointment : appointments) {
-            if (GlobalUtils.isNotNullAndNotEmpty(appointment.getIdCollaborator())) {
-                switch (appointment.getIdCollaborator()) {
+            if (GlobalUtils.isNotNullAndNotEmpty(appointment.getId_staff())) {
+                switch (appointment.getId_staff()) {
                     case GeneralConstants.ID_LELLA:
                         appointmentsLella.add(appointment);
                         break;

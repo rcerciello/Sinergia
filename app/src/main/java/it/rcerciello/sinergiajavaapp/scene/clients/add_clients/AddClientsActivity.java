@@ -2,6 +2,7 @@ package it.rcerciello.sinergiajavaapp.scene.clients.add_clients;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -9,6 +10,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.irozon.library.HideKey;
@@ -24,6 +26,7 @@ import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.widgets.CustomEditText;
 import it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView;
+import retrofit2.http.Body;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class AddClientsActivity extends AppCompatActivity implements AddClientsContract.View, CustomSaveButton.CustomSaveButtonInterface {
@@ -56,6 +59,9 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
 
     @BindView(R.id.btnSave)
     CustomSaveButton saveButton;
+
+    @BindView(R.id.root)
+    RelativeLayout root;
 
     private AddClientsContract.Presenter mPresenter;
 
@@ -99,7 +105,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
 
         saveButton.getButtonReference().setOnClickListener(v -> {
             saveButton.changeState();
-            ClientModel  client = new ClientModel(identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText().toLowerCase(), mobilePhone.getText(), email.getText());
+            ClientModel  client = new ClientModel( identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText().toLowerCase(), mobilePhone.getText(), email.getText());
             mPresenter.addClient(client);
         });
     }
@@ -230,6 +236,10 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
     @Override
     public void showSnackbarError(String message) {
 
+        Snackbar snackbar = Snackbar
+                .make(root, message, Snackbar.LENGTH_LONG);
+        snackbar.show();
+
     }
 
     @Override
@@ -267,5 +277,10 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
         }
 
         Toast.makeText(this, "Save", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void changeStateButton() {
+        saveButton.changeState();
     }
 }

@@ -11,6 +11,7 @@ import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
+import it.rcerciello.weekLibrary.weekview.WeekViewEventResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,16 +38,9 @@ public class CalendarNetworkLayer {
             @Override
             public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 //200.300
-                if (response.isSuccessful()) switch (response.code()) {
-                    case 201://OK
-                        mCallback.onSuccess(true);
-                        break;
-
-                    default:// ok but others code
-                        mCallback.onSuccess(true);
-                        break;
-                }
-                else {
+                if (response.isSuccessful()) {
+                    mCallback.onSuccess(true);
+                } else {
                     mCallback.onFailure(true);
                 }
             }
@@ -57,7 +51,6 @@ public class CalendarNetworkLayer {
                 mCallback.onFailure(true);
             }
         });
-        mCallback.onSuccess(true);
     }
 
 
@@ -80,203 +73,185 @@ public class CalendarNetworkLayer {
             }
         });
 
-        mCallback.onSuccess(true);
     }
 
 
     public void addAppointment(WeekViewEvent event, final APICallback<Boolean> mCallback) {
-        Call<Boolean> call = ApiClient.getApiClient().addAppointment(event);
-        call.enqueue(new Callback<Boolean>() {
+        Call<Void> call = ApiClient.getApiClient().addAppointment(event);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 //200.300
-                if (response.isSuccessful()) switch (response.code()) {
-                    case 201://OK
-                        mCallback.onSuccess(true);
-                        break;
-
-                    default:// ok but others code
-                        mCallback.onSuccess(true);
-                        break;
-                }
-                else {
-                    mCallback.onFailure(true);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
-                Timber.e(t.getMessage());
-                mCallback.onFailure(true);
-            }
-        });
-        mCallback.onSuccess(true);
-    }
-
-
-    public void getAllAppointments(final APICallback<List<WeekViewEvent>> mCallback) {
-        Call<List<WeekViewEvent>> call = ApiClient.getApiClient().getAllAppointments();
-        call.enqueue(new Callback<List<WeekViewEvent>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<WeekViewEvent>> call, @NonNull Response<List<WeekViewEvent>> response) {
-                if (response.isSuccessful()) { //200.300
-                    switch (response.code()) {
-                        case 201://OK
-                            mCallback.onSuccess(response.body());
-                            break;
-
-                        default:// ok but others code
-                            mCallback.onFailure(true);
-                            break;
-                    }
+                if (response.isSuccessful()) {
+                    mCallback.onSuccess(true);
                 } else {
                     mCallback.onFailure(true);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<WeekViewEvent>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Timber.e(t.getMessage());
+                mCallback.onFailure(true);
+            }
+        });
+    }
+
+    public void getAllAppointments(final APICallback<List<WeekViewEvent>> mCallback) {
+        Call<WeekViewEventResponse> call = ApiClient.getApiClient().getAllAppointments();
+        call.enqueue(new Callback<WeekViewEventResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<WeekViewEventResponse> call, @NonNull Response<WeekViewEventResponse> response) {
+                if (response.isSuccessful())
+                    if (response.body() != null && response.body().getEventList() != null)
+                        mCallback.onSuccess(response.body().getEventList());
+                    else
+                        mCallback.onFailure(true);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<WeekViewEventResponse> call, @NonNull Throwable t) {
                 Timber.e(t.getMessage());
                 mCallback.onFailure(true);
             }
         });
 
-        /* ** FAKE  ** */
-        // Populate the week view with some events.
-        List<WeekViewEvent> allAppointments = new ArrayList<WeekViewEvent>();
-
-        int newMonth = 9;
-        int newYear = 2018;
-
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 1);
-        endTime.set(Calendar.MONTH, newMonth - 1);
-        WeekViewEvent event = new WeekViewEvent(1, "Cerciello Raffaella", GeneralConstants.ID_LELLA, "Ceretta", startTime, endTime, "ciao");
-        allAppointments.add(event);
-
-
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 30);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.set(Calendar.HOUR_OF_DAY, 4);
-        endTime.set(Calendar.MINUTE, 30);
-        endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(2, "Angela Cerciello", GeneralConstants.ID_MARIA, "Sopracciglia", startTime, endTime, "ciao");
-        allAppointments.add(event);
-
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 4);
-        startTime.set(Calendar.MINUTE, 20);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.set(Calendar.HOUR_OF_DAY, 5);
-        endTime.set(Calendar.MINUTE, 0);
-        event = new WeekViewEvent(2, "Russo Antonio", GeneralConstants.ID_ANNA, "Sopracciglia", startTime, endTime, "ciao");
-        allAppointments.add(event);
+//        /* ** FAKE  ** */
+//        // Populate the week view with some events.
+//        List<WeekViewEvent> allAppointments = new ArrayList<WeekViewEvent>();
+//
+//        int newMonth = 9;
+//        int newYear = 2018;
+//
+//        Calendar startTime = Calendar.getInstance();
+//        startTime.set(Calendar.HOUR_OF_DAY, 3);
+//        startTime.set(Calendar.MINUTE, 0);
+//        startTime.set(Calendar.MONTH, newMonth - 1);
+//        startTime.set(Calendar.YEAR, newYear);
+//        Calendar endTime = (Calendar) startTime.clone();
+//        endTime.add(Calendar.HOUR, 1);
+//        endTime.set(Calendar.MONTH, newMonth - 1);
+//        WeekViewEvent event = new WeekViewEvent(1, "Cerciello Raffaella", GeneralConstants.ID_LELLA, "Ceretta", startTime, endTime, "ciao");
+//        allAppointments.add(event);
+//
 //
 //        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.HOUR_OF_DAY, 5);
+//        startTime.set(Calendar.HOUR_OF_DAY, 3);
 //        startTime.set(Calendar.MINUTE, 30);
 //        startTime.set(Calendar.MONTH, newMonth - 1);
 //        startTime.set(Calendar.YEAR, newYear);
 //        endTime = (Calendar) startTime.clone();
-//        endTime.add(Calendar.HOUR_OF_DAY, 2);
+//        endTime.set(Calendar.HOUR_OF_DAY, 4);
+//        endTime.set(Calendar.MINUTE, 30);
 //        endTime.set(Calendar.MONTH, newMonth - 1);
-//        event = new WeekViewEvent(2, getEventTitle(startTime), startTime, endTime, "ciao");
+//        event = new WeekViewEvent(2, "Angela Cerciello", GeneralConstants.ID_MARIA, "Sopracciglia", startTime, endTime, "ciao");
 //        allAppointments.add(event);
 //
 //        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.HOUR_OF_DAY, 5);
-//        startTime.set(Calendar.MINUTE, 0);
-//        startTime.set(Calendar.MONTH, newMonth - 1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        startTime.add(Calendar.DATE, 1);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.add(Calendar.HOUR_OF_DAY, 3);
-//        endTime.set(Calendar.MONTH, newMonth - 1);
-//        event = new WeekViewEvent(3, getEventTitle(startTime), startTime, endTime, "ciao");
-//        allAppointments.add(event);
-//
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.DAY_OF_MONTH, 15);
-//        startTime.set(Calendar.HOUR_OF_DAY, 3);
-//        startTime.set(Calendar.MINUTE, 0);
+//        startTime.set(Calendar.HOUR_OF_DAY, 4);
+//        startTime.set(Calendar.MINUTE, 20);
 //        startTime.set(Calendar.MONTH, newMonth - 1);
 //        startTime.set(Calendar.YEAR, newYear);
 //        endTime = (Calendar) startTime.clone();
-//        endTime.add(Calendar.HOUR_OF_DAY, 3);
-//        event = new WeekViewEvent(4, getEventTitle(startTime), startTime, endTime, "ciao");
+//        endTime.set(Calendar.HOUR_OF_DAY, 5);
+//        endTime.set(Calendar.MINUTE, 0);
+//        event = new WeekViewEvent(2, "Russo Antonio", GeneralConstants.ID_ANNA, "Sopracciglia", startTime, endTime, "ciao");
 //        allAppointments.add(event);
-//
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.DAY_OF_MONTH, 1);
-//        startTime.set(Calendar.HOUR_OF_DAY, 3);
-//        startTime.set(Calendar.MINUTE, 0);
-//        startTime.set(Calendar.MONTH, newMonth - 1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.add(Calendar.HOUR_OF_DAY, 3);
-//        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime, "ciao");
-//        allAppointments.add(event);
-//
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.DAY_OF_MONTH, startTime.getActualMaximum(Calendar.DAY_OF_MONTH));
-//        startTime.set(Calendar.HOUR_OF_DAY, 15);
-//        startTime.set(Calendar.MINUTE, 0);
-//        startTime.set(Calendar.MONTH, newMonth - 1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.add(Calendar.HOUR_OF_DAY, 3);
-//        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime, "ciao");
-//        allAppointments.add(event);
-//
-//        //AllDay event
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.HOUR_OF_DAY, 0);
-//        startTime.set(Calendar.MINUTE, 0);
-//        startTime.set(Calendar.MONTH, newMonth - 1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.add(Calendar.HOUR_OF_DAY, 23);
-//        event = new WeekViewEvent(7, getEventTitle(startTime), null, startTime, endTime, "ciao");
-//        allAppointments.add(event);
-//
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.DAY_OF_MONTH, 8);
-//        startTime.set(Calendar.HOUR_OF_DAY, 2);
-//        startTime.set(Calendar.MINUTE, 0);
-//        startTime.set(Calendar.MONTH, newMonth - 1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.set(Calendar.DAY_OF_MONTH, 10);
-//        endTime.set(Calendar.HOUR_OF_DAY, 23);
-//        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, "ciao");
-//        allAppointments.add(event);
-//
-//        // All day event until 00:00 next day
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.DAY_OF_MONTH, 10);
-//        startTime.set(Calendar.HOUR_OF_DAY, 0);
-//        startTime.set(Calendar.MINUTE, 0);
-//        startTime.set(Calendar.SECOND, 0);
-//        startTime.set(Calendar.MILLISECOND, 0);
-//        startTime.set(Calendar.MONTH, newMonth - 1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.set(Calendar.DAY_OF_MONTH, 11);
-//        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, "ciao");
-//        allAppointments.add(event);
-        /* *********** */
-        mCallback.onSuccess(allAppointments);
+////
+////        startTime = Calendar.getInstance();
+////        startTime.set(Calendar.HOUR_OF_DAY, 5);
+////        startTime.set(Calendar.MINUTE, 30);
+////        startTime.set(Calendar.MONTH, newMonth - 1);
+////        startTime.set(Calendar.YEAR, newYear);
+////        endTime = (Calendar) startTime.clone();
+////        endTime.add(Calendar.HOUR_OF_DAY, 2);
+////        endTime.set(Calendar.MONTH, newMonth - 1);
+////        event = new WeekViewEvent(2, getEventTitle(startTime), startTime, endTime, "ciao");
+////        allAppointments.add(event);
+////
+////        startTime = Calendar.getInstance();
+////        startTime.set(Calendar.HOUR_OF_DAY, 5);
+////        startTime.set(Calendar.MINUTE, 0);
+////        startTime.set(Calendar.MONTH, newMonth - 1);
+////        startTime.set(Calendar.YEAR, newYear);
+////        startTime.add(Calendar.DATE, 1);
+////        endTime = (Calendar) startTime.clone();
+////        endTime.add(Calendar.HOUR_OF_DAY, 3);
+////        endTime.set(Calendar.MONTH, newMonth - 1);
+////        event = new WeekViewEvent(3, getEventTitle(startTime), startTime, endTime, "ciao");
+////        allAppointments.add(event);
+////
+////        startTime = Calendar.getInstance();
+////        startTime.set(Calendar.DAY_OF_MONTH, 15);
+////        startTime.set(Calendar.HOUR_OF_DAY, 3);
+////        startTime.set(Calendar.MINUTE, 0);
+////        startTime.set(Calendar.MONTH, newMonth - 1);
+////        startTime.set(Calendar.YEAR, newYear);
+////        endTime = (Calendar) startTime.clone();
+////        endTime.add(Calendar.HOUR_OF_DAY, 3);
+////        event = new WeekViewEvent(4, getEventTitle(startTime), startTime, endTime, "ciao");
+////        allAppointments.add(event);
+////
+////        startTime = Calendar.getInstance();
+////        startTime.set(Calendar.DAY_OF_MONTH, 1);
+////        startTime.set(Calendar.HOUR_OF_DAY, 3);
+////        startTime.set(Calendar.MINUTE, 0);
+////        startTime.set(Calendar.MONTH, newMonth - 1);
+////        startTime.set(Calendar.YEAR, newYear);
+////        endTime = (Calendar) startTime.clone();
+////        endTime.add(Calendar.HOUR_OF_DAY, 3);
+////        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime, "ciao");
+////        allAppointments.add(event);
+////
+////        startTime = Calendar.getInstance();
+////        startTime.set(Calendar.DAY_OF_MONTH, startTime.getActualMaximum(Calendar.DAY_OF_MONTH));
+////        startTime.set(Calendar.HOUR_OF_DAY, 15);
+////        startTime.set(Calendar.MINUTE, 0);
+////        startTime.set(Calendar.MONTH, newMonth - 1);
+////        startTime.set(Calendar.YEAR, newYear);
+////        endTime = (Calendar) startTime.clone();
+////        endTime.add(Calendar.HOUR_OF_DAY, 3);
+////        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime, "ciao");
+////        allAppointments.add(event);
+////
+////        //AllDay event
+////        startTime = Calendar.getInstance();
+////        startTime.set(Calendar.HOUR_OF_DAY, 0);
+////        startTime.set(Calendar.MINUTE, 0);
+////        startTime.set(Calendar.MONTH, newMonth - 1);
+////        startTime.set(Calendar.YEAR, newYear);
+////        endTime = (Calendar) startTime.clone();
+////        endTime.add(Calendar.HOUR_OF_DAY, 23);
+////        event = new WeekViewEvent(7, getEventTitle(startTime), null, startTime, endTime, "ciao");
+////        allAppointments.add(event);
+////
+////        startTime = Calendar.getInstance();
+////        startTime.set(Calendar.DAY_OF_MONTH, 8);
+////        startTime.set(Calendar.HOUR_OF_DAY, 2);
+////        startTime.set(Calendar.MINUTE, 0);
+////        startTime.set(Calendar.MONTH, newMonth - 1);
+////        startTime.set(Calendar.YEAR, newYear);
+////        endTime = (Calendar) startTime.clone();
+////        endTime.set(Calendar.DAY_OF_MONTH, 10);
+////        endTime.set(Calendar.HOUR_OF_DAY, 23);
+////        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, "ciao");
+////        allAppointments.add(event);
+////
+////        // All day event until 00:00 next day
+////        startTime = Calendar.getInstance();
+////        startTime.set(Calendar.DAY_OF_MONTH, 10);
+////        startTime.set(Calendar.HOUR_OF_DAY, 0);
+////        startTime.set(Calendar.MINUTE, 0);
+////        startTime.set(Calendar.SECOND, 0);
+////        startTime.set(Calendar.MILLISECOND, 0);
+////        startTime.set(Calendar.MONTH, newMonth - 1);
+////        startTime.set(Calendar.YEAR, newYear);
+////        endTime = (Calendar) startTime.clone();
+////        endTime.set(Calendar.DAY_OF_MONTH, 11);
+////        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, "ciao");
+////        allAppointments.add(event);
+//        /* *********** */
+//        mCallback.onSuccess(allAppointments);
     }
 
     protected String getEventTitle(Calendar time) {

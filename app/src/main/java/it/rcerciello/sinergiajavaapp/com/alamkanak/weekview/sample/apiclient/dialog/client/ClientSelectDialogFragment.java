@@ -16,13 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 import it.rcerciello.sinergiajavaapp.R;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import timber.log.Timber;
 
 
 /**
@@ -93,8 +95,25 @@ public class ClientSelectDialogFragment extends DialogFragment  {
         list.setAdapter(adapter);
 
         initializeToolbar();
-        //TODO select all serices;
-        showServices();
+        readServicesFromDB();
+
+
+    }
+
+    private void readServicesFromDB() {
+
+        try (Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            ClientListResponseModel clientList = realm.where(ClientListResponseModel.class).findFirst();
+            realm.commitTransaction();
+            if (clientList != null) {
+                showClients(realm.copyFromRealm(clientList));
+            }
+
+        } catch (Exception e) {
+            Timber.e(e.getLocalizedMessage());
+        }
+
 
     }
 
@@ -110,16 +129,9 @@ public class ClientSelectDialogFragment extends DialogFragment  {
     }
 
 
-    public void showServices() {
-        List<ClientModel> servie = new ArrayList<>();
-
-        servie.add(new ClientModel("AC", "Angela", "Cerciello"));
-        servie.add(new ClientModel("RC", "Raffaella", "Cerciello"));
-        servie.add(new ClientModel("DC", "Domenico", "Cerciello"));
-        servie.add(new ClientModel("PM", "Panico", "Michela"));
-        servie.add(new ClientModel("AR", "Antonio", "Russo"));
-        
-        adapter.setData(servie);
+    public void showClients(ClientListResponseModel response ) {
+        List<ClientModel> clients  = response.getClients();
+        adapter.setData(clients);
     }
 
 

@@ -9,13 +9,16 @@ import it.rcerciello.sinergiajavaapp.data.managers.ServiceModelResponse;
 import it.rcerciello.sinergiajavaapp.data.managers.TestModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
+import it.rcerciello.weekLibrary.weekview.WeekViewEventResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -36,18 +39,17 @@ public interface ApiInterfaces {
 //    Call<Void> deleteCurrentUserInformations(@Header(GeneralConstants.AUTHORIZATION_BEARER) String authorization);
 
 
-    @POST("user/BlaBla")
+    @PUT("appointments/update")
     Call<Boolean> editAppointment(@Body WeekViewEvent event);
 
-    @DELETE("userservice/users/current")
-    Call<Boolean> deleteAppointment(String appointmentId);
+    @DELETE("appointments/delete")
+    Call<Boolean> deleteAppointment(@Body String appointmentId);
 
+    @POST("appointments/add")
+    Call<Void> addAppointment(@Body WeekViewEvent event);
 
-    @POST("url")
-    Call<Boolean> addAppointment(@Body WeekViewEvent event);
-
-    @GET("user/bla")
-    Call<List<WeekViewEvent>> getAllAppointments();
+    @GET("appointments/list")
+    Call<WeekViewEventResponse> getAllAppointments();
 
     @POST("customers/add")
     Call<Void> addClient(@Body ClientModel clientToAdd);
@@ -60,5 +62,11 @@ public interface ApiInterfaces {
 
     @GET("services/list")
     Call<ServiceModelResponse> getServices();
+
+    @PUT("services/update")
+    Call<Void> putService(ServiceModel serviceModel);
+
+    @PUT("customers/update")
+    Call<Void> putCustomer(@Body ClientModelAdd clientModel);
 }
 

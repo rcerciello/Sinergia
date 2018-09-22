@@ -10,6 +10,8 @@ import java.util.List;
 import it.rcerciello.sinergiajavaapp.Sinergia;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
+import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import retrofit2.Call;
@@ -72,5 +74,26 @@ public class ClientNetworkLayer {
             }
         });
 
+    }
+
+    public void editCustomer(ClientModelAdd clientModel, APICallback<Boolean> mCallback) {
+        Call<Void> call = ApiClient.getApiClient().putCustomer(clientModel);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Timber.e(response.toString());
+                if (response.isSuccessful()) {
+                    mCallback.onSuccess(true);
+                } else {
+                    mCallback.onFailure(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Timber.e(t.getMessage());
+                mCallback.onFailure(null);
+            }
+        });
     }
 }

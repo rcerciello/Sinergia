@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import it.rcerciello.sinergiajavaapp.data.managers.ClientNetworkLayer;
+import it.rcerciello.sinergiajavaapp.data.managers.ServiceModelResponse;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
+import timber.log.Timber;
 
 /**
  * Created by rcerciello on 02/05/2018.
@@ -39,11 +43,11 @@ public class ClientItemPresenter implements ClientItemFragmentContract.Presenter
     @Override
     public void refreshClientList() {
         mView.showOrHideProgressBar(true);
-        ClientNetworkLayer.getInstance().getClients(new APICallback<ClientListResponseModel>() {
+         ClientNetworkLayer.getInstance().getClients(new APICallback<ClientListResponseModel>() {
             @Override
             public void onSuccess(ClientListResponseModel clients) {
                 mView.showOrHideProgressBar(false);
-                mView.updateAdapterDataSource(clients.getClients());
+                deleteOldCustomersFromDB(clients);
             }
 
             @Override
@@ -66,4 +70,35 @@ public class ClientItemPresenter implements ClientItemFragmentContract.Presenter
             }
         });
     }
+
+    private void deleteOldCustomersFromDB(ClientListResponseModel response) {
+
+        try(Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            RealmResults<ClientListResponseModel> oldCustomers = realm.where(ClientListResponseModel.class).findAll();
+            oldCustomers.deleteAllFromRealm();
+            realm.commitTransaction();
+            addCustomersServices(response);
+        }catch (Exception e)
+        {
+            mView.showOrHideProgressBar(false);
+            Timber.e(e.getLocalizedMessage());
+        }
+    }
+
+    private void addCustomersServices(ClientListResponseModel response) {
+
+        try(Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            realm.insertOrUpdate(response);
+            realm.commitTransaction();
+            mView.updateAdapterDataSource(response.getClients());
+
+        }catch (Exception e)
+        {
+            mView.showOrHideProgressBar(false);
+            Timber.e(e.getLocalizedMessage());
+        }
+    }
+
 }

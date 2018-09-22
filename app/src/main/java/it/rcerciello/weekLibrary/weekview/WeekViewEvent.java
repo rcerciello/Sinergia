@@ -11,15 +11,15 @@ import static it.rcerciello.weekLibrary.weekview.WeekViewUtil.isSameDay;
  * Website: http://april-shower.com
  */
 public class WeekViewEvent {
-    private long idAppuntamento;
+    private String id_appointment;
     private Calendar mStartTime;
     private Calendar mEndTime;
     private String appointmentName;
     private String mLocation;
-    private String idCliente;
-    private String idCollaborator;
+    private String id_customer;
+    private String id_staff;
     private int mColor;
-    private String idService;
+    private String id_service;
     private boolean mAllDay;
 
     public WeekViewEvent() {
@@ -29,7 +29,7 @@ public class WeekViewEvent {
     /**
      * Initializes the event for week view.
      *
-     * @param idAppuntamento  The id of the event.
+     * @param id_appointment  The id of the event.
      * @param appointmentName Name of the event.
      * @param startYear       Year when the event starts.
      * @param startMonth      Month when the event starts.
@@ -42,10 +42,10 @@ public class WeekViewEvent {
      * @param endHour         Hour (in 24-hour format) when the event ends.
      * @param endMinute       Minute when the event ends.
      */
-    public WeekViewEvent(long idAppuntamento, String appointmentName, String idCollaborator, String idService, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
-        this.idAppuntamento = idAppuntamento;
-        this.idCollaborator = idCollaborator;
-        this.idService = idService;
+    public WeekViewEvent(String id_appointment, String appointmentName, String id_staff, String id_service, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
+        this.id_appointment = id_appointment;
+        this.id_staff = id_staff;
+        this.id_service = id_service;
 
         this.mStartTime = Calendar.getInstance();
         this.mStartTime.set(Calendar.YEAR, startYear);
@@ -67,23 +67,23 @@ public class WeekViewEvent {
     /**
      * Initializes the event for week view.
      *
-     * @param idAppuntamento        The id of the event.
+     * @param idAppuntments        The id of the event.
      * @param appointmentName      Name of the event.
      * @param location  The location of the event.
      * @param startTime The time when the event starts.
      * @param endTime   The time when the event ends.
      * @param allDay    Is the event an all day event.
      */
-    public WeekViewEvent(long idAppuntamento, String appointmentName,String idCollaborator,  String idService,String location, Calendar startTime, Calendar endTime, boolean allDay, String cliente) {
-        this.idAppuntamento = idAppuntamento;
-        this.idCollaborator = idCollaborator;
+    public WeekViewEvent(String idAppuntments, String appointmentName, String id_staff, String id_service, String location, Calendar startTime, Calendar endTime, boolean allDay, String cliente) {
+        this.id_appointment = idAppuntments;
+        this.id_staff = id_staff;
         this.appointmentName = appointmentName;
-        this.idService = idService;
+        this.id_service = id_service;
         this.mLocation = location;
         this.mStartTime = startTime;
         this.mEndTime = endTime;
         this.mAllDay = allDay;
-        this.idCliente = cliente;
+        this.id_customer = cliente;
     }
 
     /**
@@ -95,8 +95,8 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime   The time when the event ends.
      */
-    public WeekViewEvent(long idAppointment, String appointmentName, String idCollaborator, String idService, String location, Calendar startTime, Calendar endTime, String cliente) {
-        this(idAppointment, appointmentName, idCollaborator, idService, location, startTime, endTime, false, cliente);
+    public WeekViewEvent(String idAppointment, String appointmentName, String id_staff, String id_service, String location, Calendar startTime, Calendar endTime, String cliente) {
+        this(idAppointment, appointmentName, id_staff, id_service, location, startTime, endTime, false, cliente);
     }
 
     /**
@@ -107,8 +107,8 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime   The time when the event ends.
      */
-    public WeekViewEvent(long idAppointment, String appointmentName, String idCollaborator, String idService,Calendar startTime, Calendar endTime, String cliente) {
-        this(idAppointment, appointmentName,idCollaborator, idService, null, startTime, endTime, cliente);
+    public WeekViewEvent(String idAppointment, String appointmentName, String id_staff, String id_service, Calendar startTime, Calendar endTime, String cliente) {
+        this(idAppointment, appointmentName, id_staff, id_service, null, startTime, endTime, cliente);
     }
 
 
@@ -160,28 +160,28 @@ public class WeekViewEvent {
         this.mAllDay = allDay;
     }
 
-    public long getAppointmentId() {
-        return idAppuntamento;
+    public String getAppointmentId() {
+        return id_appointment;
     }
 
-    public void setAppointmentId(long id) {
-        this.idAppuntamento = id;
+    public void setAppointmentId(String id) {
+        this.id_appointment = id;
     }
 
     public String getIdCliente() {
-        return idCliente;
+        return id_customer;
     }
 
     public void setIdCliente(String idCliente) {
-        this.idCliente = idCliente;
+        this.id_customer = idCliente;
     }
 
-    public String getIdService() {
-        return idService;
+    public String getId_service() {
+        return id_service;
     }
 
-    public void setIdService(String idService) {
-        this.idService = idService;
+    public void setId_service(String id_service) {
+        this.id_service = id_service;
     }
 
     @Override
@@ -190,21 +190,21 @@ public class WeekViewEvent {
         if (o == null || getClass() != o.getClass()) return false;
 
         WeekViewEvent that = (WeekViewEvent) o;
-        return idAppuntamento == that.idAppuntamento;
+        return id_appointment == that.id_appointment;
     }
 
-    public String getIdCollaborator() {
-        return idCollaborator;
+    public String getId_staff() {
+        return id_staff;
     }
 
-    public void setIdCollaborator(String idCollaborator) {
-        this.idCollaborator = idCollaborator;
+    public void setId_staff(String id_staff) {
+        this.id_staff = id_staff;
     }
-
-    @Override
-    public int hashCode() {
-        return (int) (idAppuntamento ^ (idAppuntamento >>> 32));
-    }
+//
+//    @Override
+//    public int hashCode() {
+//        return (int) (id_appointment ^ (id_appointment >>> 32));
+//    }
 
     public List<WeekViewEvent> splitWeekViewEvents() {
         //This function splits the WeekViewEvent in WeekViewEvents by day
@@ -216,7 +216,7 @@ public class WeekViewEvent {
             endTime = (Calendar) this.getStartTime().clone();
             endTime.set(Calendar.HOUR_OF_DAY, 23);
             endTime.set(Calendar.MINUTE, 59);
-            WeekViewEvent event1 = new WeekViewEvent(this.getAppointmentId(), this.getName(),this.idCollaborator,  this.idService, this.getLocation(), this.getStartTime(), endTime, this.isAllDay(), this.getIdCliente());
+            WeekViewEvent event1 = new WeekViewEvent(this.getAppointmentId(), this.getName(),this.id_staff,  this.id_service, this.getLocation(), this.getStartTime(), endTime, this.isAllDay(), this.getIdCliente());
             event1.setColor(this.getColor());
             events.add(event1);
 
@@ -230,7 +230,7 @@ public class WeekViewEvent {
                 Calendar endOfOverDay = (Calendar) overDay.clone();
                 endOfOverDay.set(Calendar.HOUR_OF_DAY, 23);
                 endOfOverDay.set(Calendar.MINUTE, 59);
-                WeekViewEvent eventMore = new WeekViewEvent(this.getAppointmentId(), this.getName(),this.idCollaborator,  this.idService, null, overDay, endOfOverDay, this.isAllDay(), this.getIdCliente());
+                WeekViewEvent eventMore = new WeekViewEvent(this.getAppointmentId(), this.getName(),this.id_staff,  this.id_service, null, overDay, endOfOverDay, this.isAllDay(), this.getIdCliente());
                 eventMore.setColor(this.getColor());
                 events.add(eventMore);
 
@@ -242,7 +242,7 @@ public class WeekViewEvent {
             Calendar startTime = (Calendar) this.getEndTime().clone();
             startTime.set(Calendar.HOUR_OF_DAY, 0);
             startTime.set(Calendar.MINUTE, 0);
-            WeekViewEvent event2 = new WeekViewEvent(this.getAppointmentId(), this.getName(), this.idCollaborator, this.idService, this.getLocation(), startTime, this.getEndTime(), this.isAllDay(), this.getIdCliente());
+            WeekViewEvent event2 = new WeekViewEvent(this.getAppointmentId(), this.getName(), this.id_staff, this.id_service, this.getLocation(), startTime, this.getEndTime(), this.isAllDay(), this.getIdCliente());
             event2.setColor(this.getColor());
             events.add(event2);
         } else {
@@ -255,15 +255,15 @@ public class WeekViewEvent {
     @Override
     public String toString() {
         return "WeekViewEvent{" +
-                "idAppuntamento=" + idAppuntamento +
+                "id_appointment=" + id_appointment +
                 ", mStartTime=" + mStartTime +
                 ", mEndTime=" + mEndTime +
                 ", appointmentName='" + appointmentName + '\'' +
                 ", mLocation='" + mLocation + '\'' +
-                ", idCliente='" + idCliente + '\'' +
-                ", idCollaborator='" + idCollaborator + '\'' +
+                ", idCliente='" + id_customer + '\'' +
+                ", id_staff='" + id_staff + '\'' +
                 ", mColor=" + mColor +
-                ", idService='" + idService + '\'' +
+                ", id_service='" + id_service + '\'' +
                 ", mAllDay=" + mAllDay +
                 '}';
     }

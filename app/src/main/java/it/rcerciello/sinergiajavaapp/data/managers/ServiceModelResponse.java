@@ -3,15 +3,19 @@ package it.rcerciello.sinergiajavaapp.data.managers;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmObject;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 
-public class ServiceModelResponse {
+public class ServiceModelResponse extends RealmObject{
 
-    @SerializedName("response")
-    ArrayList<ServiceModel> services;
+    @SerializedName("result")
+    RealmList<ServiceModel> services;
 
-    public ArrayList<ServiceModel> getServices() {
+    public RealmList<ServiceModel> getServices() {
         return services;
     }
 }

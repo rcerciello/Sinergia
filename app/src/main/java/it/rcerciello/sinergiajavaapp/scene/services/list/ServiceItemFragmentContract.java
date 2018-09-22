@@ -1,6 +1,7 @@
 package it.rcerciello.sinergiajavaapp.scene.services.list;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
@@ -20,7 +21,7 @@ public class ServiceItemFragmentContract {
 
         void showOrHideProgressBar(boolean showOrHide);
 
-        void updateAdapterDataSource(ArrayList<ServiceModel> clients);
+        void updateAdapterDataSource(List<ServiceModel> clients);
     }
 
 

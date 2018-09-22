@@ -2,7 +2,10 @@ package it.rcerciello.sinergiajavaapp.scene.clients.detail;
 
 import javax.annotation.Nonnull;
 
+import it.rcerciello.sinergiajavaapp.data.managers.ClientNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
+import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 
 /**
  * Created by rcerciello on 02/05/2018.
@@ -32,17 +35,38 @@ public class ClientDetailsPresenter implements ClientDetailsContract.Presenter {
     }
 
 
-
     @Override
-    public void editClient(ClientModel model) {
-        mView.closeView();
+    public void editClient(ClientModelAdd model) {
+
+        ClientNetworkLayer.getInstance().editCustomer(model, new APICallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean object) {
+                mView.closeView();
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                if (error != null) {
+                    mView.showSnackbarError(error);
+                }
+
+            }
+
+            @Override
+            public void onSessionExpired() {
+
+            }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+
+            }
+        });
     }
 
     @Override
     public void uploadPhoto() {
-
-        //TODO Make api call
-//        mView.updateImage("http://img2.tgcom24.mediaset.it/binary/articolo/istockphoto/41.$plit/C_2_articolo_3076498_upiImagepp.jpg");
 
     }
 }

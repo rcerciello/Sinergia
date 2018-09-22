@@ -56,13 +56,7 @@ public class CustomSaveButton extends LinearLayout implements NextViewButtonInte
 
 
         //Listener on this view
-        myButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-//                mTouchCallback.saveButtonClick();
-            }
-        });
+        myButton.setOnClickListener(view -> mTouchCallback.saveButtonClick());
     }
 
     @Override

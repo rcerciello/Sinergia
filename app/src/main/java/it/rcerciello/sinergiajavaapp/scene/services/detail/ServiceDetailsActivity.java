@@ -205,8 +205,12 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
             if (serviceModel.getName() != null && !serviceModel.getName().isEmpty()) {
                 nome_servizio.setText(serviceModel.getName());
             }
+
             durata_servizio.setText(String.valueOf(serviceModel.getDuration()));
             prezzo.setText(String.valueOf(serviceModel.getPrice()));
+
+            if (serviceModel.getServiceIdentifier() != null && !serviceModel.getServiceIdentifier().isEmpty())
+                identificativo.setText(String.valueOf(serviceModel.getServiceIdentifier()));
         }
     }
 
@@ -256,7 +260,21 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
     @Override
     public void saveButtonClick() {
         saveButton.changeState();
-        mPesenter.editClient(new ClientModel());
+        if (identificativo.getText() != null && !identificativo.getText().isEmpty()) {
+            serviceModel.setServiceIdentifier(identificativo.getText());
+        }
+
+
+        if (durata_servizio.getText() != null && !durata_servizio.getText().isEmpty()) {
+            serviceModel.setDuration(Integer.valueOf(durata_servizio.getText()));
+        }
+
+        if (prezzo.getText() != null && !prezzo.getText().isEmpty()) {
+            serviceModel.setPrice(Float.valueOf(prezzo.getText()));
+        }
+
+
+        mPesenter.editService(serviceModel);
     }
 
     @OnClick({R.id.camera})
@@ -266,44 +284,41 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
         final String[] options = {"Scatta Foto", "Scegli dalla galleria", "Annulla"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent;
-                String optionChoice = options[which].toString();
+        builder.setItems(options, (dialog, which) -> {
+            Intent intent;
+            String optionChoice = options[which].toString();
 
-                switch (which) {
-                    case 0:
-                        intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        if (intent.resolveActivity(getPackageManager()) != null) {
-                            try {
-                                File photoFile = GlobalUtils.createImageFile(getApplicationContext());
-                                // Continue only if the File was successfully created
-                                if (photoFile != null) {
-                                    Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),
-                                            "sinergia.android.fileprovider",
-                                            photoFile);
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                    startActivityForResult(intent, GeneralConstants.INTENT_TAKE_PHOTO);
-                                }
-                            } catch (IOException ex) {
-                                // Error occurred while creating the File
-                                ex.printStackTrace();
+            switch (which) {
+                case 0:
+                    intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        try {
+                            File photoFile = GlobalUtils.createImageFile(getApplicationContext());
+                            // Continue only if the File was successfully created
+                            if (photoFile != null) {
+                                Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),
+                                        "sinergia.android.fileprovider",
+                                        photoFile);
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                startActivityForResult(intent, GeneralConstants.INTENT_TAKE_PHOTO);
                             }
+                        } catch (IOException ex) {
+                            // Error occurred while creating the File
+                            ex.printStackTrace();
                         }
-                        break;
+                    }
+                    break;
 
-                    case 1:
-                        intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        intent.setType("image/*");
-                        startActivityForResult(intent, GeneralConstants.INTENT_CHOOSE_PHOTO);//one can be replaced with any action code
-                        break;
+                case 1:
+                    intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, GeneralConstants.INTENT_CHOOSE_PHOTO);//one can be replaced with any action code
+                    break;
 
-                    default:
-                        dialog.dismiss();
-                        break;
-                }
+                default:
+                    dialog.dismiss();
+                    break;
             }
         });
 

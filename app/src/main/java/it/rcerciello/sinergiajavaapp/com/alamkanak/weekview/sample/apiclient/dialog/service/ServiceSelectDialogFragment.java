@@ -22,8 +22,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import it.rcerciello.sinergiajavaapp.R;
+import it.rcerciello.sinergiajavaapp.data.managers.ServiceModelResponse;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
+import timber.log.Timber;
 
 
 /**
@@ -31,7 +36,7 @@ import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
  *
  * @author Markus Mattsson
  */
-public class ServiceSelectDialogFragment extends DialogFragment  {
+public class ServiceSelectDialogFragment extends DialogFragment {
 
     @BindView(R.id.servicesListView)
     RecyclerView countryListView;
@@ -42,7 +47,6 @@ public class ServiceSelectDialogFragment extends DialogFragment  {
     public interface ServiceSelectedListener {
         void onServiceSelected(ServiceModel serviceModel);
     }
-
 
 
     private ServiceSelectedListener serviceSelectedListener;
@@ -63,9 +67,7 @@ public class ServiceSelectDialogFragment extends DialogFragment  {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialogTheme);
         super.onCreate(savedInstanceState);
-        }
-
-
+    }
 
 
     @Nullable
@@ -80,7 +82,6 @@ public class ServiceSelectDialogFragment extends DialogFragment  {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-
         adapter = new ServiceSelectListAdapter();
         adapter.setItemClickListener(item -> {
             if (serviceSelectedListener != null) {
@@ -91,10 +92,27 @@ public class ServiceSelectDialogFragment extends DialogFragment  {
 
         countryListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         countryListView.setAdapter(adapter);
-
         initializeToolbar();
-        //TODO select all serices;
-        showServices();
+
+        readServicesFromDB();
+
+
+    }
+
+    private void readServicesFromDB() {
+
+        try (Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            ServiceModelResponse services = realm.where(ServiceModelResponse.class).findFirst();
+            realm.commitTransaction();
+            if (services != null) {
+                showServices(realm.copyFromRealm(services));
+            }
+
+        } catch (Exception e) {
+            Timber.e(e.getLocalizedMessage());
+        }
+
 
     }
 
@@ -110,9 +128,9 @@ public class ServiceSelectDialogFragment extends DialogFragment  {
     }
 
 
-    public void showServices() {
-        List<ServiceModel> servie = new ArrayList<>();
-        adapter.setData(servie);
+    public void showServices(ServiceModelResponse DBServices) {
+        List<ServiceModel> services = DBServices.getServices();
+        adapter.setData(services);
     }
 
 

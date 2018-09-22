@@ -23,6 +23,7 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.ButtonStates;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.widgets.CustomEditText;
 import it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView;
@@ -83,11 +84,9 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             clientModel = ApiClient.getGson().fromJson(extras.getString("ClientModel"), ClientModel.class);
-
         }
 
         mPesenter = new ClientDetailsPresenter(this);
-
         toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
 
         setKeyboardType();
@@ -99,7 +98,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
         saveButton.getButtonReference().setOnClickListener(v -> {
             saveButton.changeState();
-            mPesenter.editClient(new ClientModel());
+            mPesenter.editClient(new ClientModelAdd(clientModel.getPrimaryKeyModel().getPrimaryKey(), identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText(), mobilePhone.getText(), tvEmail.getText()));
         });
     }
 
@@ -112,8 +111,6 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
                     }
-
-
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         showSaveButton();
@@ -214,6 +211,10 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
             if (clientModel.getEmail() != null && !clientModel.getEmail().isEmpty()) {
                 tvEmail.setText(clientModel.getEmail());
+            }
+
+            if (!clientModel.getClientIdentifier().isEmpty()) {
+                identificativo.setText(clientModel.getClientIdentifier());
             }
         }
     }

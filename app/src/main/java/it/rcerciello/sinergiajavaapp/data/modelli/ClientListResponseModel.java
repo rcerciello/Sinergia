@@ -5,16 +5,19 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientListResponseModel {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
+public class ClientListResponseModel extends RealmObject {
 
     @SerializedName("result")
-    ArrayList<ClientModel> clients = new ArrayList<>();
+    RealmList<ClientModel> result ;
 
-    public ArrayList<ClientModel> getClients() {
-        return clients;
+    public RealmList<ClientModel> getClients() {
+        return result;
     }
 
-    public void setClients(ArrayList<ClientModel> clients) {
-        this.clients = clients;
+    public void setClients(RealmList<ClientModel> clients) {
+        this.result = clients;
     }
 }

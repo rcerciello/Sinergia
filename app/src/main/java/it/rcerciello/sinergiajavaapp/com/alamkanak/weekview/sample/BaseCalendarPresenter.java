@@ -10,6 +10,7 @@ import it.rcerciello.sinergiajavaapp.data.managers.CalendarNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
+import timber.log.Timber;
 
 public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
 
@@ -159,6 +160,7 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
         List<WeekViewEvent> appointmentsAnna = new ArrayList<>();
 
         for (WeekViewEvent appointment : appointments) {
+            Timber.d("Appuntamento => "+appointment.toString());
             if (GlobalUtils.isNotNullAndNotEmpty(appointment.getId_staff())) {
                 switch (appointment.getId_staff()) {
                     case GeneralConstants.ID_LELLA:

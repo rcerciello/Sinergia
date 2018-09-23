@@ -40,10 +40,10 @@ public interface ApiInterfaces {
 
 
     @PUT("appointments/update")
-    Call<Boolean> editAppointment(@Body WeekViewEvent event);
+    Call<Void> editAppointment(@Body WeekViewEvent event);
 
-    @DELETE("appointments/delete")
-    Call<Boolean> deleteAppointment(@Body String appointmentId);
+    @DELETE("appointments/delete/{id_appointment}")
+    Call<Void> deleteAppointment(@Path("id_appointment") String appointmentId);
 
     @POST("appointments/add")
     Call<Void> addAppointment(@Body WeekViewEvent event);

@@ -265,7 +265,6 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
             // the user clicked on options[which]
             switch (which) {
                 case 0:
-                    //TODO API CALL AND REFRESH VIEW Se l'api risponde OK, rimuovo l'evento dal calendario
                     mPresenter.deleteAppointment(String.valueOf(event.getAppointmentId()), event);
                     break;
                 case 1:
@@ -360,22 +359,26 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     @Override
     public void showMariaAppointments(List<WeekViewEvent> appointments) {
         allAppointmentsMaria = appointments;
+        mWeekViewMaria.notifyDatasetChanged();
     }
 
     @Override
     public void showAnnaAppointments(List<WeekViewEvent> appointments) {
         allAppointmentsAnna = appointments;
+        mWeekViewAnna.notifyDatasetChanged();
 
     }
 
     @Override
     public void showLellaAppointments(List<WeekViewEvent> appointments) {
         allAppointmentsLella = appointments;
+        mWeekViewLella.notifyDatasetChanged();
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+
     }
 
 }

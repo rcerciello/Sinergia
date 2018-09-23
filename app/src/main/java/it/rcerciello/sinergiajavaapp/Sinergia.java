@@ -7,8 +7,18 @@ package it.rcerciello.sinergiajavaapp;
 import android.app.Application;
 import android.support.multidex.MultiDexApplication;
 
+import java.util.ArrayList;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
+import it.rcerciello.sinergiajavaapp.data.managers.ClientNetworkLayer;
+import it.rcerciello.sinergiajavaapp.data.managers.ServiceModelResponse;
+import it.rcerciello.sinergiajavaapp.data.managers.ServiceNetworkLayer;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
+import it.rcerciello.sinergiajavaapp.data.network.APICallback;
+import it.rcerciello.sinergiajavaapp.data.repository.SinergiaRepo;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -37,6 +47,116 @@ public class Sinergia extends Application {
 
         initCalligraphy();
         initRealm();
+
+
+
+        ClientNetworkLayer.getInstance().getClients(new APICallback<ClientListResponseModel>() {
+            @Override
+            public void onSuccess(ClientListResponseModel clients) {
+                deleteOldCustomersFromDB(clients);
+            }
+
+            @Override
+            public void onFailure(String error) {
+            }
+
+            @Override
+            public void onSessionExpired() {
+
+            }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+
+            }
+        });
+
+
+        ServiceNetworkLayer.getInstance().getServices(new APICallback<ServiceModelResponse>() {
+            @Override
+            public void onSuccess(ServiceModelResponse response) {
+
+                Timber.d("Service List ok ");
+                if (response!=null && response.getServices()!=null && response.getServices().size()>0) {
+
+                    Timber.d("Delete Service List");
+                    deleteOldServicesFromDB(response);
+
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+            }
+
+            @Override
+            public void onSessionExpired() {
+            }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+
+            }
+        });
+    }
+
+
+    private void deleteOldServicesFromDB(ServiceModelResponse response) {
+
+
+        try(Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            RealmResults<ServiceModelResponse> oldServices = realm.where(ServiceModelResponse.class).findAll();
+            oldServices.deleteAllFromRealm();
+            realm.commitTransaction();
+            addNewServices(response);
+            Timber.d("Delete Service List Success");
+        }catch (Exception e)
+        {
+            Timber.e(e.getLocalizedMessage());
+
+            Timber.d("Delete Service fail => "+e.getLocalizedMessage());
+        }
+    }
+
+    private void addNewServices(ServiceModelResponse response) {
+
+        try(Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            realm.insertOrUpdate(response);
+            realm.commitTransaction();
+
+        }catch (Exception e)
+        {
+            Timber.e(e.getLocalizedMessage());
+        }
+    }
+
+
+
+    private void deleteOldCustomersFromDB(ClientListResponseModel response) {
+
+        try (Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            RealmResults<ClientListResponseModel> oldCustomers = realm.where(ClientListResponseModel.class).findAll();
+            oldCustomers.deleteAllFromRealm();
+            realm.commitTransaction();
+            addCustomersServices(response);
+        } catch (Exception e) {
+            Timber.e(e.getLocalizedMessage());
+        }
+    }
+
+    private void addCustomersServices(ClientListResponseModel response) {
+
+        try (Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            realm.insertOrUpdate(response);
+            realm.commitTransaction();
+
+        } catch (Exception e) {
+            Timber.e(e.getLocalizedMessage());
+        }
     }
 
     /**

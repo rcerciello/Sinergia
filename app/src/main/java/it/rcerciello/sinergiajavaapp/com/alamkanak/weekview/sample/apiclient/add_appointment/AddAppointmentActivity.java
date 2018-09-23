@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
+import android.widget.TimePicker;
 
+import java.sql.Time;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -242,6 +244,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 //        startTime.set(Calendar.MINUTE, mMinute);
 //        startTime.set(Calendar.MONTH, mMonth);
 //        startTime.set(Calendar.YEAR, mYear);
+//        startTime.set(mYear, mMonth,mDay);
         Calendar endTime = (Calendar) startTime.clone();
 
         Timber.d("******");
@@ -309,9 +312,19 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                (view, hourOfDay, minute) -> etOraInizio.setText(hourOfDay + ":" + minute), mHour, mMinute, false);
+        TimePickerDialog timePickerDialog =  new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                etOraInizio.setText(selectedHour + ":" + selectedMinute);
+                mHour = selectedHour;
+                mMinute = selectedMinute;
+            }
+        },  mHour, mMinute, true);
         timePickerDialog.show();
+//
+//        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+//                (view, hourOfDay, minute) -> etOraInizio.setText(hourOfDay + ":" + minute), this.mHour = hourOfDay, mMinute, false);
+//        timePickerDialog.show();
     }
 
 
@@ -323,14 +336,12 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         Timber.d("** GIORNO ** "+mDay);
-        DatePickerDialog  datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear+1, dayOfMonth);
-                startTime = newDate;
-                etDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-            }
-
+        DatePickerDialog  datePickerDialog = new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth, mHour, mMinute);
+            Timber.d("START DATE CALENDAR =>\n"+newDate);
+            startTime = newDate;
+            etDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
         }, mYear, mMonth, mDay);
         datePickerDialog.show();
 

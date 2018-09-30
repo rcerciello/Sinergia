@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -20,7 +21,6 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.add_appointment.AddAppointmentActivity;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
-import it.rcerciello.sinergiajavaapp.scene.clients.list.adapter.ClientAdapter;
 import it.rcerciello.sinergiajavaapp.scene.clients.next_appointments.root.adapter.NextAppointmentsAdapter;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 
@@ -38,12 +38,17 @@ public class NextAppointmentsActivity extends AppCompatActivity implements NextA
     @BindView(R.id.progress)
     ProgressBar progress;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next_appointments);
         unbinder = ButterKnife.bind(this);
+
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         mPresenter = new NextAppointmentPresenter(this);
         list.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new NextAppointmentsAdapter(item ->

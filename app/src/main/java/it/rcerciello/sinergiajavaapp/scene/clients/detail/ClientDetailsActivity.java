@@ -11,6 +11,8 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -62,12 +64,19 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
     @BindView(R.id.root)
     RelativeLayout root;
-//
+
+    @BindView(R.id.delete)
+    ImageView delete;
+
 //    @BindView(R.id.ivProfile)
 //    ImageView ivProfile;
 
     @BindView(R.id.tvAppointment)
     TextView tvAppointment;
+
+
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
 
     private ClientDetailsContract.Presenter mPesenter;
     private ClientModel clientModel;
@@ -272,8 +281,16 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
     }
 
     @Override
+    public void showHideProgress(boolean b) {
+        if (b) progressBar.setVisibility(View.VISIBLE);
+        else progressBar.setVisibility(View.GONE);
+
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
+        finish();
     }
 
 
@@ -287,6 +304,12 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
         Intent i = new Intent(this, NextAppointmentsActivity.class);
         i.putExtra("customerId", clientModel.getPrimaryKeyModel().getPrimaryKey());
         startActivity(i);
+    }
+
+
+    @OnClick(R.id.delete)
+    public void deleteClientAction() {
+        mPesenter.deleteClient(clientModel.getPrimaryKeyModel().getPrimaryKey());
     }
 
     private void enableSaveButton() {
@@ -306,5 +329,6 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
     private void hideSaveButton() {
         saveButton.setSaveButtonVisibility(View.INVISIBLE);
     }
+
 
 }

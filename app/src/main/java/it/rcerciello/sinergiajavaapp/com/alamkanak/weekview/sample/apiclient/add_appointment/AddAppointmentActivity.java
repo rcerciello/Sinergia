@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 
 import java.sql.Time;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,15 +83,16 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     private boolean isEditable = false;
 
     private AddAppointmentContract.Presenter mPresenter;
-
     private WeekViewEvent editableModel;
-
     private WeekViewEvent newWeekModel;
-
     private ServiceModel serviceModel;
     private ClientModel clientModel;
+    private boolean isLellaChecked = false;
+    private boolean isMariaChecked = false;
+    private boolean isAnnaChecked = false;
 
-    private Calendar startTime = Calendar.getInstance();
+
+    private Calendar startTime = GregorianCalendar.getInstance();
     int mHour;
     int mMinute;
     int mYear;
@@ -117,6 +119,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                     newWeekModel = editableModel;
                     if (GlobalUtils.isNotNullAndNotEmpty(editableModel.getIdCliente())) {
                         newWeekModel.setIdCliente(editableModel.getIdCliente());
+
                         SinergiaRepo.getInstance().selectClientById(editableModel.getIdCliente(), new APICallback<ClientModel>() {
                             @SuppressLint("SetTextI18n")
                             @Override
@@ -139,8 +142,17 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
                             }
                         });
-
                     }
+
+                    if (editableModel.getStartTime() != null) {
+                        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+                        calendar.setTime(editableModel.getStartTime().getTime());
+
+                        etOraInizio.setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
+                        etDate.setText(calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR));
+                    }
+
+
                     if (GlobalUtils.isNotNullAndNotEmpty(editableModel.getId_staff())) {
                         newWeekModel.setId_staff(editableModel.getId_staff());
                         switch (editableModel.getId_staff()) {
@@ -255,25 +267,28 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
     @OnClick(R.id.rbLella)
     public void clickLellaAction() {
-        rbLella.setChecked(true);
-        rbAnna.setChecked(false);
-        rbMaria.setChecked(false);
+        rbLella.setChecked(!isLellaChecked);
+        isLellaChecked = !isLellaChecked;
+//        rbAnna.setChecked(false);
+//        rbMaria.setChecked(false);
         newWeekModel.setId_staff(GeneralConstants.ID_LELLA);
     }
 
     @OnClick(R.id.rbMaria)
     public void clickLMariaAction() {
-        rbLella.setChecked(false);
-        rbAnna.setChecked(false);
-        rbMaria.setChecked(true);
+//        rbLella.setChecked(false);
+//        rbAnna.setChecked(false);
+        rbMaria.setChecked(!isMariaChecked);
+        isMariaChecked = !isMariaChecked;
         newWeekModel.setId_staff(GeneralConstants.ID_MARIA);
     }
 
     @OnClick(R.id.rbAnna)
     public void clickAnnaaAction() {
-        rbLella.setChecked(false);
-        rbAnna.setChecked(true);
-        rbMaria.setChecked(false);
+//        rbLella.setChecked(false);
+        rbAnna.setChecked(!isAnnaChecked);
+        isAnnaChecked = !isAnnaChecked;
+//        rbMaria.setChecked(false);
 
         newWeekModel.setId_staff(GeneralConstants.ID_ANNA);
     }

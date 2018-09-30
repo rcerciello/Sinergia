@@ -1,5 +1,6 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.next_appointments.root.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,11 +33,13 @@ public class NextAppointmentsAdapter extends RecyclerView.Adapter<NextAppointmen
         return new NextAppointmentsAdapter.ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final NextAppointmentsAdapter.ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.tvDate.setText(String.valueOf(mValues.get(position).getStartTime()));
-
+        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+        calendar.setTime((mValues.get(position).getStartTime().getTime()));
+        holder.tvDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR)) + " / "+calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
         holder.root.setOnClickListener(v -> {
             if (null != mListener) {
                 mListener.onAppointmentAction(holder.mItem);

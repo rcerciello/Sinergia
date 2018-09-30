@@ -2,6 +2,7 @@ package it.rcerciello.sinergiajavaapp.data.network;
 
 
 import it.rcerciello.sinergiajavaapp.data.managers.ServiceModelResponse;
+import it.rcerciello.sinergiajavaapp.data.managers.StaffModelResponse;
 import it.rcerciello.sinergiajavaapp.data.modelli.AppintmentDeleteModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
@@ -68,5 +69,11 @@ public interface ApiInterfaces {
 
     @POST("customers/appointments_details")
     Call<NextAppointmentsModel> postGetNextAppointment(@Body  NextAppointmentGetModel customerId);
+
+    @GET("staff/list")
+    Call<StaffModelResponse> getStaff();
+
+    @POST("customers/delete")
+    Call<Void> deleteCustomer(@Body NextAppointmentGetModel customerId);
 }
 

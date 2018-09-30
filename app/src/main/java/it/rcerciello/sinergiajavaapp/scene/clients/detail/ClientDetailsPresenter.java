@@ -6,6 +6,7 @@ import it.rcerciello.sinergiajavaapp.data.managers.ClientNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
+import it.rcerciello.sinergiajavaapp.scene.clients.next_appointments.root.models.NextAppointmentGetModel;
 
 /**
  * Created by rcerciello on 02/05/2018.
@@ -68,5 +69,37 @@ public class ClientDetailsPresenter implements ClientDetailsContract.Presenter {
     @Override
     public void uploadPhoto() {
 
+    }
+
+
+    @Override
+    public void deleteClient(String primaryKey) {
+        mView.showHideProgress(true);
+        ClientNetworkLayer.getInstance().deleteCustomer(new NextAppointmentGetModel(primaryKey), new APICallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean object) {
+                mView.showHideProgress(false);
+                mView.closeView();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                mView.showHideProgress(false);
+                if (error != null) {
+                    mView.showSnackbarError(error);
+                }
+
+            }
+
+            @Override
+            public void onSessionExpired() {
+
+            }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+
+            }
+        });
     }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import io.realm.Realm;
+import it.rcerciello.sinergiajavaapp.data.managers.StaffModelResponse;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
@@ -171,7 +172,7 @@ public class SinergiaRepo {
     }
 
 
-    public void selectClientById(@NonNull  String id, final APICallback<ClientModel> mCallback) {
+    public void selectClientById(@NonNull String id, final APICallback<ClientModel> mCallback) {
         try (Realm realm = Realm.getDefaultInstance()) {
             final ClientModel query = realm.where(ClientModel.class).equalTo("primaryKeyModel.primaryKey", id).findFirst();
             if (query != null) {
@@ -185,7 +186,7 @@ public class SinergiaRepo {
     }
 
 
-    public void selectServiceById(@NonNull  String id, final APICallback<ServiceModel> mCallback) {
+    public void selectServiceById(@NonNull String id, final APICallback<ServiceModel> mCallback) {
         try (Realm realm = Realm.getDefaultInstance()) {
             final ServiceModel query = realm.where(ServiceModel.class).equalTo("primaryKeyModel.primaryKey", id).findFirst();
             if (query != null) {
@@ -199,4 +200,19 @@ public class SinergiaRepo {
     }
 
 
+    public void saveStaff(StaffModelResponse object, final APICallback<Boolean> mCallback) {
+
+        try (Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            realm.delete(StaffModelResponse.class);
+            realm.insertOrUpdate(object);
+            realm.commitTransaction();
+            mCallback.onSuccess(true);
+        } catch (Exception e) {
+            Timber.e(e.getLocalizedMessage());
+            mCallback.onSuccess(false);
+        }
+
+
+    }
 }

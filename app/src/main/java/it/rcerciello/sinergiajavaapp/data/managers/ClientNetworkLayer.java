@@ -132,4 +132,31 @@ public class ClientNetworkLayer {
             }
         });
     }
+
+
+    public void deleteCustomer(NextAppointmentGetModel customerId, APICallback<Boolean> mCallback) {
+        Call<Void> call = ApiClient.getApiClient().deleteCustomer(customerId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Timber.e(response.toString());
+                if (response.isSuccessful()) {
+                    mCallback.onSuccess(true);
+                } else {
+                    try {
+                        assert response.errorBody() != null;
+                        mCallback.onFailure(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, Throwable t) {
+                Timber.e(t.getMessage());
+                mCallback.onFailure(null);
+            }
+        });
+    }
 }

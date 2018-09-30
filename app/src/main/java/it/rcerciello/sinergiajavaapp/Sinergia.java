@@ -51,20 +51,6 @@ public class Sinergia extends Application {
         initRealm();
 
 
-        Date date = new Date();   // given date
-        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-        calendar.setTime(date);   // assigns calendar to given date
-        calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
-        calendar.get(Calendar.HOUR);        // gets hour in 12h format
-        calendar.get(Calendar.MONTH);
-
-        Timber.d("***** ");
-        Timber.d("HOUR OF DAY : "+calendar.get(Calendar.HOUR_OF_DAY));
-        Timber.d("HOUR : "+calendar.get(Calendar.HOUR));
-        Timber.d("MONTH : "+calendar.get(Calendar.MONTH));
-        Timber.d("YEAR : "+calendar.get(Calendar.YEAR));
-        Timber.d("DATE : "+date.toString());
-        Timber.d("CALENDAR : "+calendar.toString());
 
 
         ClientNetworkLayer.getInstance().getClients(new APICallback<ClientListResponseModel>() {

@@ -19,8 +19,11 @@ import android.widget.ScrollView;
 import android.widget.TimePicker;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,10 +86,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     private boolean isEditable = false;
 
     private AddAppointmentContract.Presenter mPresenter;
-    private WeekViewEvent editableModel;
+    private WeekViewEvent editableModel = new WeekViewEvent();
     private WeekViewEvent newWeekModel;
     private ServiceModel serviceModel;
     private ClientModel clientModel;
+    private Calendar startTimeSelected;
     private boolean isLellaChecked = false;
     private boolean isMariaChecked = false;
     private boolean isAnnaChecked = false;
@@ -110,6 +114,8 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
         mPresenter = new AddAppointmentPresenter(this);
         newWeekModel = new WeekViewEvent();
+
+
         Intent i = getIntent();
         if (i != null) {
             isEditable = i.getBooleanExtra("isEditable", false);
@@ -152,17 +158,19 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                         etDate.setText(calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR));
                     }
 
-
-                    if (GlobalUtils.isNotNullAndNotEmpty(editableModel.getId_staff())) {
-                        newWeekModel.setId_staff(editableModel.getId_staff());
-                        switch (editableModel.getId_staff()) {
+                    for(int j  = 0 ; j < editableModel.getId_staff().size();j++)
+                    {
+                        switch (editableModel.getId_staff().get(j)) {
                             case GeneralConstants.ID_LELLA:
+                                isLellaChecked = true;
                                 rbLella.performClick();
                                 break;
                             case GeneralConstants.ID_MARIA:
+                                isMariaChecked = true;
                                 rbMaria.performClick();
                                 break;
                             case GeneralConstants.ID_ANNA:
+                                isAnnaChecked = true;
                                 rbAnna.performClick();
                                 break;
                         }
@@ -173,6 +181,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                         SinergiaRepo.getInstance().selectServiceById(editableModel.getId_service(), new APICallback<ServiceModel>() {
                             @Override
                             public void onSuccess(ServiceModel object) {
+                                serviceModel = object;
                                 serviceId.setText(editableModel.getId_service());
                             }
 
@@ -192,29 +201,46 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                             }
                         });
 
-                        newWeekModel.setAppointmentId(editableModel.getAppointmentId());
+
                     }
 
                 }
 
             } else {
                 String collaborator = getIntent().getStringExtra("collaboratorID");
-                if (GlobalUtils.isNotNullAndNotEmpty(collaborator)) {
-                    switch (collaborator) {
-                        case GeneralConstants.ID_LELLA:
-                            rbLella.performClick();
-                            break;
-                        case GeneralConstants.ID_MARIA:
-                            rbMaria.performClick();
-                            break;
-                        case GeneralConstants.ID_ANNA:
-                            rbAnna.performClick();
-                            break;
 
-
-                    }
+                Long d = getIntent().getLongExtra("time", -1);
+                if (d != -1) {
+                    Date date = new Date();
+                    date.setTime(d);
+                    startTimeSelected = GregorianCalendar.getInstance();
+                    startTimeSelected.setTime(date);
+                    etOraInizio.setText(startTimeSelected.get(Calendar.HOUR_OF_DAY) + ":" + startTimeSelected.get(Calendar.MINUTE));
+                    etDate.setText(startTimeSelected.get(Calendar.DAY_OF_MONTH) + "-" + (startTimeSelected.get(Calendar.MONTH) + 1) + "-" + startTimeSelected.get(Calendar.YEAR));
+                    startTime = startTimeSelected;
                 }
+
+//                if (GlobalUtils.isNotNullAndNotEmpty(collaborator)) {
+//                    switch (collaborator) {
+//                        case GeneralConstants.ID_LELLA:
+//                            isLellaChecked =  false;
+//                            rbLella.performClick();
+//                            break;
+//                        case GeneralConstants.ID_MARIA:
+//                            isMariaChecked = false;
+//                            rbMaria.performClick();
+//                            break;
+//                        case GeneralConstants.ID_ANNA:
+//                            isMariaChecked = false;
+//                            rbAnna.performClick();
+//                            break;
+//
+//
+//                    }
+//                }
             }
+
+
         }
 
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
@@ -269,28 +295,18 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     public void clickLellaAction() {
         rbLella.setChecked(!isLellaChecked);
         isLellaChecked = !isLellaChecked;
-//        rbAnna.setChecked(false);
-//        rbMaria.setChecked(false);
-        newWeekModel.setId_staff(GeneralConstants.ID_LELLA);
     }
 
     @OnClick(R.id.rbMaria)
     public void clickLMariaAction() {
-//        rbLella.setChecked(false);
-//        rbAnna.setChecked(false);
         rbMaria.setChecked(!isMariaChecked);
         isMariaChecked = !isMariaChecked;
-        newWeekModel.setId_staff(GeneralConstants.ID_MARIA);
     }
 
     @OnClick(R.id.rbAnna)
     public void clickAnnaaAction() {
-//        rbLella.setChecked(false);
         rbAnna.setChecked(!isAnnaChecked);
         isAnnaChecked = !isAnnaChecked;
-//        rbMaria.setChecked(false);
-
-        newWeekModel.setId_staff(GeneralConstants.ID_ANNA);
     }
 
 
@@ -303,39 +319,35 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
     @OnClick(R.id.btnOK)
     public void okAction() {
-//        if (serviceModel != null) {
-//        Calendar startTime = Calendar.getInstance();
-//        startTime.set(Calendar.HOUR_OF_DAY, mHour);
-//        startTime.set(Calendar.MINUTE, mMinute);
-//        startTime.set(Calendar.MONTH, mMonth);
-//        startTime.set(Calendar.YEAR, mYear);
-//        startTime.set(mYear, mMonth,mDay);
         Calendar endTime = (Calendar) startTime.clone();
-
-        Timber.d("******");
-        Timber.d("Start Date => " + startTime);
-
         int hours = serviceModel.getDuration() / 60; //since both are ints, you get an int
         int minutes = serviceModel.getDuration() % 60;
-
-        Timber.d("Service duration => hours: " + hours + "min :" + minutes);
-
         endTime.add(Calendar.MINUTE, minutes);
         endTime.add(Calendar.HOUR, hours);
-        endTime.set(Calendar.MONTH, mMonth);
-
-        Timber.d("End Date => " + startTime);
         newWeekModel.setStartTime(startTime);
         newWeekModel.setEndTime(endTime);
 
-        Timber.d("Week Model to add => " + newWeekModel.toString());
+
+        List<String> staff = new ArrayList<>();
+        if (isMariaChecked) {
+            staff.add(GeneralConstants.ID_MARIA);
+        }
+
+        if (isAnnaChecked) {
+            staff.add(GeneralConstants.ID_ANNA);
+        }
+
+        if (isLellaChecked) {
+            staff.add(GeneralConstants.ID_LELLA);
+        }
+        newWeekModel.setId_staff(staff);
+
         if (isEditable) {
+            newWeekModel.setAppointmentId(editableModel.getAppointmentId());
             mPresenter.editAppointment(newWeekModel);
         } else {
             mPresenter.addAppointment(newWeekModel);
         }
-//        }
-
     }
 
 
@@ -381,6 +393,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             etOraInizio.setText(selectedHour + ":" + selectedMinute);
             mHour = selectedHour;
             mMinute = selectedMinute;
+            Calendar newDate = Calendar.getInstance();
+            newDate.setTime(startTime.getTime());
+            newDate.set(newDate.get(Calendar.YEAR), newDate.get(Calendar.MONTH), newDate.get(Calendar.DAY_OF_MONTH), mHour, mMinute);
+            Timber.d("START DATE CALENDAR =>\n" + newDate);
+            startTime = newDate;
         }, mHour, mMinute, true);
         timePickerDialog.show();
     }

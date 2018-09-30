@@ -25,7 +25,7 @@ public class ServiceModel extends RealmObject {
     float price ;
 
     @SerializedName("_id")
-    ApiPrimaryKeyModel servicePrimaryKeyModel;
+    ApiPrimaryKeyModel primaryKeyModel;
 
     public String getId() {
         return id;
@@ -68,11 +68,11 @@ public class ServiceModel extends RealmObject {
     }
 
     public void setServicePrimaryKeyModel(ApiPrimaryKeyModel servicePrimaryKeyModel) {
-        this.servicePrimaryKeyModel = servicePrimaryKeyModel;
+        this.primaryKeyModel = servicePrimaryKeyModel;
     }
 
     public ApiPrimaryKeyModel getServicePrimaryKeyModel() {
-        return servicePrimaryKeyModel;
+        return primaryKeyModel;
     }
 
     public ServiceModel(String serviceIdentifier, String name, int duration, float price) {

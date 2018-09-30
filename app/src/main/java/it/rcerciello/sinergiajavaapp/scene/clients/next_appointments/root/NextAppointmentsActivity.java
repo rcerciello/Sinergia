@@ -1,5 +1,6 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.next_appointments.root;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,7 @@ import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.add
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.scene.clients.next_appointments.root.adapter.NextAppointmentsAdapter;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class NextAppointmentsActivity extends AppCompatActivity implements NextAppointmentContract.View, CustomSaveButton.CustomSaveButtonInterface, NextAppointmentsAdapter.OnNextAppointmentInteractionListener {
     private Unbinder unbinder;
@@ -123,5 +125,12 @@ public class NextAppointmentsActivity extends AppCompatActivity implements NextA
     @Override
     public void logout() {
 
+    }
+
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

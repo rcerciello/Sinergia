@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -248,6 +250,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     public void onEmptyViewLongPress(String collaboratorId, Calendar time) {
         Intent i = new Intent(this, AddAppointmentActivity.class);
         i.putExtra("collaboratorID", collaboratorId);
+        i.putExtra("time", time.getTimeInMillis());
         startActivity(i);
     }
 
@@ -316,22 +319,22 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     @Override
     public void removeEventFromCalendar(WeekViewEvent event) {
         Timber.e("evento rimosso dal calendario = " + event.getAppointmentId());
-        if (GlobalUtils.isNotNullAndNotEmpty(event.getId_staff())) {
-            switch (event.getId_staff()) {
-                case GeneralConstants.ID_LELLA:
-                    allAppointmentsLella.remove(event);
-                    mWeekViewLella.notifyDatasetChanged();
-                    break;
-                case GeneralConstants.ID_MARIA:
-                    allAppointmentsMaria.remove(event);
-                    mWeekViewMaria.notifyDatasetChanged();
-                    break;
-                case GeneralConstants.ID_ANNA:
-                    allAppointmentsAnna.remove(event);
-                    mWeekViewAnna.notifyDatasetChanged();
-                    break;
+        for ( int i = 0 ; i < event.getId_staff().size() ; i++) {
+                switch (event.getId_staff().get(i)) {
+                    case GeneralConstants.ID_LELLA:
+                        allAppointmentsLella.remove(event);
+                        mWeekViewLella.notifyDatasetChanged();
+                        break;
+                    case GeneralConstants.ID_MARIA:
+                        allAppointmentsMaria.remove(event);
+                        mWeekViewMaria.notifyDatasetChanged();
+                        break;
+                    case GeneralConstants.ID_ANNA:
+                        allAppointmentsAnna.remove(event);
+                        mWeekViewAnna.notifyDatasetChanged();
+                        break;
+                }
             }
-        }
     }
 
     @Override

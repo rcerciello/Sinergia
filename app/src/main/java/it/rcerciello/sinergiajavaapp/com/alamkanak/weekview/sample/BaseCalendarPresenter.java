@@ -160,18 +160,19 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
         List<WeekViewEvent> appointmentsAnna = new ArrayList<>();
 
         for (WeekViewEvent appointment : appointments) {
-            Timber.d("Appuntamento => "+appointment.toString());
-            if (GlobalUtils.isNotNullAndNotEmpty(appointment.getId_staff())) {
-                switch (appointment.getId_staff()) {
-                    case GeneralConstants.ID_LELLA:
-                        appointmentsLella.add(appointment);
-                        break;
-                    case GeneralConstants.ID_ANNA:
-                        appointmentsAnna.add(appointment);
-                        break;
-                    case GeneralConstants.ID_MARIA:
-                        appointmentsMaria.add(appointment);
-                        break;
+            if (appointment.getId_staff().size() > 0) {
+                for (int i = 0; i < appointment.getId_staff().size(); i++) {
+                    switch (appointment.getId_staff().get(i)) {
+                        case GeneralConstants.ID_LELLA:
+                            appointmentsLella.add(appointment);
+                            break;
+                        case GeneralConstants.ID_ANNA:
+                            appointmentsAnna.add(appointment);
+                            break;
+                        case GeneralConstants.ID_MARIA:
+                            appointmentsMaria.add(appointment);
+                            break;
+                    }
                 }
             }
         }

@@ -1,5 +1,7 @@
 package it.rcerciello.weekLibrary.weekview;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -11,14 +13,25 @@ import static it.rcerciello.weekLibrary.weekview.WeekViewUtil.isSameDay;
  * Website: http://april-shower.com
  */
 public class WeekViewEvent {
+    @SerializedName("id_appointment")
     private String id_appointment;
+
+    @SerializedName("mStartTime")
     private Calendar mStartTime;
+
+    @SerializedName("mEndTime")
     private Calendar mEndTime;
     private String appointmentName;
     private String mLocation;
+
+    @SerializedName("id_customer")
     private String id_customer;
-    private String id_staff;
+
+    @SerializedName("id_staff")
+    private List<String> id_staff;
     private int mColor;
+
+    @SerializedName("id_service")
     private String id_service;
     private boolean mAllDay;
 
@@ -42,7 +55,7 @@ public class WeekViewEvent {
      * @param endHour         Hour (in 24-hour format) when the event ends.
      * @param endMinute       Minute when the event ends.
      */
-    public WeekViewEvent(String id_appointment, String appointmentName, String id_staff, String id_service, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
+    public WeekViewEvent(String id_appointment, String appointmentName, List<String> id_staff, String id_service, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
         this.id_appointment = id_appointment;
         this.id_staff = id_staff;
         this.id_service = id_service;
@@ -74,7 +87,7 @@ public class WeekViewEvent {
      * @param endTime   The time when the event ends.
      * @param allDay    Is the event an all day event.
      */
-    public WeekViewEvent(String idAppuntments, String appointmentName, String id_staff, String id_service, String location, Calendar startTime, Calendar endTime, boolean allDay, String cliente) {
+    public WeekViewEvent(String idAppuntments, String appointmentName, List<String> id_staff, String id_service, String location, Calendar startTime, Calendar endTime, boolean allDay, String cliente) {
         this.id_appointment = idAppuntments;
         this.id_staff = id_staff;
         this.appointmentName = appointmentName;
@@ -95,7 +108,7 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime   The time when the event ends.
      */
-    public WeekViewEvent(String idAppointment, String appointmentName, String id_staff, String id_service, String location, Calendar startTime, Calendar endTime, String cliente) {
+    public WeekViewEvent(String idAppointment, String appointmentName, List<String> id_staff, String id_service, String location, Calendar startTime, Calendar endTime, String cliente) {
         this(idAppointment, appointmentName, id_staff, id_service, location, startTime, endTime, false, cliente);
     }
 
@@ -107,7 +120,7 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime   The time when the event ends.
      */
-    public WeekViewEvent(String idAppointment, String appointmentName, String id_staff, String id_service, Calendar startTime, Calendar endTime, String cliente) {
+    public WeekViewEvent(String idAppointment, String appointmentName, List<String> id_staff, String id_service, Calendar startTime, Calendar endTime, String cliente) {
         this(idAppointment, appointmentName, id_staff, id_service, null, startTime, endTime, cliente);
     }
 
@@ -193,11 +206,11 @@ public class WeekViewEvent {
         return id_appointment == that.id_appointment;
     }
 
-    public String getId_staff() {
+    public List<String> getId_staff() {
         return id_staff;
     }
 
-    public void setId_staff(String id_staff) {
+    public void setId_staff(List<String> id_staff) {
         this.id_staff = id_staff;
     }
 //

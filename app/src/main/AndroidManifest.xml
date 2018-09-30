@@ -31,9 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-
             android:name=".scene.clients.detail.ClientDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
@@ -45,28 +43,25 @@
             android:name=".scene.clients.add_clients.AddClientsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".scene.employee.clients.detail.EmployeeDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".scene.employee.clients.add_clients.AddEmployeeActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
-
         <activity
             android:name=".com.alamkanak.weekview.sample.apiclient.add_appointment.AddAppointmentActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".scene.services.add_service.AddServiceActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
 
         <provider
@@ -79,6 +74,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity
+            android:name=".scene.clients.next_appointments.root.NextAppointmentsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false"/>
 
     </application>
 

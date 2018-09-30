@@ -1,7 +1,9 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.detail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -9,22 +11,21 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.irozon.library.HideKey;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.ButtonStates;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
+import it.rcerciello.sinergiajavaapp.scene.clients.next_appointments.root.NextAppointmentsActivity;
 import it.rcerciello.sinergiajavaapp.widgets.CustomEditText;
 import it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -53,16 +54,21 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
     @BindView(R.id.identificativo)
     CustomSharedEditTextView identificativo;
 
-
     @BindView(R.id.email)
     CustomSharedEditTextView tvEmail;
 
     @BindView(R.id.btnSave)
     CustomSaveButton saveButton;
 
+    @BindView(R.id.root)
+    RelativeLayout root;
+//
+//    @BindView(R.id.ivProfile)
+//    ImageView ivProfile;
 
-    @BindView(R.id.ivProfile)
-    ImageView ivProfile;
+    @BindView(R.id.tvAppointment)
+    TextView tvAppointment;
+
     private ClientDetailsContract.Presenter mPesenter;
     private ClientModel clientModel;
     private String imageToUpload = null;
@@ -98,7 +104,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
         saveButton.getButtonReference().setOnClickListener(v -> {
             saveButton.changeState();
-            mPesenter.editClient(new ClientModelAdd(clientModel.getPrimaryKeyModel().getPrimaryKey(), identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText(), mobilePhone.getText(), tvEmail.getText()));
+            mPesenter.editClient(new ClientModel(clientModel.getPrimaryKeyModel().getPrimaryKey(), identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText(), mobilePhone.getText(), tvEmail.getText()));
         });
     }
 
@@ -111,6 +117,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
                     }
+
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         showSaveButton();
@@ -244,7 +251,8 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
     @Override
     public void showSnackbarError(String message) {
-
+        saveButton.changeState();
+        Snackbar.make(root, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -254,12 +262,12 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
     @Override
     public void updateImage(String url) {
-        if (url != null && !url.isEmpty()) {
-            Glide.with(this)
-                    .load(url)
-                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
-                    .into(ivProfile);
-        }
+//        if (url != null && !url.isEmpty()) {
+//            Glide.with(this)
+//                    .load(url)
+//                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+//                    .into(ivProfile);
+//        }
 
     }
 
@@ -271,6 +279,14 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
     @Override
     public void saveButtonClick() {
+    }
+
+
+    @OnClick(R.id.tvAppointment)
+    public void showNextAppointments() {
+        Intent i = new Intent(this, NextAppointmentsActivity.class);
+        i.putExtra("customerId", clientModel.getPrimaryKeyModel().getPrimaryKey());
+        startActivity(i);
     }
 
     private void enableSaveButton() {

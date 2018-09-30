@@ -170,4 +170,33 @@ public class SinergiaRepo {
         }
     }
 
+
+    public void selectClientById(@NonNull  String id, final APICallback<ClientModel> mCallback) {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            final ClientModel query = realm.where(ClientModel.class).equalTo("primaryKeyModel.primaryKey", id).findFirst();
+            if (query != null) {
+                mCallback.onSuccess(realm.copyFromRealm(query));
+            } else {
+                mCallback.onSuccess(null);
+            }
+        } catch (Throwable t) {
+            Timber.e(t.getMessage());
+        }
+    }
+
+
+    public void selectServiceById(@NonNull  String id, final APICallback<ServiceModel> mCallback) {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            final ServiceModel query = realm.where(ServiceModel.class).equalTo("primaryKeyModel.primaryKey", id).findFirst();
+            if (query != null) {
+                mCallback.onSuccess(realm.copyFromRealm(query));
+            } else {
+                mCallback.onSuccess(null);
+            }
+        } catch (Throwable t) {
+            Timber.e(t.getMessage());
+        }
+    }
+
+
 }

@@ -1,9 +1,11 @@
 package it.rcerciello.sinergiajavaapp.data.managers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ServiceEditModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
@@ -59,7 +61,11 @@ public class ServiceNetworkLayer {
                 if (response.isSuccessful()) {
                     mCallback.onSuccess(true);
                 } else {
-                    mCallback.onFailure(response.errorBody().toString());
+                    try {
+                        mCallback.onFailure(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -71,7 +77,7 @@ public class ServiceNetworkLayer {
         });
     }
 
-    public void editService(ServiceModel serviceModel, APICallback<Boolean> mCallback) {
+    public void editService(ServiceEditModel serviceModel, APICallback<Boolean> mCallback) {
         Call<Void> call = ApiClient.getApiClient().putService(serviceModel);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -80,7 +86,11 @@ public class ServiceNetworkLayer {
                 if (response.isSuccessful()) {
                     mCallback.onSuccess(true);
                 } else {
-                    mCallback.onFailure(response.errorBody().toString());
+                    try {
+                        mCallback.onFailure(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

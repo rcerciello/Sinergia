@@ -36,7 +36,7 @@ public class ClientDetailsPresenter implements ClientDetailsContract.Presenter {
 
 
     @Override
-    public void editClient(ClientModelAdd model) {
+    public void editClient(ClientModel model) {
 
         ClientNetworkLayer.getInstance().editCustomer(model, new APICallback<Boolean>() {
             @Override

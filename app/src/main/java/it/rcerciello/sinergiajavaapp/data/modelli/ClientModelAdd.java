@@ -14,8 +14,7 @@ import io.realm.RealmObject;
 
 public class ClientModelAdd extends RealmObject{
 
-    @SerializedName("id")
-    String id;
+
     @NonNull
     @SerializedName("identifier")
     String clientIdentifier = "";
@@ -49,8 +48,7 @@ public class ClientModelAdd extends RealmObject{
     public ClientModelAdd() {
     }
 
-    public ClientModelAdd(@NonNull String id, @NonNull String clientIdentifier, String name, String surname, String address, String landlinePhone, String mobile_phone, String email) {
-        this.id = id;
+    public ClientModelAdd(@NonNull String clientIdentifier, String name, String surname, String address, String landlinePhone, String mobile_phone, String email) {
         this.name = name;
         this.clientIdentifier = clientIdentifier;
         this.surname = surname;
@@ -64,7 +62,6 @@ public class ClientModelAdd extends RealmObject{
     @Override
     public String toString() {
         return "ClientModelAdd{" +
-                "id='" + id + '\'' +
                 ", clientIdentifier='" + clientIdentifier + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +

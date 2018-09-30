@@ -2,6 +2,7 @@ package it.rcerciello.sinergiajavaapp.scene.services.add_service;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -9,6 +10,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.irozon.library.HideKey;
@@ -22,6 +24,7 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.ButtonStates;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
+import it.rcerciello.sinergiajavaapp.utils.SnackbarType;
 import it.rcerciello.sinergiajavaapp.widgets.CustomEditText;
 import it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -42,10 +45,12 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
     @BindView(R.id.identificativo)
     CustomSharedEditTextView identificativo;
 
-
     @BindView(R.id.btnSave)
     CustomSaveButton saveButton;
 
+
+    @BindView(R.id.root)
+    RelativeLayout root;
     private AddServiceContract.Presenter mPresenter;
 
 
@@ -181,7 +186,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
 
     @Override
     public void showSnackbarError(String message) {
-
+        Snackbar.make(root, message,  Snackbar.LENGTH_LONG).show();
     }
 
     @Override

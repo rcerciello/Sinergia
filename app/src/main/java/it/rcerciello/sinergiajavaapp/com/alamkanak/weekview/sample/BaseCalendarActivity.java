@@ -358,12 +358,20 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void showMariaAppointments(List<WeekViewEvent> appointments) {
+        for(WeekViewEvent event : appointments)
+        {
+            event.setName("TEST");
+        }
         allAppointmentsMaria = appointments;
         mWeekViewMaria.notifyDatasetChanged();
     }
 
     @Override
     public void showAnnaAppointments(List<WeekViewEvent> appointments) {
+        for(WeekViewEvent event : appointments)
+        {
+            event.setName("TEST");
+        }
         allAppointmentsAnna = appointments;
         mWeekViewAnna.notifyDatasetChanged();
 
@@ -371,14 +379,24 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void showLellaAppointments(List<WeekViewEvent> appointments) {
+        for(WeekViewEvent event : appointments)
+        {
+            event.setName("TEST");
+        }
         allAppointmentsLella = appointments;
         mWeekViewLella.notifyDatasetChanged();
+
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
+
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 
+    }
+
+    private String getEventTitle(Calendar time, String subject) {
+        return String.format("Event %s of %02d:%02d %s/%d", subject, time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH));
     }
 
 }

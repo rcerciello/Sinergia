@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import it.rcerciello.sinergiajavaapp.data.managers.ServiceNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ServiceEditModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 
@@ -42,7 +43,7 @@ class ServiceDetailsPresenter implements ServiceDetailsContract.Presenter {
     }
 
     @Override
-    public void editService(ServiceModel serviceModel) {
+    public void editService(ServiceEditModel serviceModel) {
         ServiceNetworkLayer.getInstance().editService(serviceModel, new APICallback<Boolean>() {
             @Override
             public void onSuccess(Boolean object) {

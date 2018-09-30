@@ -24,6 +24,7 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.ButtonStates;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.widgets.CustomEditText;
 import it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView;
 import retrofit2.http.Body;
@@ -105,7 +106,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
 
         saveButton.getButtonReference().setOnClickListener(v -> {
             saveButton.changeState();
-            ClientModel  client = new ClientModel( identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText().toLowerCase(), mobilePhone.getText(), email.getText());
+            ClientModelAdd client = new ClientModelAdd( identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText().toLowerCase(), mobilePhone.getText(), email.getText());
             mPresenter.addClient(client);
         });
     }
@@ -272,7 +273,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
         }
 
         if (!thereIsError) {
-            ClientModel model = new ClientModel(identificativo.getText(),nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText(), mobilePhone.getText(), email.getText());
+            ClientModelAdd model = new ClientModelAdd(identificativo.getText(),nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText(), mobilePhone.getText(), email.getText());
             mPresenter.addClient(model);
         }
 

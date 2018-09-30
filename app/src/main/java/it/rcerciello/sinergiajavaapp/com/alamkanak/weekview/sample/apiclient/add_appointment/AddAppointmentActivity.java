@@ -1,5 +1,6 @@
 package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.add_appointment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -29,7 +30,9 @@ import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dia
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog.service.ServiceSelectDialogFragment;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
+import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
+import it.rcerciello.sinergiajavaapp.data.repository.SinergiaRepo;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 import timber.log.Timber;
@@ -87,7 +90,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     private ServiceModel serviceModel;
     private ClientModel clientModel;
 
-    private  Calendar startTime = Calendar.getInstance();
+    private Calendar startTime = Calendar.getInstance();
     int mHour;
     int mMinute;
     int mYear;
@@ -95,6 +98,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     int mDay;
 
 
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_AppCompat_NoActionBar);
@@ -112,9 +116,33 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                 if (editableModel != null) {
                     newWeekModel = editableModel;
                     if (GlobalUtils.isNotNullAndNotEmpty(editableModel.getIdCliente())) {
-                        clientId.setText(editableModel.getIdCliente());
+                        newWeekModel.setIdCliente(editableModel.getIdCliente());
+                        SinergiaRepo.getInstance().selectClientById(editableModel.getIdCliente(), new APICallback<ClientModel>() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onSuccess(ClientModel object) {
+                                clientId.setText(object.getName() + " " + object.getSurname());
+                            }
+
+                            @Override
+                            public void onFailure(String error) {
+                                Timber.d("errore select clients");
+                            }
+
+                            @Override
+                            public void onSessionExpired() {
+
+                            }
+
+                            @Override
+                            public void onFailure(boolean isFailure) {
+
+                            }
+                        });
+
                     }
                     if (GlobalUtils.isNotNullAndNotEmpty(editableModel.getId_staff())) {
+                        newWeekModel.setId_staff(editableModel.getId_staff());
                         switch (editableModel.getId_staff()) {
                             case GeneralConstants.ID_LELLA:
                                 rbLella.performClick();
@@ -129,8 +157,30 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                     }
 
                     if (GlobalUtils.isNotNullAndNotEmpty(String.valueOf(editableModel.getId_service()))) {
-                        serviceId.setText(editableModel.getId_service());
                         newWeekModel.setId_service(editableModel.getId_service());
+                        SinergiaRepo.getInstance().selectServiceById(editableModel.getId_service(), new APICallback<ServiceModel>() {
+                            @Override
+                            public void onSuccess(ServiceModel object) {
+                                serviceId.setText(editableModel.getId_service());
+                            }
+
+                            @Override
+                            public void onFailure(String error) {
+                                Timber.e("Errore select service by id");
+                            }
+
+                            @Override
+                            public void onSessionExpired() {
+
+                            }
+
+                            @Override
+                            public void onFailure(boolean isFailure) {
+
+                            }
+                        });
+
+                        newWeekModel.setAppointmentId(editableModel.getAppointmentId());
                     }
 
                 }
@@ -312,19 +362,12 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog =  new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                etOraInizio.setText(selectedHour + ":" + selectedMinute);
-                mHour = selectedHour;
-                mMinute = selectedMinute;
-            }
-        },  mHour, mMinute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timePicker, selectedHour, selectedMinute) -> {
+            etOraInizio.setText(selectedHour + ":" + selectedMinute);
+            mHour = selectedHour;
+            mMinute = selectedMinute;
+        }, mHour, mMinute, true);
         timePickerDialog.show();
-//
-//        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-//                (view, hourOfDay, minute) -> etOraInizio.setText(hourOfDay + ":" + minute), this.mHour = hourOfDay, mMinute, false);
-//        timePickerDialog.show();
     }
 
 
@@ -335,19 +378,15 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        Timber.d("** GIORNO ** "+mDay);
-        DatePickerDialog  datePickerDialog = new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> {
+        Timber.d("** GIORNO ** " + mDay);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
             newDate.set(year, monthOfYear, dayOfMonth, mHour, mMinute);
-            Timber.d("START DATE CALENDAR =>\n"+newDate);
+            Timber.d("START DATE CALENDAR =>\n" + newDate);
             startTime = newDate;
             etDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
         }, mYear, mMonth, mDay);
         datePickerDialog.show();
 
-//
-//                DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-//                (view, year, monthOfYear, dayOfMonth) -> etDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year), mYear, mMonth, mDay);
-//        datePickerDialog.show();
     }
 }

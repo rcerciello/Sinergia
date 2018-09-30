@@ -1,6 +1,7 @@
 package it.rcerciello.sinergiajavaapp.scene.services.detail;
 
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ServiceEditModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.scene.BasePresenter;
 import it.rcerciello.sinergiajavaapp.scene.BaseView;
@@ -21,6 +22,6 @@ import it.rcerciello.sinergiajavaapp.scene.BaseView;
 
         void uploadPhoto();
 
-        void editService(ServiceModel serviceModel);
+        void editService(ServiceEditModel serviceModel);
     }
 }

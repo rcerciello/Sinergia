@@ -1,19 +1,16 @@
 package it.rcerciello.sinergiajavaapp.data.managers;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
-import it.rcerciello.sinergiajavaapp.Sinergia;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
-import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
+import it.rcerciello.sinergiajavaapp.scene.clients.next_appointments.root.models.NextAppointmentGetModel;
+import it.rcerciello.sinergiajavaapp.scene.clients.next_appointments.root.models.NextAppointmentsModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +30,7 @@ public class ClientNetworkLayer {
     private ClientNetworkLayer() {
     }
 
-    public void addClient(ClientModel model, APICallback<Boolean> mCallback) {
+    public void addClient(ClientModelAdd model, APICallback<Boolean> mCallback) {
         Call<Void> call = ApiClient.getApiClient().addClient(model);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -42,7 +39,11 @@ public class ClientNetworkLayer {
                 if (response.isSuccessful()) {
                     mCallback.onSuccess(true);
                 } else {
-                    mCallback.onFailure(response.errorBody().toString());
+                    try {
+                        mCallback.onFailure(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -63,7 +64,11 @@ public class ClientNetworkLayer {
                 if (response.isSuccessful()) {
                     mCallback.onSuccess(response.body());
                 } else {
-                    mCallback.onFailure(response.errorBody().toString());
+                    try {
+                        mCallback.onFailure(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -76,7 +81,7 @@ public class ClientNetworkLayer {
 
     }
 
-    public void editCustomer(ClientModelAdd clientModel, APICallback<Boolean> mCallback) {
+    public void editCustomer(ClientModel clientModel, APICallback<Boolean> mCallback) {
         Call<Void> call = ApiClient.getApiClient().putCustomer(clientModel);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -85,12 +90,43 @@ public class ClientNetworkLayer {
                 if (response.isSuccessful()) {
                     mCallback.onSuccess(true);
                 } else {
-                    mCallback.onFailure(response.errorBody().toString());
+                    try {
+                        mCallback.onFailure(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Timber.e(t.getMessage());
+                mCallback.onFailure(null);
+            }
+        });
+    }
+
+
+    public void getNextAppointments(NextAppointmentGetModel customerId, APICallback<NextAppointmentsModel> mCallback) {
+        Call<NextAppointmentsModel> call = ApiClient.getApiClient().postGetNextAppointment(customerId);
+        call.enqueue(new Callback<NextAppointmentsModel>() {
+            @Override
+            public void onResponse(Call<NextAppointmentsModel> call, Response<NextAppointmentsModel> response) {
+                Timber.e(response.toString());
+                if (response.isSuccessful()) {
+                    mCallback.onSuccess(response.body());
+                } else {
+                    try {
+                        assert response.errorBody() != null;
+                        mCallback.onFailure(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<NextAppointmentsModel> call, Throwable t) {
                 Timber.e(t.getMessage());
                 mCallback.onFailure(null);
             }

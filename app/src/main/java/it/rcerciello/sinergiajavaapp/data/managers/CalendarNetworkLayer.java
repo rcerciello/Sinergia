@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.AppointmentEvent;
+import it.rcerciello.sinergiajavaapp.data.modelli.AppintmentDeleteModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
@@ -62,7 +63,7 @@ public class CalendarNetworkLayer {
 
 
     public void deleteAppointment(String appointmentId, final APICallback<Boolean> mCallback) {
-        Call<Void> call = ApiClient.getApiClient().deleteAppointment(appointmentId);
+        Call<Void> call = ApiClient.getApiClient().deleteAppointment(new AppintmentDeleteModel(appointmentId));
         Timber.e("detelet id => "+appointmentId);
         call.enqueue(new Callback<Void>() {
             @Override

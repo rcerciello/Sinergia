@@ -1,6 +1,7 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.add_clients;
 
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.scene.BasePresenter;
 import it.rcerciello.sinergiajavaapp.scene.BaseView;
 
@@ -20,6 +21,6 @@ public class AddClientsContract {
 
 
     interface Presenter extends BasePresenter {
-        void addClient(ClientModel model);
+        void addClient(ClientModelAdd model);
     }
 }

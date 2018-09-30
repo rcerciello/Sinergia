@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -36,6 +38,7 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.ButtonStates;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ServiceEditModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
@@ -71,8 +74,11 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
     @BindView(R.id.ivProfile)
     ImageView ivProfile;
 
+    @BindView(R.id.root)
+    RelativeLayout root;
+
     private ServiceDetailsContract.Presenter mPesenter;
-    private ServiceModel serviceModel;
+    private ServiceEditModel serviceModel;
     private String imageToUpload = null;
 
     private enum FieldType {
@@ -91,8 +97,12 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            serviceModel = ApiClient.getGson().fromJson(extras.getString("ServiceModel"), ServiceModel.class);
-
+            ServiceModel backendModel = ApiClient.getGson().fromJson(extras.getString("ServiceModel"), ServiceModel.class);
+            serviceModel = new ServiceEditModel();
+            serviceModel.setDuration(backendModel.getDuration());
+            serviceModel.setName(backendModel.getName());
+            serviceModel.setPrice(backendModel.getPrice());
+            serviceModel.setId(backendModel.getServicePrimaryKeyModel().getPrimaryKey());
         }
 
         mPesenter = new ServiceDetailsPresenter(this);
@@ -232,7 +242,8 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
 
     @Override
     public void showSnackbarError(String message) {
-
+        saveButton.changeState();
+        Snackbar.make(root, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -271,6 +282,11 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
 
         if (prezzo.getText() != null && !prezzo.getText().isEmpty()) {
             serviceModel.setPrice(Float.valueOf(prezzo.getText()));
+        }
+
+        if (nome_servizio.getText() != null && !nome_servizio.getText().isEmpty())
+        {
+            serviceModel.setName(nome_servizio.getText());
         }
 
 

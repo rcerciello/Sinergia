@@ -6,6 +6,7 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.Sinergia;
 import it.rcerciello.sinergiajavaapp.data.managers.ClientNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 
 /**
@@ -36,7 +37,7 @@ public class AddClientsPresenter implements AddClientsContract.Presenter {
     }
 
     @Override
-    public void addClient(ClientModel model) {
+    public void addClient(ClientModelAdd model) {
         ClientNetworkLayer.getInstance().addClient(model, new APICallback<Boolean>() {
             @Override
             public void onSuccess(Boolean object) {

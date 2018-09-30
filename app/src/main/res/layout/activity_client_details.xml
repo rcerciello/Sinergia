@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="it.rcerciello.sinergiajavaapp.scene.clients.detail.ClientDetailsActivity">
+    >
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -23,65 +23,46 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/app_bar"
+
+            <RelativeLayout
+                android:background="@color/colorPrimaryDark"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/app_bar_height"
-                android:fitsSystemWindows="true"
-                android:theme="@style/AppTheme.AppBarOverlay">
+                android:layout_height="?android:attr/actionBarSize">
 
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:navigationIcon="@drawable/ic_left_arrow"/>
 
-                <android.support.design.widget.CollapsingToolbarLayout
-                    android:id="@+id/toolbar_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    app:contentScrim="?attr/colorPrimary"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    app:toolbarId="@+id/toolbar">
-
-                    <RelativeLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/ivProfile"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="center"
-                            android:src="@drawable/profile_placeholder" />
-
-                    </RelativeLayout>
-
-
-                    <android.support.v7.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        app:layout_collapseMode="pin"
-                        app:navigationIcon="@drawable/ic_left_arrow"
-                        app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-                </android.support.design.widget.CollapsingToolbarLayout>
-            </android.support.design.widget.AppBarLayout>
+                <TextView
+                    android:id="@+id/tvAppointment"
+                    fontPath="OpenSans/OpenSans.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="Appuntamenti"
+                    android:layout_marginRight="@dimen/space_24"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/white"
+                    tools:ignore="MissingPrefix" />
+            </RelativeLayout>
 
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/space_24">
+
                 <TextView
-                    android:text="DETTAGLI CLIENTE"
-                    android:textColor="@color/black"
-                    android:textAllCaps="true"
                     fontPath="Roboto/RobotoBold.ttf"
-                    android:textSize="@dimen/font_34"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="DETTAGLI CLIENTE"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_34"
                     tools:ignore="MissingPrefix" />
 
 
@@ -89,45 +70,46 @@
                     android:id="@+id/identificativo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Identificativo Cliente"/>
+                    app:sharedEditTextTitle="Identificativo Cliente" />
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/nome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Nome"/>
+                    app:sharedEditTextTitle="Nome" />
 
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/cognome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Cognome"/>
+                    app:sharedEditTextTitle="Cognome" />
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Email"/>
+                    app:sharedEditTextTitle="Email" />
 
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/indirizzo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Indirizzo"/>
+                    app:sharedEditTextTitle="Indirizzo" />
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/landline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Telefono fisso"/>
+                    app:sharedEditTextTitle="Telefono fisso" />
 
                 <it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView
                     android:id="@+id/mobilePhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sharedEditTextTitle="Cellulare"/>
+                    app:sharedEditTextTitle="Cellulare" />
+
 
             </LinearLayout>
         </LinearLayout>
@@ -148,9 +130,9 @@
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:padding="@dimen/space_24"
-        app:layout_anchor="@id/scroll"/>
+        app:layout_anchor="@id/scroll" />
 
 </RelativeLayout>

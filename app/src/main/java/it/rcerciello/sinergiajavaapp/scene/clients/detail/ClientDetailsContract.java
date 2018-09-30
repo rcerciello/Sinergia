@@ -18,7 +18,7 @@ public class ClientDetailsContract
 
 
     interface Presenter extends BasePresenter {
-        void editClient(ClientModelAdd model);
+        void editClient(ClientModel model);
 
         void uploadPhoto();
     }

@@ -12,9 +12,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import java.util.List;
 
@@ -32,13 +35,14 @@ import timber.log.Timber;
  *
  * @author Markus Mattsson
  */
-public class ClientSelectDialogFragment extends DialogFragment  {
+public class ClientSelectDialogFragment extends DialogFragment {
 
     @BindView(R.id.servicesListView)
     RecyclerView list;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    @BindView(R.id.etFilter)
+    EditText etFilter;
 
 
     public interface ClientSelectedListener {
@@ -46,10 +50,9 @@ public class ClientSelectDialogFragment extends DialogFragment  {
     }
 
 
-
     private ClientSelectedListener clientSelectedListener;
     private ClientSelectListAdapter adapter;
-
+    private List<ClientModel> clients;
 
     public static ClientSelectDialogFragment newInstance() {
         return new ClientSelectDialogFragment();
@@ -65,9 +68,7 @@ public class ClientSelectDialogFragment extends DialogFragment  {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialogTheme);
         super.onCreate(savedInstanceState);
-        }
-
-
+    }
 
 
     @Nullable
@@ -98,6 +99,40 @@ public class ClientSelectDialogFragment extends DialogFragment  {
         readServicesFromDB();
 
 
+        etFilter.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Call back the Adapter with current character to Filter
+
+                if (s.toString().trim().isEmpty()) {
+                    resetAdapter();
+                } else {
+                    filterCountryOnAdapter(s.toString().trim());
+                }
+                Timber.d("Search with name ");
+            }
+
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+        });
+
+
+    }
+
+    public void resetAdapter() {
+        adapter.setOriginalData(clients);
+    }
+
+    public void filterCountryOnAdapter(String txt) {
+        adapter.getFilter().filter(txt);
     }
 
     private void readServicesFromDB() {
@@ -129,9 +164,9 @@ public class ClientSelectDialogFragment extends DialogFragment  {
     }
 
 
-    public void showClients(ClientListResponseModel response ) {
-        List<ClientModel> clients  = response.getClients();
-        adapter.setData(clients);
+    public void showClients(ClientListResponseModel response) {
+        clients = response.getClients();
+        adapter.setOriginalData(clients);
     }
 
 

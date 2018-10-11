@@ -90,6 +90,7 @@ public class Sinergia extends Application {
 
             @Override
             public void onFailure(String error) {
+                Timber.e(error);
             }
 
             @Override

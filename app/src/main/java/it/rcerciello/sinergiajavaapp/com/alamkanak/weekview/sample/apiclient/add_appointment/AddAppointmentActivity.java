@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TimePicker;
 
@@ -82,6 +84,9 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
     @BindView(R.id.btnDatePicker)
     Button btnDatePicker;
+
+    @BindView(R.id.root)
+    RelativeLayout root;
 
     private boolean isEditable = false;
 
@@ -156,21 +161,23 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
                         etOraInizio.setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
                         etDate.setText(calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR));
+
+                        startTime = calendar;
                     }
 
                     for(int j  = 0 ; j < editableModel.getId_staff().size();j++)
                     {
                         switch (editableModel.getId_staff().get(j)) {
                             case GeneralConstants.ID_LELLA:
-                                isLellaChecked = true;
+                                isLellaChecked = false;
                                 rbLella.performClick();
                                 break;
                             case GeneralConstants.ID_MARIA:
-                                isMariaChecked = true;
+                                isMariaChecked = false;
                                 rbMaria.performClick();
                                 break;
                             case GeneralConstants.ID_ANNA:
-                                isAnnaChecked = true;
+                                isAnnaChecked = false;
                                 rbAnna.performClick();
                                 break;
                         }
@@ -182,7 +189,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                             @Override
                             public void onSuccess(ServiceModel object) {
                                 serviceModel = object;
-                                serviceId.setText(editableModel.getId_service());
+                                serviceId.setText(object.getName());
                             }
 
                             @Override
@@ -208,7 +215,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
             } else {
                 String collaborator = getIntent().getStringExtra("collaboratorID");
-
                 Long d = getIntent().getLongExtra("time", -1);
                 if (d != -1) {
                     Date date = new Date();
@@ -220,24 +226,22 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                     startTime = startTimeSelected;
                 }
 
-//                if (GlobalUtils.isNotNullAndNotEmpty(collaborator)) {
-//                    switch (collaborator) {
-//                        case GeneralConstants.ID_LELLA:
-//                            isLellaChecked =  false;
-//                            rbLella.performClick();
-//                            break;
-//                        case GeneralConstants.ID_MARIA:
-//                            isMariaChecked = false;
-//                            rbMaria.performClick();
-//                            break;
-//                        case GeneralConstants.ID_ANNA:
-//                            isMariaChecked = false;
-//                            rbAnna.performClick();
-//                            break;
-//
-//
-//                    }
-//                }
+                if (GlobalUtils.isNotNullAndNotEmpty(collaborator)) {
+                    switch (collaborator) {
+                        case GeneralConstants.ID_LELLA:
+                            isLellaChecked =  false;
+                            rbLella.performClick();
+                            break;
+                        case GeneralConstants.ID_MARIA:
+                            isMariaChecked = false;
+                            rbMaria.performClick();
+                            break;
+                        case GeneralConstants.ID_ANNA:
+                            isAnnaChecked = false;
+                            rbAnna.performClick();
+                            break;
+                    }
+                }
             }
 
 
@@ -369,7 +373,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
     @Override
     public void showSnackbar(String message) {
-
+        Snackbar.make(root, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

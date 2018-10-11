@@ -4,62 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    >
+    android:fitsSystemWindows="true">
 
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scrollView"
+    <TextView
+        android:id="@+id/title"
+        fontPath="Roboto/RobotoBold.ttf"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_24"
+        android:layout_marginTop="@dimen/space_24"
+        android:layout_marginEnd="@dimen/space_24"
+        android:text="@string/clients"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_30"
+        tools:ignore="MissingPrefix" />
 
-        <LinearLayout
-            android:id="@+id/root"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:descendantFocusability="beforeDescendants"
-            android:orientation="vertical">
+    <EditText
+        android:id="@+id/etFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_margin="@dimen/space_24"
+        android:hint="Cerca" />
 
-            <TextView
-                android:id="@+id/title"
-                fontPath="Roboto/RobotoBold.ttf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_24"
-                android:text="@string/clients"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/font_30"
-                tools:ignore="MissingPrefix" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list"
-                android:name="it.rcerciello.sinergiajavaapp.scene.clients.ClientItemFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/space_24"
-                android:layout_marginRight="@dimen/space_24"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                tools:context="it.rcerciello.sinergiajavaapp.scene.clients.list.ClientItemFragment"
-                tools:listitem="@layout/fragment_clientitem" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="it.rcerciello.sinergiajavaapp.scene.clients.ClientItemFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/etFilter"
+        android:layout_marginLeft="@dimen/space_24"
+        android:layout_marginRight="@dimen/space_24"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:context="it.rcerciello.sinergiajavaapp.scene.clients.list.ClientItemFragment"
+        tools:listitem="@layout/fragment_clientitem" />
 
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/space_24"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/space_24"
         app:srcCompat="@drawable/ic_white_plus" />
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:visibility="gone"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

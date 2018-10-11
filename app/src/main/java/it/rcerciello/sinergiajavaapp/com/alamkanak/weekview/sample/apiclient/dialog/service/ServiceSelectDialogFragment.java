@@ -12,21 +12,21 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmResults;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.data.managers.ServiceModelResponse;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import timber.log.Timber;
 
@@ -37,21 +37,20 @@ import timber.log.Timber;
  * @author Markus Mattsson
  */
 public class ServiceSelectDialogFragment extends DialogFragment {
+    private ServiceSelectedListener serviceSelectedListener;
+    private ServiceSelectListAdapter adapter;
+    private   List<ServiceModel> services;
 
     @BindView(R.id.servicesListView)
     RecyclerView countryListView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    @BindView(R.id.etFilter)
+    EditText etFilter;
 
     public interface ServiceSelectedListener {
         void onServiceSelected(ServiceModel serviceModel);
     }
-
-
-    private ServiceSelectedListener serviceSelectedListener;
-    private ServiceSelectListAdapter adapter;
-
 
     public static ServiceSelectDialogFragment newInstance() {
         return new ServiceSelectDialogFragment();
@@ -97,7 +96,44 @@ public class ServiceSelectDialogFragment extends DialogFragment {
         readServicesFromDB();
 
 
+        etFilter.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Call back the Adapter with current character to Filter
+
+                if (s.toString().trim().isEmpty()) {
+                    resetAdapter();
+                } else {
+                    filterCountryOnAdapter(s.toString().trim());
+                }
+                Timber.d("Search with name ");
+            }
+
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+        });
+
+
     }
+
+    public void resetAdapter()
+    {
+        adapter.setOriginalData(services);
+    }
+
+    public void filterCountryOnAdapter(String txt) {
+        adapter.getFilter().filter(txt);
+    }
+
+
 
     private void readServicesFromDB() {
 
@@ -129,8 +165,8 @@ public class ServiceSelectDialogFragment extends DialogFragment {
 
 
     public void showServices(ServiceModelResponse DBServices) {
-        List<ServiceModel> services = DBServices.getServices();
-        adapter.setData(services);
+        services = DBServices.getServices();
+        adapter.setOriginalData(services);
     }
 
 

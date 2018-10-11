@@ -181,6 +181,7 @@ public class SinergiaRepo {
                 mCallback.onSuccess(null);
             }
         } catch (Throwable t) {
+            mCallback.onFailure(t.getLocalizedMessage());
             Timber.e(t.getMessage());
         }
     }

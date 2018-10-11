@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 
 import java.text.SimpleDateFormat;
@@ -27,7 +29,10 @@ import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.MainActivity;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.add_appointment.AddAppointmentActivity;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
+import it.rcerciello.sinergiajavaapp.data.repository.SinergiaRepo;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.DateTimeInterpreter;
 import it.rcerciello.weekLibrary.weekview.MonthLoader;
@@ -59,6 +64,9 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
+    @BindView(R.id.root)
+    RelativeLayout root;
 
     List<WeekViewEvent> allAppointmentsLella = new ArrayList<>();
     List<WeekViewEvent> allAppointmentsMaria = new ArrayList<>();
@@ -167,11 +175,10 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
 
     private void setWeekStyle(WeekView weekView) {
-        weekView.setNumberOfVisibleDays(7);
-
+        weekView.setNumberOfVisibleDays(5);
         // Lets change some dimensions to best fit the view.
         weekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
-        weekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
+        weekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 8, getResources().getDisplayMetrics()));
         weekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
     }
 
@@ -274,7 +281,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
                     Intent i = new Intent(getApplicationContext(), AddAppointmentActivity.class);
                     String data = ApiClient.getGson().toJson(event);
                     i.putExtra("isEditable", true);
-                    i.putExtra("AppointmentModel",data);
+                    i.putExtra("AppointmentModel", data);
                     startActivity(i);
                     break;
                 default:
@@ -318,28 +325,27 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void removeEventFromCalendar(WeekViewEvent event) {
-        Timber.e("evento rimosso dal calendario = " + event.getAppointmentId());
-        for ( int i = 0 ; i < event.getId_staff().size() ; i++) {
-                switch (event.getId_staff().get(i)) {
-                    case GeneralConstants.ID_LELLA:
-                        allAppointmentsLella.remove(event);
-                        mWeekViewLella.notifyDatasetChanged();
-                        break;
-                    case GeneralConstants.ID_MARIA:
-                        allAppointmentsMaria.remove(event);
-                        mWeekViewMaria.notifyDatasetChanged();
-                        break;
-                    case GeneralConstants.ID_ANNA:
-                        allAppointmentsAnna.remove(event);
-                        mWeekViewAnna.notifyDatasetChanged();
-                        break;
-                }
+        for (int i = 0; i < event.getId_staff().size(); i++) {
+            switch (event.getId_staff().get(i)) {
+                case GeneralConstants.ID_LELLA:
+                    allAppointmentsLella.remove(event);
+                    mWeekViewLella.notifyDatasetChanged();
+                    break;
+                case GeneralConstants.ID_MARIA:
+                    allAppointmentsMaria.remove(event);
+                    mWeekViewMaria.notifyDatasetChanged();
+                    break;
+                case GeneralConstants.ID_ANNA:
+                    allAppointmentsAnna.remove(event);
+                    mWeekViewAnna.notifyDatasetChanged();
+                    break;
             }
+        }
     }
 
     @Override
     public void showSnackbar(String message) {
-
+        Snackbar.make(root, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -361,9 +367,10 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void showMariaAppointments(List<WeekViewEvent> appointments) {
-        for(WeekViewEvent event : appointments)
-        {
-            event.setName("TEST");
+        int i = 0 ;
+        for (WeekViewEvent event : appointments) {
+            event.setAppointmentName(event.getName()+" "+i);
+            i++;
         }
         allAppointmentsMaria = appointments;
         mWeekViewMaria.notifyDatasetChanged();
@@ -371,9 +378,10 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void showAnnaAppointments(List<WeekViewEvent> appointments) {
-        for(WeekViewEvent event : appointments)
-        {
-            event.setName("TEST");
+        int i = 0 ;
+        for (WeekViewEvent event : appointments) {
+            event.setAppointmentName(event.getName()+" "+i);
+            i++;
         }
         allAppointmentsAnna = appointments;
         mWeekViewAnna.notifyDatasetChanged();
@@ -382,9 +390,8 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void showLellaAppointments(List<WeekViewEvent> appointments) {
-        for(WeekViewEvent event : appointments)
-        {
-            event.setName("TEST");
+        for (WeekViewEvent event : appointments) {
+            event.setAppointmentName(event.getName());
         }
         allAppointmentsLella = appointments;
         mWeekViewLella.notifyDatasetChanged();

@@ -12,6 +12,14 @@
         android:layout_height="wrap_content"
         app:navigationIcon="@drawable/ic_close_black" />
 
+    <EditText
+        android:id="@+id/etFilter"
+        android:hint="Cerca"
+        android:layout_marginRight="@dimen/space_24"
+        android:layout_marginLeft="@dimen/space_24"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/servicesListView"
         android:layout_width="match_parent"

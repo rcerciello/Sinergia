@@ -9,9 +9,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.scene.services.add_service.AddServiceActivity;
 import it.rcerciello.sinergiajavaapp.scene.services.list.adapter.ServiceAdapter;
+import timber.log.Timber;
 
 /**
  * A fragment representing a list of Items.
@@ -44,9 +48,13 @@ public class ServiceItemFragment extends Fragment implements ServiceItemFragment
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
+    @BindView(R.id.etFilter)
+    EditText etFilter;
+
     private ServiceItemFragmentContract.Presenter mPresenter;
     private ArrayList<ServiceModel> serviceModel = new ArrayList<>();
     private ServiceAdapter adapter;
+    private List<ServiceModel> services;
 
 
     @SuppressWarnings("unused")
@@ -71,12 +79,48 @@ public class ServiceItemFragment extends Fragment implements ServiceItemFragment
         View view = inflater.inflate(R.layout.fragment_serviceitem_list, container, false);
 
         ButterKnife.bind(this, view);
-
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ServiceAdapter(serviceModel, mListener);
         list.setAdapter(adapter);
+
+
+        etFilter.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Call back the Adapter with current character to Filter
+
+                if (s.toString().trim().isEmpty()) {
+                    resetAdapter();
+                } else {
+                    filterCountryOnAdapter(s.toString().trim());
+                }
+                Timber.d("Search with name ");
+            }
+
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+        });
+
         return view;
     }
+
+
+    public void resetAdapter() {
+        adapter.setOriginalData(services);
+    }
+
+    public void filterCountryOnAdapter(String txt) {
+        adapter.getFilter().filter(txt);
+    }
+
 
     @OnClick(R.id.fab)
     public void fabAction() {
@@ -132,15 +176,18 @@ public class ServiceItemFragment extends Fragment implements ServiceItemFragment
     }
 
     @Override
-    public void updateAdapterDataSource(List<ServiceModel> clients) {
-        if (clients != null) {
-            adapter.updateDataSoure(clients);
+    public void updateAdapterDataSource(List<ServiceModel> services) {
+        if (services != null) {
+            etFilter.setClickable(true);
+            this.services = services;
+            adapter.updateDataSoure(services);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        etFilter.setClickable(false);
         mPresenter.refreshServiceList();
     }
 

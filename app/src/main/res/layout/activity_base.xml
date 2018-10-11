@@ -1,4 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -40,10 +42,9 @@
                 app:headerColumnBackground="#ffffffff"
                 app:headerColumnPadding="8dp"
                 app:headerColumnTextColor="@color/toolbar_text"
-                app:headerRowBackgroundColor="#EAFAF1"
+                app:headerRowBackgroundColor="#FEF9E7"
                 app:headerRowPadding="12dp"
-                app:hourHeight="60dp"
-                app:noOfVisibleDays="3"
+                app:hourHeight="120dp"
                 app:textSize="12sp"
                 app:todayBackgroundColor="#1848adff"
                 app:todayHeaderTextColor="@color/accent" />
@@ -79,8 +80,7 @@
                 app:headerColumnTextColor="@color/toolbar_text"
                 app:headerRowBackgroundColor="#FEF9E7"
                 app:headerRowPadding="12dp"
-                app:hourHeight="60dp"
-                app:noOfVisibleDays="3"
+                app:hourHeight="120dp"
                 app:textSize="12sp"
                 app:todayBackgroundColor="#1848adff"
                 app:todayHeaderTextColor="@color/accent" />
@@ -117,8 +117,7 @@
                 app:headerColumnTextColor="@color/toolbar_text"
                 app:headerRowBackgroundColor="#EBF5FB"
                 app:headerRowPadding="12dp"
-                app:hourHeight="60dp"
-                app:noOfVisibleDays="3"
+                app:hourHeight="120dp"
                 app:textSize="12sp"
                 app:todayBackgroundColor="#1848adff"
                 app:todayHeaderTextColor="@color/accent" />

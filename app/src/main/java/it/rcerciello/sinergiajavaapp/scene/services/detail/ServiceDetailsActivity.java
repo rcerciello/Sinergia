@@ -102,6 +102,7 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
             serviceModel.setDuration(backendModel.getDuration());
             serviceModel.setName(backendModel.getName());
             serviceModel.setPrice(backendModel.getPrice());
+            serviceModel.setServiceIdentifier(backendModel.getServiceIdentifier());
             serviceModel.setId(backendModel.getServicePrimaryKeyModel().getPrimaryKey());
         }
 
@@ -222,6 +223,7 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
             if (serviceModel.getServiceIdentifier() != null && !serviceModel.getServiceIdentifier().isEmpty())
                 identificativo.setText(String.valueOf(serviceModel.getServiceIdentifier()));
         }
+        saveButton.setButtonState(ButtonStates.ENABLED);
     }
 
 

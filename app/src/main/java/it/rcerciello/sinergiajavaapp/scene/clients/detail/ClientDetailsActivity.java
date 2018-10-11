@@ -233,6 +233,8 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
                 identificativo.setText(clientModel.getClientIdentifier());
             }
         }
+
+        saveButton.setButtonState(ButtonStates.ENABLED);
     }
 
     private void setKeyboardType() {

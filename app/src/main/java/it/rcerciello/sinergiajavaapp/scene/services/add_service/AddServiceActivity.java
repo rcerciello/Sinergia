@@ -75,7 +75,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
         nome.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         durata.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
         prezzo.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
-        identificativo.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
+        identificativo.getEditTextReference().setInputType(InputType.TYPE_CLASS_TEXT);
 
         setTextChangedListener(nome, FieldRequired.NOME, true);
         setTextChangedListener(durata, FieldRequired.NOME, true);

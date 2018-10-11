@@ -8,9 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.scene.clients.add_clients.AddClientsActivity;
 import it.rcerciello.sinergiajavaapp.scene.clients.list.adapter.ClientAdapter;
+import timber.log.Timber;
 
 /**
  * A fragment representing a list of Items.
@@ -37,6 +41,9 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
     @BindView(R.id.list)
     RecyclerView list;
 
+    @BindView(R.id.etFilter)
+    EditText etFilter;
+
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -44,6 +51,7 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
     private ClientItemFragmentContract.Presenter mPresenter;
     private ArrayList<ClientModel> clientModel = new ArrayList<>();
     private ClientAdapter adapter;
+    private List<ClientModel> clients;
 
     @SuppressWarnings("unused")
     public static ClientItemFragment newInstance(int columnCount) {
@@ -71,9 +79,42 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ClientAdapter(clientModel, mListener);
         list.setAdapter(adapter);
+
+        etFilter.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Call back the Adapter with current character to Filter
+
+                if (s.toString().trim().isEmpty()) {
+                    resetAdapter();
+                } else {
+                    filterCountryOnAdapter(s.toString().trim());
+                }
+                Timber.d("Search with name ");
+            }
+
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+        });
+
         return view;
     }
 
+    public void resetAdapter() {
+        adapter.setOriginalData(clients);
+    }
+
+    public void filterCountryOnAdapter(String txt) {
+        adapter.getFilter().filter(txt);
+    }
 
     @OnClick(R.id.fab)
     public void fabAction() {
@@ -131,6 +172,8 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
     @Override
     public void updateAdapterDataSource(List<ClientModel> clients) {
         if (clients != null) {
+            this.clients = clients;
+            etFilter.setClickable(true);
             adapter.updateDataSoure(clients);
         }
     }
@@ -138,6 +181,7 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
     @Override
     public void onResume() {
         super.onResume();
+        etFilter.setClickable(false);
         mPresenter.refreshClientList();
 
     }

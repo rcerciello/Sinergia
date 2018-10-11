@@ -197,6 +197,71 @@ public class WeekViewEvent {
         this.id_service = id_service;
     }
 
+
+    public String getId_appointment() {
+        return id_appointment;
+    }
+
+    public void setId_appointment(String id_appointment) {
+        this.id_appointment = id_appointment;
+    }
+
+    public Calendar getmStartTime() {
+        return mStartTime;
+    }
+
+    public void setmStartTime(Calendar mStartTime) {
+        this.mStartTime = mStartTime;
+    }
+
+    public Calendar getmEndTime() {
+        return mEndTime;
+    }
+
+    public void setmEndTime(Calendar mEndTime) {
+        this.mEndTime = mEndTime;
+    }
+
+    public String getAppointmentName() {
+        return appointmentName;
+    }
+
+    public void setAppointmentName(String appointmentName) {
+        this.appointmentName = appointmentName;
+    }
+
+    public String getmLocation() {
+        return mLocation;
+    }
+
+    public void setmLocation(String mLocation) {
+        this.mLocation = mLocation;
+    }
+
+    public String getId_customer() {
+        return id_customer;
+    }
+
+    public void setId_customer(String id_customer) {
+        this.id_customer = id_customer;
+    }
+
+    public int getmColor() {
+        return mColor;
+    }
+
+    public void setmColor(int mColor) {
+        this.mColor = mColor;
+    }
+
+    public boolean ismAllDay() {
+        return mAllDay;
+    }
+
+    public void setmAllDay(boolean mAllDay) {
+        this.mAllDay = mAllDay;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

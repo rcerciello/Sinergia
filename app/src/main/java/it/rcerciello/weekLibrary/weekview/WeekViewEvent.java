@@ -21,7 +21,9 @@ public class WeekViewEvent {
 
     @SerializedName("mEndTime")
     private Calendar mEndTime;
+
     private String appointmentName;
+
     private String mLocation;
 
     @SerializedName("id_customer")
@@ -33,6 +35,7 @@ public class WeekViewEvent {
 
     @SerializedName("id_service")
     private String id_service;
+
     private boolean mAllDay;
 
     public WeekViewEvent() {
@@ -333,13 +336,13 @@ public class WeekViewEvent {
     @Override
     public String toString() {
         return "WeekViewEvent{" +
-                "id_appointment=" + id_appointment +
+                "id_appointment='" + id_appointment + '\'' +
                 ", mStartTime=" + mStartTime +
                 ", mEndTime=" + mEndTime +
                 ", appointmentName='" + appointmentName + '\'' +
                 ", mLocation='" + mLocation + '\'' +
-                ", idCliente='" + id_customer + '\'' +
-                ", id_staff='" + id_staff + '\'' +
+                ", id_customer='" + id_customer + '\'' +
+                ", id_staff=" + id_staff +
                 ", mColor=" + mColor +
                 ", id_service='" + id_service + '\'' +
                 ", mAllDay=" + mAllDay +

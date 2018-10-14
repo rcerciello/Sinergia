@@ -107,7 +107,7 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
         setKeyboardType();
         initLayout();
 
-        setTextChangedListener(identificativo, FieldType.TEXT, true);
+        setTextChangedListener(identificativo, FieldType.TEXT, false);
         setTextChangedListener(nome, FieldType.TEXT, true);
         setTextChangedListener(cognome, FieldType.TEXT, true);
 

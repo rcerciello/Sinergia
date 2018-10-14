@@ -115,7 +115,7 @@ public class ServiceDetailsActivity extends AppCompatActivity implements Service
 
         setTextChangedListener(nome_servizio, FieldType.TEXT, true);
         setTextChangedListener(durata_servizio, FieldType.TEXT, true);
-        setTextChangedListener(prezzo, FieldType.TEXT, true);
+        setTextChangedListener(prezzo, FieldType.TEXT, false);
         setTextChangedListener(identificativo, FieldType.TEXT, true);
     }
 

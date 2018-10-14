@@ -8,12 +8,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -268,30 +273,42 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
 
     private void setAlertDialogForAnEvent(final WeekViewEvent event) {
-        CharSequence options[] = new CharSequence[]{"Cancella Evento", "Modifica Evento"};
+//        CharSequence options[] = new CharSequence[]{"Cancella Evento", "Modifica Evento"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
-        builder.setItems(options, (dialog, which) -> {
-            // the user clicked on options[which]
-            switch (which) {
-                case 0:
-                    mPresenter.deleteAppointment(String.valueOf(event.getAppointmentId()), event);
-                    break;
-                case 1:
-                    Intent i = new Intent(getApplicationContext(), AddAppointmentActivity.class);
-                    String data = ApiClient.getGson().toJson(event);
-                    i.putExtra("isEditable", true);
-                    i.putExtra("AppointmentModel", data);
-                    startActivity(i);
-                    break;
-                default:
-                    break;
-            }
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_label_editor, null);
+        builder.setView(dialogView);
+
+        Button btnAnnull = dialogView.findViewById(R.id.btnAnnull);
+
+
+        TextView title = dialogView.findViewById(R.id.title);
+        title.setText(event.getAppointmentName().toUpperCase());
+
+
+        Button deleteAppointment = dialogView.findViewById(R.id.deleteAppointment);
+
+
+        Button updateAppointment = dialogView.findViewById(R.id.updateAppointment);
+        updateAppointment.setOnClickListener(v ->
+        {
+            Intent i = new Intent(getApplicationContext(), AddAppointmentActivity.class);
+            String data = ApiClient.getGson().toJson(event);
+            i.putExtra("isEditable", true);
+            i.putExtra("AppointmentModel", data);
+            startActivity(i);
         });
-        builder.setNegativeButton("Annulla", (dialog, which) -> {
-            //the user clicked on Cancel
+
+        AlertDialog alertDialog = builder.create();
+        btnAnnull.setOnClickListener(v -> alertDialog.dismiss());
+        deleteAppointment.setOnClickListener(v ->
+        {
+            mPresenter.deleteAppointment(String.valueOf(event.getAppointmentId()), event);
+            alertDialog.dismiss();
+
         });
-        builder.show();
+        alertDialog.show();
     }
 
 
@@ -367,46 +384,130 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void showMariaAppointments(List<WeekViewEvent> appointments) {
-        int i = 0 ;
-        for (WeekViewEvent event : appointments) {
-            event.setAppointmentName(event.getName()+" "+i);
-            i++;
+        for (final int[] i = {0}; i[0] < appointments.size(); ) {
+            SinergiaRepo.getInstance().selectClientById(appointments.get(i[0]).getIdCliente(), new APICallback<ClientModel>() {
+                @Override
+                public void onSuccess(ClientModel object) {
+                    if (object != null) {
+                        appointments.get(i[0]).setAppointmentName(object.getName() + " " + object.getSurname());
+
+                    } else {
+                        appointments.get(i[0]);
+                    }
+                    i[0]++;
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    i[0]++;
+                }
+
+                @Override
+                public void onSessionExpired() {
+
+                }
+
+                @Override
+                public void onFailure(boolean isFailure) {
+                    i[0]++;
+                }
+            });
+
         }
         allAppointmentsMaria = appointments;
+
+
         mWeekViewMaria.notifyDatasetChanged();
+
+        Timber.i("Notify MARIA");
+
     }
 
     @Override
     public void showAnnaAppointments(List<WeekViewEvent> appointments) {
-        int i = 0 ;
-        for (WeekViewEvent event : appointments) {
-            event.setAppointmentName(event.getName()+" "+i);
-            i++;
+        for (final int[] i = {0}; i[0] < appointments.size(); ) {
+            SinergiaRepo.getInstance().selectClientById(appointments.get(i[0]).getIdCliente(), new APICallback<ClientModel>() {
+                @Override
+                public void onSuccess(ClientModel object) {
+                    if (object != null) {
+                        appointments.get(i[0]).setAppointmentName(object.getName() + " " + object.getSurname());
+
+                    } else {
+                        appointments.get(i[0]);
+                    }
+                    i[0]++;
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    i[0]++;
+                }
+
+                @Override
+                public void onSessionExpired() {
+
+                }
+
+                @Override
+                public void onFailure(boolean isFailure) {
+                    i[0]++;
+                }
+            });
+
         }
         allAppointmentsAnna = appointments;
+        //Print
+        for (WeekViewEvent e : appointments) {
+            Timber.i(e.toString());
+        }
+        //End Print
         mWeekViewAnna.notifyDatasetChanged();
+        Timber.i("Notify ANNA");
+
 
     }
 
     @Override
     public void showLellaAppointments(List<WeekViewEvent> appointments) {
-        for (WeekViewEvent event : appointments) {
-            event.setAppointmentName(event.getName());
+        for (final int[] i = {0}; i[0] < appointments.size(); ) {
+            SinergiaRepo.getInstance().selectClientById(appointments.get(i[0]).getIdCliente(), new APICallback<ClientModel>() {
+                @Override
+                public void onSuccess(ClientModel object) {
+                    if (object != null) {
+                        appointments.get(i[0]).setAppointmentName(object.getName() + " " + object.getSurname());
+
+                    } else {
+                        appointments.get(i[0]);
+                    }
+                    i[0]++;
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    i[0]++;
+                }
+
+                @Override
+                public void onSessionExpired() {
+
+                }
+
+                @Override
+                public void onFailure(boolean isFailure) {
+                    i[0]++;
+                }
+            });
+
         }
         allAppointmentsLella = appointments;
         mWeekViewLella.notifyDatasetChanged();
+
+        Timber.i("Notify LELLA");
 
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
-
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-
     }
-
-    private String getEventTitle(Calendar time, String subject) {
-        return String.format("Event %s of %02d:%02d %s/%d", subject, time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH));
-    }
-
 }

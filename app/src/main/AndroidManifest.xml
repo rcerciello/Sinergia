@@ -34,27 +34,22 @@
         </activity>
         <activity
             android:name=".scene.clients.detail.ClientDetailsActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".scene.services.detail.ServiceDetailsActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".scene.clients.add_clients.AddClientsActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".scene.employee.clients.detail.EmployeeDetailsActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".scene.employee.clients.add_clients.AddEmployeeActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -63,12 +58,10 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".scene.services.add_service.AddServiceActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
 
@@ -84,7 +77,6 @@
 
         <activity
             android:name=".scene.clients.next_appointments.root.NextAppointmentsActivity"
-
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="false"/>
 

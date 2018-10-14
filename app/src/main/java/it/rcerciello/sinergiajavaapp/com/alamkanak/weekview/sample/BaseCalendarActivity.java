@@ -384,39 +384,10 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void showMariaAppointments(List<WeekViewEvent> appointments) {
-        for (final int[] i = {0}; i[0] < appointments.size(); ) {
-            SinergiaRepo.getInstance().selectClientById(appointments.get(i[0]).getIdCliente(), new APICallback<ClientModel>() {
-                @Override
-                public void onSuccess(ClientModel object) {
-                    if (object != null) {
-                        appointments.get(i[0]).setAppointmentName(object.getName() + " " + object.getSurname());
-
-                    } else {
-                        appointments.get(i[0]);
-                    }
-                    i[0]++;
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    i[0]++;
-                }
-
-                @Override
-                public void onSessionExpired() {
-
-                }
-
-                @Override
-                public void onFailure(boolean isFailure) {
-                    i[0]++;
-                }
-            });
-
+        for (WeekViewEvent appointment : appointments) {
+            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname());
         }
         allAppointmentsMaria = appointments;
-
-
         mWeekViewMaria.notifyDatasetChanged();
 
         Timber.i("Notify MARIA");
@@ -425,35 +396,8 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void showAnnaAppointments(List<WeekViewEvent> appointments) {
-        for (final int[] i = {0}; i[0] < appointments.size(); ) {
-            SinergiaRepo.getInstance().selectClientById(appointments.get(i[0]).getIdCliente(), new APICallback<ClientModel>() {
-                @Override
-                public void onSuccess(ClientModel object) {
-                    if (object != null) {
-                        appointments.get(i[0]).setAppointmentName(object.getName() + " " + object.getSurname());
-
-                    } else {
-                        appointments.get(i[0]);
-                    }
-                    i[0]++;
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    i[0]++;
-                }
-
-                @Override
-                public void onSessionExpired() {
-
-                }
-
-                @Override
-                public void onFailure(boolean isFailure) {
-                    i[0]++;
-                }
-            });
-
+        for (WeekViewEvent appointment : appointments) {
+            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname());
         }
         allAppointmentsAnna = appointments;
         //Print
@@ -469,36 +413,10 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void showLellaAppointments(List<WeekViewEvent> appointments) {
-        for (final int[] i = {0}; i[0] < appointments.size(); ) {
-            SinergiaRepo.getInstance().selectClientById(appointments.get(i[0]).getIdCliente(), new APICallback<ClientModel>() {
-                @Override
-                public void onSuccess(ClientModel object) {
-                    if (object != null) {
-                        appointments.get(i[0]).setAppointmentName(object.getName() + " " + object.getSurname());
-
-                    } else {
-                        appointments.get(i[0]);
-                    }
-                    i[0]++;
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    i[0]++;
-                }
-
-                @Override
-                public void onSessionExpired() {
-
-                }
-
-                @Override
-                public void onFailure(boolean isFailure) {
-                    i[0]++;
-                }
-            });
-
+        for (WeekViewEvent appointment : appointments) {
+            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname());
         }
+
         allAppointmentsLella = appointments;
         mWeekViewLella.notifyDatasetChanged();
 

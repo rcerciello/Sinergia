@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 import java.util.concurrent.TimeUnit;
 
 import it.rcerciello.sinergiajavaapp.BuildConfig;
-import it.rcerciello.sinergiajavaapp.NetworkConstants;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -28,7 +27,6 @@ public class ApiClient {
 
     public static Retrofit getClient() {
         if (retrofit == null) {
-
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(httpLoggingInterceptor)
                     .readTimeout(60, TimeUnit.SECONDS)
@@ -36,12 +34,11 @@ public class ApiClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(NetworkConstants.BASE_URL)
+                    .baseUrl(BuildConfig.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(getGson()))
                     .client(okHttpClient)
                     .build();
         }
-
         return retrofit;
     }
 
@@ -59,7 +56,6 @@ public class ApiClient {
         if (apiInterfaces == null) {
             apiInterfaces = getClient().create(ApiInterfaces.class);
         }
-
         return apiInterfaces;
     }
 }

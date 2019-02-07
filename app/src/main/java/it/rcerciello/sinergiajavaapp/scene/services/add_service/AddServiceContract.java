@@ -13,7 +13,7 @@ public class AddServiceContract {
 
         void showSnackbarError(String message);
 
-        void closeView();
+        void closeView(ServiceModel model);
     }
 
 

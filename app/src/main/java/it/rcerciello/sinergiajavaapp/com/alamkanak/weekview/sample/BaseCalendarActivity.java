@@ -18,26 +18,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.MainActivity;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.add_appointment.AddAppointmentActivity;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
-import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
-import it.rcerciello.sinergiajavaapp.data.repository.SinergiaRepo;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.DateTimeInterpreter;
 import it.rcerciello.weekLibrary.weekview.MonthLoader;
@@ -52,11 +44,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by Raquib-ul-Alam Kanak on 1/3/2014.
  * Website: http://alamkanak.github.io
  */
-public class BaseCalendarActivity extends AppCompatActivity implements BaseCalendarContract.View, WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
+public class BaseCalendarActivity extends AppCompatActivity implements BaseCalendarContract.View, WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.ScrollListener {
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
+    WeekView.Direction mCurrentScrollDirection = WeekView.Direction.NONE;
+    float distanceY = 0, distanceX = 0;
 
     @BindView(R.id.weekView)
     WeekView mWeekViewLella;
@@ -90,14 +84,25 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
         mWeekViewAnna.setCollaboratorId(GeneralConstants.ID_ANNA);
         mWeekViewMaria.setCollaboratorId(GeneralConstants.ID_MARIA);
 
-        setCalendaarWidgetListener();
+        setCalendarWidgetListener();
         // Set up a date time interpreter to interpret how the date and time will be formatted in
         // the week view. This is optional.
         setupDateTimeInterpreter(false);
+//        mWeekViewLella.getScrollListener().onMyScrollXListener();
+        mWeekViewLella.setScrollListener(this);
+        mWeekViewAnna.setScrollListener(this);
+        mWeekViewMaria.setScrollListener(this);
+//                new View.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                mWeekViewAnna.scrollTo(scrollX, scrollY);
+//                mWeekViewMaria.scrollTo(scrollX, scrollY);
+//            }
+//        });
     }
 
 
-    private void setCalendaarWidgetListener() {
+    private void setCalendarWidgetListener() {
         // Show a toast message about the touched event.
         setEventListener(mWeekViewLella);
         setEventListener(mWeekViewAnna);
@@ -230,7 +235,9 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
             @Override
             public String interpretTime(int hour) {
-                return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
+                //TODO Modificato
+//                return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
+                return ""+hour;
             }
         });
     }
@@ -381,11 +388,10 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
         mPresenter.getAllAppointments();
     }
 
-
     @Override
     public void showMariaAppointments(List<WeekViewEvent> appointments) {
         for (WeekViewEvent appointment : appointments) {
-            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname());
+            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname()+" "+appointment.getId_service());
         }
         allAppointmentsMaria = appointments;
         mWeekViewMaria.notifyDatasetChanged();
@@ -397,7 +403,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     @Override
     public void showAnnaAppointments(List<WeekViewEvent> appointments) {
         for (WeekViewEvent appointment : appointments) {
-            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname());
+            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname()+" "+appointment.getId_service());
         }
         allAppointmentsAnna = appointments;
         //Print
@@ -414,7 +420,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     @Override
     public void showLellaAppointments(List<WeekViewEvent> appointments) {
         for (WeekViewEvent appointment : appointments) {
-            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname());
+            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname()+" "+appointment.getId_service());
         }
 
         allAppointmentsLella = appointments;
@@ -427,5 +433,46 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
+
+    }
+
+    @Override
+    public void onMyScrollXListener(WeekView.Direction mCurrentScrollDirection, float distanceX) {
+        Timber.d("DIRECTIRON => " + mCurrentScrollDirection.name() + " DELTA X  => " + distanceX);
+        this.mCurrentScrollDirection = mCurrentScrollDirection;
+        this.distanceX = distanceX;
+        mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
+        mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
+        mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceY, -1);
+
+    }
+
+    @Override
+    public void onMyScrollYListener(WeekView.Direction mCurrentScrollDirection, float distanceY) {
+        mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+        mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+        mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+        this.mCurrentScrollDirection = mCurrentScrollDirection;
+        this.distanceY = distanceY;
+
+    }
+
+    @Override
+    public void onMyScrollXVelocityListener(float velocityX) {
+        mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
+        mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
+        mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
+    }
+
+    @Override
+    public void onMyScrollYVelocityListener(float velocityY) {
+        mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
+        mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
+        mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
+
     }
 }

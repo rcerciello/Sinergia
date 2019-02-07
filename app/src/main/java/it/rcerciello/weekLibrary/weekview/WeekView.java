@@ -52,7 +52,49 @@ import static it.rcerciello.weekLibrary.weekview.WeekViewUtil.today;
  */
 public class WeekView extends View {
 
-    private enum Direction {
+    public void setScrollXParameters(Direction mCurrentScrollDirection, float distanceX, float velocityX) {
+        this.mCurrentScrollDirection = mCurrentScrollDirection;
+        mCurrentOrigin.x -= distanceX * mXScrollingSpeed;
+        ViewCompat.postInvalidateOnAnimation(WeekView.this);
+
+        mScroller.forceFinished(true);
+        if (velocityX>0) {
+            switch (mCurrentFlingDirection) {
+                case LEFT:
+                case RIGHT:
+                    mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX * mXScrollingSpeed), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
+                    break;
+                case VERTICAL:
+//                mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight/2 - getHeight()), 0);
+                    break;
+            }
+        }
+
+
+
+    }
+
+    public void setScrollYParameters(Direction mCurrentScrollDirection, float distanceY, float velocityY) {
+        this.mCurrentScrollDirection = mCurrentScrollDirection;
+        mCurrentOrigin.y -= distanceY;
+        ViewCompat.postInvalidateOnAnimation(WeekView.this);
+        mScroller.forceFinished(true);
+        if (velocityY>0) {
+            switch (mCurrentFlingDirection) {
+                case LEFT:
+                case RIGHT:
+//                mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX * mXScrollingSpeed), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
+                    break;
+                case VERTICAL:
+                    mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
+                    break;
+            }
+        }
+
+
+    }
+
+    public enum Direction {
         NONE, LEFT, RIGHT, VERTICAL
     }
 
@@ -201,6 +243,8 @@ public class WeekView extends View {
                     if (Math.abs(distanceX) > Math.abs(distanceY) && (distanceX > mScaledTouchSlop)) {
                         mCurrentScrollDirection = Direction.LEFT;
                     }
+
+
                     break;
                 }
             }
@@ -211,12 +255,18 @@ public class WeekView extends View {
                 case RIGHT:
                     mCurrentOrigin.x -= distanceX * mXScrollingSpeed;
                     ViewCompat.postInvalidateOnAnimation(WeekView.this);
+
+                    mScrollListener.onMyScrollXListener(mCurrentScrollDirection, distanceX);
+
                     break;
                 case VERTICAL:
                     mCurrentOrigin.y -= distanceY;
                     ViewCompat.postInvalidateOnAnimation(WeekView.this);
+                    mScrollListener.onMyScrollYListener(mCurrentScrollDirection, distanceY);
+//                    mScrollListener.onMyScrollXListener(mCurrentScrollDirection, 0,      mCurrentOrigin.y );
                     break;
             }
+            mScroller.forceFinished(true);
             return true;
         }
 
@@ -234,12 +284,15 @@ public class WeekView extends View {
             mScroller.forceFinished(true);
 
             mCurrentFlingDirection = mCurrentScrollDirection;
+
             switch (mCurrentFlingDirection) {
                 case LEFT:
                 case RIGHT:
+                    mScrollListener.onMyScrollXVelocityListener(velocityX);
                     mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX * mXScrollingSpeed), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
                     break;
                 case VERTICAL:
+                    mScrollListener.onMyScrollYVelocityListener(velocityY);
                     mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight/2 - getHeight()), 0);
                     break;
             }
@@ -2046,6 +2099,15 @@ public class WeekView extends View {
          * @param oldFirstVisibleDay The old first visible day (is null on the first call).
          */
         void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay);
+
+
+        void onMyScrollXListener(Direction mCurrentScrollDirection, float distanceX);
+
+        void onMyScrollYListener(Direction mCurrentScrollDirection, float distanceY);
+
+        void onMyScrollXVelocityListener(float velocityX);
+
+        void onMyScrollYVelocityListener(float velocityY);
     }
 
     public String getCollaboratorId() {

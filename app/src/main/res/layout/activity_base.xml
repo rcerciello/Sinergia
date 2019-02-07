@@ -43,7 +43,7 @@
                 app:headerColumnTextColor="@color/toolbar_text"
                 app:headerRowBackgroundColor="#FEF9E7"
                 app:headerRowPadding="10dp"
-                app:hourHeight="200dp"
+                app:hourHeight="80dp"
                 app:textSize="8sp"
                 app:todayBackgroundColor="#1848adff"
                 app:todayHeaderTextColor="@color/accent" />
@@ -78,7 +78,7 @@
                 app:headerColumnTextColor="@color/toolbar_text"
                 app:headerRowBackgroundColor="#FEF9E7"
                 app:headerRowPadding="10dp"
-                app:hourHeight="200dp"
+                app:hourHeight="80dp"
                 app:textSize="8sp"
                 app:todayBackgroundColor="#1848adff"
                 app:todayHeaderTextColor="@color/accent" />
@@ -114,7 +114,7 @@
                 app:headerColumnTextColor="@color/toolbar_text"
                 app:headerRowBackgroundColor="#EBF5FB"
                 app:headerRowPadding="10dp"
-                app:hourHeight="200dp"
+                app:hourHeight="80dp"
                 app:textSize="8sp"
                 app:todayBackgroundColor="#1848adff"
                 app:todayHeaderTextColor="@color/accent" />

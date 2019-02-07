@@ -152,8 +152,9 @@ public class ServiceSelectListAdapter extends RecyclerView.Adapter<ServiceSelect
                     for (int i = 0; i < filteredData.size(); i++) {
 
                         String name = filteredData.get(i).getName();
+                        String serviceIdentifier = filteredData.get(i).getServiceIdentifier();
 
-                        if (name.toLowerCase().startsWith(constraint.toString())) {
+                        if (name.toLowerCase().startsWith(constraint.toString()) || serviceIdentifier.toLowerCase().contains(constraint.toString().toLowerCase())) {
 
                             // en, String it, String de, String fr, String isoCode, String e
                             ServiceModel item = new ServiceModel();

@@ -1,6 +1,8 @@
 package it.rcerciello.sinergiajavaapp.scene.services.add_service;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +26,7 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.ButtonStates;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
-import it.rcerciello.sinergiajavaapp.utils.SnackbarType;
+import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.widgets.CustomEditText;
 import it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -52,7 +54,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
     @BindView(R.id.root)
     RelativeLayout root;
     private AddServiceContract.Presenter mPresenter;
-
+    private boolean comeFromCalendar = false;
 
     private enum FieldRequired {
         NOME,
@@ -71,7 +73,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
         HideKey.initialize(this);
         mPresenter = new AddServicePresenter(this);
         toolbar.setNavigationOnClickListener((View v) -> onBackPressed());
-
+        comeFromCalendar = getIntent().getBooleanExtra("comeFromCalendar", false);
         nome.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         durata.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
         prezzo.getEditTextReference().setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -164,8 +166,13 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
 
     @Override
     public void onBackPressed() {
+        if (comeFromCalendar) {
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+        }
         super.onBackPressed();
         overridePendingTransition(R.anim.no_changes, R.anim.slide_out_top);
+
     }
 
 
@@ -186,12 +193,21 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
 
     @Override
     public void showSnackbarError(String message) {
-        Snackbar.make(root, message,  Snackbar.LENGTH_LONG).show();
+        Snackbar.make(root, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void closeView() {
-        onBackPressed();
+    public void closeView(ServiceModel model) {
+        if (comeFromCalendar) {
+            Intent returnIntent = new Intent();
+            String data = ApiClient.getGson().toJson(model);
+            returnIntent.putExtra("name", "Servizio");
+            returnIntent.putExtra("modello", data);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        } else {
+            onBackPressed();
+        }
     }
 
     @Override
@@ -219,7 +235,7 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
         }
 
         if (!thereIsError) {
-            ServiceModel service = new ServiceModel(identificativo.getText(),  nome.getText(), Integer.valueOf(durata.getText()), Float.valueOf(prezzo.getText()));
+            ServiceModel service = new ServiceModel(identificativo.getText(), nome.getText(), Integer.valueOf(durata.getText()), Float.valueOf(prezzo.getText()));
             mPresenter.addService(service);
         }
 

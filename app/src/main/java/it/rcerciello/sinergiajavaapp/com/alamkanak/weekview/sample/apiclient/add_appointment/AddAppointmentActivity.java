@@ -1,6 +1,7 @@
 package it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.add_appointment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -12,15 +13,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TimePicker;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,10 +35,13 @@ import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog.client.ClientSelectDialogFragment;
 import it.rcerciello.sinergiajavaapp.com.alamkanak.weekview.sample.apiclient.dialog.service.ServiceSelectDialogFragment;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.data.repository.SinergiaRepo;
+import it.rcerciello.sinergiajavaapp.scene.clients.add_clients.AddClientsActivity;
+import it.rcerciello.sinergiajavaapp.scene.services.add_service.AddServiceActivity;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 import timber.log.Timber;
@@ -88,14 +91,21 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @BindView(R.id.root)
     RelativeLayout root;
 
+    @BindView(R.id.tvNuovoCliente)
+    TextView tvNuovoCliente;
+
+    @BindView(R.id.tvNuovoServizio)
+    TextView tvNuovoServizio;
+
     private boolean isEditable = false;
 
     private AddAppointmentContract.Presenter mPresenter;
     private WeekViewEvent editableModel = new WeekViewEvent();
     private WeekViewEvent newWeekModel;
-    private ServiceModel serviceModel;
-    private ClientModel clientModel;
+    private ServiceModel mServiceModel;
+    private ClientModel mClientModel;
     private Calendar startTimeSelected;
+    private boolean isClientFill = false, isServiceFill = false, isOperatorFill = true, isHourFill = true, isDateFill = true;
     private boolean isLellaChecked = false;
     private boolean isMariaChecked = false;
     private boolean isAnnaChecked = false;
@@ -109,10 +119,10 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     int mDay;
 
 
-    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_AppCompat_NoActionBar);
+        setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment);
         ButterKnife.bind(this);
@@ -165,8 +175,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                         startTime = calendar;
                     }
 
-                    for(int j  = 0 ; j < editableModel.getId_staff().size();j++)
-                    {
+                    for (int j = 0; j < editableModel.getId_staff().size(); j++) {
                         switch (editableModel.getId_staff().get(j)) {
                             case GeneralConstants.ID_LELLA:
                                 isLellaChecked = false;
@@ -185,28 +194,28 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
 
                     if (GlobalUtils.isNotNullAndNotEmpty(String.valueOf(editableModel.getId_service()))) {
                         newWeekModel.setId_service(editableModel.getId_service());
-                        SinergiaRepo.getInstance().selectServiceById(editableModel.getId_service(), new APICallback<ServiceModel>() {
-                            @Override
-                            public void onSuccess(ServiceModel object) {
-                                serviceModel = object;
-                                serviceId.setText(object.getName());
-                            }
-
-                            @Override
-                            public void onFailure(String error) {
-                                Timber.e("Errore select service by id");
-                            }
-
-                            @Override
-                            public void onSessionExpired() {
-
-                            }
-
-                            @Override
-                            public void onFailure(boolean isFailure) {
-
-                            }
-                        });
+//                        SinergiaRepo.getInstance().selectServiceById(editableModel.getId_service(), new APICallback<ServiceModel>() {
+//                            @Override
+//                            public void onSuccess(ServiceModel object) {
+//                                mServiceModel = object;
+//                                serviceId.setText(object.getName());
+//                            }
+//
+//                            @Override
+//                            public void onFailure(String error) {
+//                                Timber.e("Errore select service by id");
+//                            }
+//
+//                            @Override
+//                            public void onSessionExpired() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onFailure(boolean isFailure) {
+//
+//                            }
+//                        });
 
 
                     }
@@ -229,7 +238,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                 if (GlobalUtils.isNotNullAndNotEmpty(collaborator)) {
                     switch (collaborator) {
                         case GeneralConstants.ID_LELLA:
-                            isLellaChecked =  false;
+                            isLellaChecked = false;
                             rbLella.performClick();
                             break;
                         case GeneralConstants.ID_MARIA:
@@ -244,6 +253,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                 }
             }
 
+            Timber.d("************************");
+            Timber.d("isMariaChecked => " + isMariaChecked);
+            Timber.d("isLellaChecked => " + isLellaChecked);
+            Timber.d("isAnnaChecked => " + isAnnaChecked);
+
 
         }
 
@@ -257,60 +271,125 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             return false;
         });
 
-        serviceId.setOnTouchListener((v, event) -> {
-            final int DRAWABLE_RIGHT = 2;
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getRawX() >= (serviceId.getRight() - serviceId.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                    ServiceSelectDialogFragment serviceSelectDialog = ServiceSelectDialogFragment.newInstance();
-                    serviceSelectDialog.setServiceSelectedListener(model -> {
-                        serviceId.setText(model.getName());
-                        newWeekModel.setId_service(model.getServicePrimaryKeyModel().getPrimaryKey());
-                        serviceModel = model;
-                    });
-                    serviceSelectDialog.show(getSupportFragmentManager(), "mobilePrefixSelectDialog");
-                    return false;
-                }
-            }
-            return true;
-
-        });
-
-
         clientId.setOnTouchListener((v, event) -> {
             final int DRAWABLE_RIGHT = 2;
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getRawX() >= (serviceId.getRight() - serviceId.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                if (event.getRawX() >= (clientId.getRight() - clientId.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                     ClientSelectDialogFragment serviceSelectDialog = ClientSelectDialogFragment.newInstance();
                     serviceSelectDialog.setClientSelectedListener(model -> {
                         clientId.setText(model.getName() + " " + model.getSurname());
                         newWeekModel.setIdCliente(model.getPrimaryKeyModel().getPrimaryKey());
-                        clientModel = model;
+                        mClientModel = model;
+                        isClientFill = true;
+                        if (areAllFieldfill()) {
+                            btnOk.setVisibility(View.VISIBLE);
+                        } else {
+                            btnOk.setVisibility(View.GONE);
+                        }
                     });
-                    serviceSelectDialog.show(getSupportFragmentManager(), "mobilePrefixSelectDialog");
+                    serviceSelectDialog.show(getSupportFragmentManager(), "ClientSelectDialog");
                     return false;
                 }
             }
             return true;
 
         });
+
+        serviceId.setOnTouchListener((v, event) -> {
+            final int DRAWABLE_LEFT = 0;
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (serviceId.getLeft() - serviceId.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
+                    newWeekModel.setId_service(new ArrayList<>());
+                    serviceId.setText("");
+                    isServiceFill = false;
+                    if (areAllFieldfill()) {
+                        btnOk.setVisibility(View.VISIBLE);
+                    } else {
+                        btnOk.setVisibility(View.GONE);
+                    }
+                    return false;
+                }
+            }
+            return true;
+
+        });
+    }
+
+    private boolean areAllFieldfill() {
+        return isClientFill && isServiceFill && isOperatorFill && isHourFill && isDateFill;
+    }
+
+    public boolean checkIfServiceIdAlreadyExist(ServiceModel model) {
+        if (newWeekModel.getId_service() != null && newWeekModel.getId_service().size() > 0) {
+
+            for (String service : newWeekModel.getId_service()) {
+                if (service.equalsIgnoreCase(model.getServicePrimaryKeyModel().getPrimaryKey())) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    @OnClick(R.id.btnAddService)
+    public void addserviceAction() {
+        ServiceSelectDialogFragment serviceSelectDialog = ServiceSelectDialogFragment.newInstance();
+        serviceSelectDialog.setServiceSelectedListener(model -> {
+            if (!checkIfServiceIdAlreadyExist(model)) {
+                if (GlobalUtils.isNotNullAndNotEmpty(serviceId.getText().toString())) {
+                    serviceId.setText(serviceId.getText().toString() + ", " + model.getName());
+                } else {
+                    serviceId.setText(model.getName());
+                }
+
+                if (newWeekModel.getId_service() == null) {
+                    newWeekModel.setId_service(new ArrayList<>());
+                }
+                newWeekModel.getId_service().add(model.getServicePrimaryKeyModel().getPrimaryKey());
+                Timber.d("Service ID SIZE => " + newWeekModel.getId_service().size());
+
+                mServiceModel = model;
+
+                isServiceFill = true;
+                if (areAllFieldfill()) {
+                    btnOk.setVisibility(View.VISIBLE);
+                } else {
+                    btnOk.setVisibility(View.GONE);
+                }
+            } else {
+                Toast.makeText(this, "Il servizio è stato già aggiunto", Toast.LENGTH_LONG).show();
+            }
+        });
+        serviceSelectDialog.show(getSupportFragmentManager(), "ServiceSelectDialog");
     }
 
     @OnClick(R.id.rbLella)
     public void clickLellaAction() {
         rbLella.setChecked(!isLellaChecked);
         isLellaChecked = !isLellaChecked;
+        Timber.d("isMariaChecked => " + isMariaChecked);
+        Timber.d("isLellaChecked => " + isLellaChecked);
+        Timber.d("isAnnaChecked => " + isAnnaChecked);
     }
 
     @OnClick(R.id.rbMaria)
     public void clickLMariaAction() {
         rbMaria.setChecked(!isMariaChecked);
         isMariaChecked = !isMariaChecked;
+        Timber.d("isMariaChecked => " + isMariaChecked);
+        Timber.d("isLellaChecked => " + isLellaChecked);
+        Timber.d("isAnnaChecked => " + isAnnaChecked);
     }
 
     @OnClick(R.id.rbAnna)
     public void clickAnnaaAction() {
         rbAnna.setChecked(!isAnnaChecked);
         isAnnaChecked = !isAnnaChecked;
+        Timber.d("isMariaChecked => " + isMariaChecked);
+        Timber.d("isLellaChecked => " + isLellaChecked);
+        Timber.d("isAnnaChecked => " + isAnnaChecked);
     }
 
 
@@ -324,8 +403,8 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @OnClick(R.id.btnOK)
     public void okAction() {
         Calendar endTime = (Calendar) startTime.clone();
-        int hours = serviceModel.getDuration() / 60; //since both are ints, you get an int
-        int minutes = serviceModel.getDuration() % 60;
+        int hours = mServiceModel.getDuration() / 60; //since both are ints, you get an int
+        int minutes = mServiceModel.getDuration() % 60;
         endTime.add(Calendar.MINUTE, minutes);
         endTime.add(Calendar.HOUR, hours);
         newWeekModel.setStartTime(startTime);
@@ -346,12 +425,15 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         }
         newWeekModel.setId_staff(staff);
 
+
         if (isEditable) {
             newWeekModel.setAppointmentId(editableModel.getAppointmentId());
             mPresenter.editAppointment(newWeekModel);
         } else {
             mPresenter.addAppointment(newWeekModel);
         }
+
+        Timber.d("MODELLO => " + newWeekModel.toString());
     }
 
 
@@ -423,6 +505,49 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             etDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
         }, mYear, mMonth, mDay);
         datePickerDialog.show();
+    }
 
+    @OnClick(R.id.tvNuovoCliente)
+    public void aggiungiNuovoCliente() {
+        Intent i = new Intent(this, AddClientsActivity.class);
+        i.putExtra("comeFromCalendar", true);
+        startActivityForResult(i, 999);
+    }
+
+    @OnClick(R.id.tvNuovoServizio)
+    public void aggiungiNuovoServizio() {
+        Intent i = new Intent(this, AddServiceActivity.class);
+        i.putExtra("comeFromCalendar", true);
+        startActivityForResult(i, 999);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Check which request we're responding to
+        if (requestCode == 999) {
+            // Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK) {
+                String name = data.getStringExtra("name");
+                Timber.d("NOME => " + name);
+                // String data = ApiClient.getGson().toJson(bookmarksList.get(position));
+                if (name.equalsIgnoreCase("Cliente")) {
+                    ClientModelAdd clientModel = ApiClient.getGson().fromJson(data.getStringExtra("modello"), ClientModelAdd.class);
+                    if (clientModel != null && GlobalUtils.isNotNullAndNotEmpty(clientModel.getName()) && GlobalUtils.isNotNullAndNotEmpty(clientModel.getSurname())) {
+                        clientId.setText(clientModel.getName() + " " + clientModel.getSurname());
+//                        Timber.d("mClientModel => " + clientModel);
+//                        clientModel = model;
+                    }
+                } else if (name.equalsIgnoreCase("Servizio")) {
+                    ServiceModel serviceModel = ApiClient.getGson().fromJson(data.getStringExtra("modello"), ServiceModel.class);
+                    if (serviceModel != null && GlobalUtils.isNotNullAndNotEmpty(serviceModel.getName())) {
+                        serviceId.setText(serviceModel.getName());
+//                        newWeekModel.setId_service(serviceModel.getServicePrimaryKeyModel().getPrimaryKey());
+                        mServiceModel = serviceModel;
+                        Timber.d("mServiceModel => " + serviceModel);
+                    }
+                }
+            }
+        }
     }
 }

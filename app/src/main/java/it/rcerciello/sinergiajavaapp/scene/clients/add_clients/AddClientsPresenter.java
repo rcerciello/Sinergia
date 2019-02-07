@@ -42,7 +42,7 @@ public class AddClientsPresenter implements AddClientsContract.Presenter {
             @Override
             public void onSuccess(Boolean object) {
                 if (object) {
-                    mView.closeView();
+                    mView.closeView(model);
                 } else {
                     mView.changeStateButton();
                     mView.showSnackbarError(Sinergia.INSTANCE.getResources().getString(R.string.something_went_wrong));

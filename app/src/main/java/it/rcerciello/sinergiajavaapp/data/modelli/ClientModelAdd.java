@@ -62,7 +62,7 @@ public class ClientModelAdd extends RealmObject{
     @Override
     public String toString() {
         return "ClientModelAdd{" +
-                ", clientIdentifier='" + clientIdentifier + '\'' +
+                " clientIdentifier='" + clientIdentifier + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", address='" + address + '\'' +

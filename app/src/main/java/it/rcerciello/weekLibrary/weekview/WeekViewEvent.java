@@ -8,10 +8,6 @@ import java.util.List;
 
 import static it.rcerciello.weekLibrary.weekview.WeekViewUtil.isSameDay;
 
-/**
- * Created by Raquib-ul-Alam Kanak on 7/21/2014.
- * Website: http://april-shower.com
- */
 public class WeekViewEvent {
     @SerializedName("id_appointment")
     private String id_appointment;
@@ -40,7 +36,7 @@ public class WeekViewEvent {
     private int mColor;
 
     @SerializedName("id_service")
-    private String id_service;
+    private List<String> id_service;
 
     private boolean mAllDay;
 
@@ -64,7 +60,7 @@ public class WeekViewEvent {
      * @param endHour         Hour (in 24-hour format) when the event ends.
      * @param endMinute       Minute when the event ends.
      */
-    public WeekViewEvent(String id_appointment, String appointmentName, List<String> id_staff, String id_service, String customer_name, String customer_surname, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
+    public WeekViewEvent(String id_appointment, String appointmentName, List<String> id_staff, List<String> id_service, String customer_name, String customer_surname, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
         this.id_appointment = id_appointment;
         this.id_staff = id_staff;
         this.id_service = id_service;
@@ -98,7 +94,7 @@ public class WeekViewEvent {
      * @param endTime   The time when the event ends.
      * @param allDay    Is the event an all day event.
      */
-    public WeekViewEvent(String idAppuntments, String appointmentName, List<String> id_staff, String id_service, String customer_name, String customer_surname, String location, Calendar startTime, Calendar endTime, boolean allDay, String cliente) {
+    public WeekViewEvent(String idAppuntments, String appointmentName, List<String> id_staff, List<String> id_service, String customer_name, String customer_surname, String location, Calendar startTime, Calendar endTime, boolean allDay, String cliente) {
         this.id_appointment = idAppuntments;
         this.id_staff = id_staff;
         this.appointmentName = appointmentName;
@@ -121,7 +117,7 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime   The time when the event ends.
      */
-    public WeekViewEvent(String idAppointment, String appointmentName, List<String> id_staff, String id_service, String customer_name, String customer_surname, String location, Calendar startTime, Calendar endTime, String cliente) {
+    public WeekViewEvent(String idAppointment, String appointmentName, List<String> id_staff, List<String> id_service, String customer_name, String customer_surname, String location, Calendar startTime, Calendar endTime, String cliente) {
         this(idAppointment, appointmentName, id_staff, id_service,customer_name, customer_surname, location, startTime, endTime, false, cliente);
     }
 
@@ -133,7 +129,7 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime   The time when the event ends.
      */
-    public WeekViewEvent(String idAppointment, String appointmentName, List<String> id_staff, String id_service, String customer_name, String customer_surname, Calendar startTime, Calendar endTime, String cliente) {
+    public WeekViewEvent(String idAppointment, String appointmentName, List<String> id_staff,  List<String>  id_service, String customer_name, String customer_surname, Calendar startTime, Calendar endTime, String cliente) {
         this(idAppointment, appointmentName, id_staff, id_service,customer_name, customer_surname,  null, startTime, endTime, cliente);
     }
 
@@ -142,16 +138,8 @@ public class WeekViewEvent {
         return customer_surname;
     }
 
-    public void setCustomer_surname(String customer_surname) {
-        this.customer_surname = customer_surname;
-    }
-
     public String getCustomer_name() {
         return customer_name;
-    }
-
-    public void setCustomer_name(String customer_name) {
-        this.customer_name = customer_name;
     }
 
     public Calendar getStartTime() {
@@ -162,7 +150,7 @@ public class WeekViewEvent {
         this.mStartTime = startTime;
     }
 
-    public Calendar getEndTime() {
+     Calendar getEndTime() {
         return mEndTime;
     }
 
@@ -178,12 +166,8 @@ public class WeekViewEvent {
         this.appointmentName = name;
     }
 
-    public String getLocation() {
+     String getLocation() {
         return mLocation;
-    }
-
-    public void setLocation(String location) {
-        this.mLocation = location;
     }
 
     public int getColor() {
@@ -194,12 +178,8 @@ public class WeekViewEvent {
         this.mColor = color;
     }
 
-    public boolean isAllDay() {
+     boolean isAllDay() {
         return mAllDay;
-    }
-
-    public void setAllDay(boolean allDay) {
-        this.mAllDay = allDay;
     }
 
     public String getAppointmentId() {
@@ -218,37 +198,12 @@ public class WeekViewEvent {
         this.id_customer = idCliente;
     }
 
-    public String getId_service() {
+    public  List<String>  getId_service() {
         return id_service;
     }
 
-    public void setId_service(String id_service) {
+    public void setId_service( List<String>  id_service) {
         this.id_service = id_service;
-    }
-
-
-    public String getId_appointment() {
-        return id_appointment;
-    }
-
-    public void setId_appointment(String id_appointment) {
-        this.id_appointment = id_appointment;
-    }
-
-    public Calendar getmStartTime() {
-        return mStartTime;
-    }
-
-    public void setmStartTime(Calendar mStartTime) {
-        this.mStartTime = mStartTime;
-    }
-
-    public Calendar getmEndTime() {
-        return mEndTime;
-    }
-
-    public void setmEndTime(Calendar mEndTime) {
-        this.mEndTime = mEndTime;
     }
 
     public String getAppointmentName() {
@@ -259,37 +214,6 @@ public class WeekViewEvent {
         this.appointmentName = appointmentName;
     }
 
-    public String getmLocation() {
-        return mLocation;
-    }
-
-    public void setmLocation(String mLocation) {
-        this.mLocation = mLocation;
-    }
-
-    public String getId_customer() {
-        return id_customer;
-    }
-
-    public void setId_customer(String id_customer) {
-        this.id_customer = id_customer;
-    }
-
-    public int getmColor() {
-        return mColor;
-    }
-
-    public void setmColor(int mColor) {
-        this.mColor = mColor;
-    }
-
-    public boolean ismAllDay() {
-        return mAllDay;
-    }
-
-    public void setmAllDay(boolean mAllDay) {
-        this.mAllDay = mAllDay;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -297,7 +221,7 @@ public class WeekViewEvent {
         if (o == null || getClass() != o.getClass()) return false;
 
         WeekViewEvent that = (WeekViewEvent) o;
-        return id_appointment == that.id_appointment;
+        return id_appointment.equalsIgnoreCase(that.id_appointment);
     }
 
     public List<String> getId_staff() {
@@ -307,16 +231,9 @@ public class WeekViewEvent {
     public void setId_staff(List<String> id_staff) {
         this.id_staff = id_staff;
     }
-//
-//    @Override
-//    public int hashCode() {
-//        return (int) (id_appointment ^ (id_appointment >>> 32));
-//    }
 
-    public List<WeekViewEvent> splitWeekViewEvents() {
-        //This function splits the WeekViewEvent in WeekViewEvents by day
+    List<WeekViewEvent> splitWeekViewEvents() {
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
-        // The first millisecond of the next day is still the same day. (no need to split events for this).
         Calendar endTime = (Calendar) this.getEndTime().clone();
         endTime.add(Calendar.MILLISECOND, -1);
         if (!isSameDay(this.getStartTime(), endTime)) {
@@ -372,7 +289,7 @@ public class WeekViewEvent {
                 ", customer_surname='" + customer_surname + '\'' +
                 ", id_staff=" + id_staff +
                 ", mColor=" + mColor +
-                ", id_service='" + id_service + '\'' +
+                ", id_service=" + id_service +
                 ", mAllDay=" + mAllDay +
                 '}';
     }

@@ -133,10 +133,13 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
 
                         String name = filteredData.get(i).getName();
                         String surname = filteredData.get(i).getSurname();
+                        String clientIdentifier = filteredData.get(i).getClientIdentifier();
 
                         assert surname != null;
                         assert name != null;
-                        if (name.toLowerCase().startsWith(constraint.toString()) ||surname.toLowerCase().startsWith(constraint.toString()) ) {
+                        if (name.toLowerCase().startsWith(constraint.toString()) ||
+                                surname.toLowerCase().startsWith(constraint.toString()) ||
+                                clientIdentifier.toLowerCase().trim().contains(constraint.toString())) {
 
                             // en, String it, String de, String fr, String isoCode, String e
                             ClientModel item = new ClientModel();

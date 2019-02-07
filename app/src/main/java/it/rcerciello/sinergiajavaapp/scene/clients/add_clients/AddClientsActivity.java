@@ -1,6 +1,8 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.add_clients;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,11 +25,11 @@ import butterknife.ButterKnife;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.SaveButton.ButtonStates;
 import it.rcerciello.sinergiajavaapp.SaveButton.CustomSaveButton;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
+import it.rcerciello.sinergiajavaapp.data.network.ApiClient;
 import it.rcerciello.sinergiajavaapp.widgets.CustomEditText;
 import it.rcerciello.sinergiajavaapp.widgets.CustomSharedEditTextView;
-import retrofit2.http.Body;
+import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class AddClientsActivity extends AppCompatActivity implements AddClientsContract.View, CustomSaveButton.CustomSaveButtonInterface {
@@ -65,7 +67,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
     RelativeLayout root;
 
     private AddClientsContract.Presenter mPresenter;
-
+    private boolean comeFromCalendar = false;
 
     private enum FieldRequired {
         NOME,
@@ -86,6 +88,8 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
         mPresenter = new AddClientsPresenter(this);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
+        comeFromCalendar = getIntent().getBooleanExtra("comeFromCalendar", false);
+
         nome.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         cognome.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         indirizzo.getEditTextReference().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
@@ -98,20 +102,20 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
         areThereFiledRequired.put(FieldRequired.COGNOME, false);
         areThereFiledRequired.put(FieldRequired.LANDLINE, false);
 
-        setTextChangedListener(nome, FieldRequired.NOME, true );
-        setTextChangedListener(cognome, FieldRequired.COGNOME, true );
-        setTextChangedListener(landline, FieldRequired.LANDLINE, true );
-        setTextChangedListener(email, FieldRequired.EMAIL, true );
+        setTextChangedListener(nome, FieldRequired.NOME, true);
+        setTextChangedListener(cognome, FieldRequired.COGNOME, true);
+        setTextChangedListener(landline, FieldRequired.LANDLINE, true);
+        setTextChangedListener(email, FieldRequired.EMAIL, true);
 
 
         saveButton.getButtonReference().setOnClickListener(v -> {
             saveButton.changeState();
-            ClientModelAdd client = new ClientModelAdd( identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText().toLowerCase(), mobilePhone.getText(), email.getText());
+            ClientModelAdd client = new ClientModelAdd(identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText().toLowerCase(), mobilePhone.getText(), email.getText());
             mPresenter.addClient(client);
         });
     }
 
-    private void setTextChangedListener(final CustomEditText editText,final FieldRequired type, final boolean mandatory) {
+    private void setTextChangedListener(final CustomEditText editText, final FieldRequired type, final boolean mandatory) {
         if (editText != null) {
             final EditText wrappedEditText = editText.getEditTextReference();
             if (wrappedEditText != null) {
@@ -130,8 +134,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
                                 if (!s.toString().isEmpty()) {
                                     areThereFiledRequired.remove(FieldRequired.NOME);
                                     areThereFiledRequired.put(FieldRequired.NOME, true);
-                                }else
-                                {
+                                } else {
                                     areThereFiledRequired.remove(FieldRequired.NOME);
                                     areThereFiledRequired.put(FieldRequired.NOME, false);
                                 }
@@ -140,8 +143,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
                                 if (!s.toString().isEmpty()) {
                                     areThereFiledRequired.remove(FieldRequired.COGNOME);
                                     areThereFiledRequired.put(FieldRequired.COGNOME, true);
-                                }else
-                                {
+                                } else {
                                     areThereFiledRequired.remove(FieldRequired.COGNOME);
                                     areThereFiledRequired.put(FieldRequired.COGNOME, false);
                                 }
@@ -150,8 +152,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
                                 if (!s.toString().isEmpty()) {
                                     areThereFiledRequired.remove(FieldRequired.LANDLINE);
                                     areThereFiledRequired.put(FieldRequired.LANDLINE, true);
-                                }else
-                                {
+                                } else {
                                     areThereFiledRequired.remove(FieldRequired.LANDLINE);
                                     areThereFiledRequired.put(FieldRequired.LANDLINE, false);
                                 }
@@ -161,8 +162,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
                                 if (!s.toString().isEmpty()) {
                                     areThereFiledRequired.remove(FieldRequired.EMAIL);
                                     areThereFiledRequired.put(FieldRequired.EMAIL, true);
-                                }else
-                                {
+                                } else {
                                     areThereFiledRequired.remove(FieldRequired.EMAIL);
                                     areThereFiledRequired.put(FieldRequired.EMAIL, false);
                                 }
@@ -214,8 +214,13 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
 
     @Override
     public void onBackPressed() {
+        if (comeFromCalendar) {
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+        }
         super.onBackPressed();
         overridePendingTransition(R.anim.no_changes, R.anim.slide_out_top);
+
     }
 
 
@@ -244,9 +249,21 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
     }
 
     @Override
-    public void closeView() {
-        onBackPressed();
+    public void closeView(ClientModelAdd model) {
+        Timber.d("come from calendar = "+comeFromCalendar);
+        if (comeFromCalendar) {
+            Intent returnIntent = new Intent();
+            String data = ApiClient.getGson().toJson(model);
+            Timber.d("modello = "+data);
+            returnIntent.putExtra("name", "Cliente");
+            returnIntent.putExtra("modello", data);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        } else {
+            onBackPressed();
+        }
     }
+
 
     @Override
     public void saveButtonClick() {
@@ -273,7 +290,7 @@ public class AddClientsActivity extends AppCompatActivity implements AddClientsC
         }
 
         if (!thereIsError) {
-            ClientModelAdd model = new ClientModelAdd(identificativo.getText(),nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText(), mobilePhone.getText(), email.getText());
+            ClientModelAdd model = new ClientModelAdd(identificativo.getText(), nome.getText(), cognome.getText(), indirizzo.getText(), landline.getText(), mobilePhone.getText(), email.getText());
             mPresenter.addClient(model);
         }
 

@@ -87,5 +87,15 @@ public class ServiceModel extends RealmObject {
 
     }
 
-
+    @Override
+    public String toString() {
+        return "ServiceModel{" +
+                "id='" + id + '\'' +
+                ", serviceIdentifier='" + serviceIdentifier + '\'' +
+                ", name='" + name + '\'' +
+                ", duration=" + duration +
+                ", price=" + price +
+                ", primaryKeyModel=" + primaryKeyModel +
+                '}';
+    }
 }

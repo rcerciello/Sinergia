@@ -1,6 +1,5 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.add_clients;
 
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.scene.BasePresenter;
 import it.rcerciello.sinergiajavaapp.scene.BaseView;
@@ -14,7 +13,7 @@ public class AddClientsContract {
 
         void showSnackbarError(String message);
 
-        void closeView();
+        void closeView(ClientModelAdd model);
 
         void changeStateButton();
     }

@@ -41,7 +41,7 @@ public class AddServicePresenter implements AddServiceContract.Presenter {
             @Override
             public void onSuccess(Boolean object) {
                 if (object) {
-                    mView.closeView();
+                    mView.closeView(model);
                 } else {
                     mView.showSnackbarError(Sinergia.INSTANCE.getResources().getString(R.string.something_went_wrong));
                 }

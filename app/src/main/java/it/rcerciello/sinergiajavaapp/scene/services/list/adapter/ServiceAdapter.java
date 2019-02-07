@@ -137,8 +137,10 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                     for (int i = 0; i < filteredData.size(); i++) {
 
                         String name = filteredData.get(i).getName();
+                        String serviceIdentifier = filteredData.get(i).getServiceIdentifier();
 
-                        if (name.toLowerCase().startsWith(constraint.toString())) {
+                        if (name.toLowerCase().startsWith(constraint.toString()) ||
+                                serviceIdentifier.toLowerCase().trim().contains(constraint.toString().trim()) ) {
 
                             ServiceModel item = new ServiceModel();
                             item.setDuration(filteredData.get(i).getDuration());

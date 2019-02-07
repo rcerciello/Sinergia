@@ -121,7 +121,6 @@ public class CalendarNetworkLayer {
                     if (response.body() != null && response.body().getEventList() != null) {
                         assert response.body() != null;
                         Timber.d("Appointments => " + response.body().getEventList());
-
                         mCallback.onSuccess(response.body().getEventList());
                     }
                     else {

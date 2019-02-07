@@ -1,6 +1,8 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.detail;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.irozon.library.HideKey;
 
@@ -311,9 +314,20 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
     @OnClick(R.id.delete)
     public void deleteClientAction() {
-        mPesenter.deleteClient(clientModel.getPrimaryKeyModel().getPrimaryKey());
+        showDeleteAlert();
     }
 
+    private void showDeleteAlert()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ClientDetailsActivity.this);
+        builder.setTitle("Cancellazione Cliente");
+        builder.setMessage("Sei sicuro di voler eliminare "+clientModel.getName()+" "+clientModel.getSurname()+" ?");
+        builder.setPositiveButton("Si", (dialog, which) -> mPesenter.deleteClient(clientModel.getPrimaryKeyModel().getPrimaryKey()));
+        builder.setNegativeButton("No", (dialog, which) -> {
+        });
+        AlertDialog dialog =  builder.create();
+        dialog.show();
+    }
     private void enableSaveButton() {
         saveButton.setButtonState(ButtonStates.ENABLED);
     }

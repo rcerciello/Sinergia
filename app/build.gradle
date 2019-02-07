@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 android {
+
     compileSdkVersion 27
     defaultConfig {
         applicationId "it.rcerciello.sinergiajavaapp"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 27
         multiDexEnabled = true
         versionCode 1
@@ -15,11 +16,28 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "BASE_URL", "\"https://gzq5qeccj2.execute-api.eu-central-1.amazonaws.com/v1/\""
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            debuggable true
+            buildConfigField "String", "BASE_URL", "\"https://gzq5qeccj2.execute-api.eu-central-1.amazonaws.com/v1/\""
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
 }
 
@@ -55,3 +73,5 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
     implementation 'com.irozon.keyhide:keyhide:1.0.0'
 }
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'

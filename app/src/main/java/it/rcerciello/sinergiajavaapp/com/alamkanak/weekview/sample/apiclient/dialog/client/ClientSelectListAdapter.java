@@ -21,6 +21,7 @@ import it.rcerciello.sinergiajavaapp.GlobalUtils;
 import it.rcerciello.sinergiajavaapp.R;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
+import timber.log.Timber;
 
 
 /**
@@ -68,10 +69,14 @@ public class ClientSelectListAdapter extends RecyclerView.Adapter<ClientSelectLi
 
                         String name = filteredData.get(i).getName();
                         String surname = filteredData.get(i).getSurname();
-
+                        String clientIdentifier = filteredData.get(i).getClientIdentifier();
                         assert surname != null;
                         assert name != null;
-                        if (name.toLowerCase().startsWith(constraint.toString()) ||surname.toLowerCase().startsWith(constraint.toString()) ) {
+                        Timber.d("Client Identifier => "+clientIdentifier);
+                        Timber.d("constraint => "+constraint);
+
+                        if (name.toLowerCase().startsWith(constraint.toString()) ||surname.toLowerCase().startsWith(constraint.toString())
+                                || clientIdentifier.toLowerCase().contains(constraint.toString().toLowerCase()) ) {
 
                             // en, String it, String de, String fr, String isoCode, String e
                             ClientModel item = new ClientModel();

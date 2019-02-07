@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -86,10 +85,12 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Call back the Adapter with current character to Filter
 
+                Timber.d("Filtraggio clienti");
+                Timber.d("s => "+s.toString());
                 if (s.toString().trim().isEmpty()) {
                     resetAdapter();
                 } else {
-                    filterCountryOnAdapter(s.toString().trim());
+                    filterClientiOnAdapter(s.toString().trim());
                 }
                 Timber.d("Search with name ");
             }
@@ -112,7 +113,7 @@ public class ClientItemFragment extends Fragment implements ClientItemFragmentCo
         adapter.setOriginalData(clients);
     }
 
-    public void filterCountryOnAdapter(String txt) {
+    public void filterClientiOnAdapter(String txt) {
         adapter.getFilter().filter(txt);
     }
 

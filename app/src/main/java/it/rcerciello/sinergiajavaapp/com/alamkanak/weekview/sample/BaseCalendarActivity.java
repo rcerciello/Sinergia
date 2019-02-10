@@ -85,8 +85,6 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
         mWeekViewMaria.setCollaboratorId(GeneralConstants.ID_MARIA);
 
         setCalendarWidgetListener();
-        // Set up a date time interpreter to interpret how the date and time will be formatted in
-        // the week view. This is optional.
         setupDateTimeInterpreter(false);
 //        mWeekViewLella.getScrollListener().onMyScrollXListener();
         mWeekViewLella.setScrollListener(this);
@@ -274,13 +272,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     }
 
 
-    public WeekView getWeekView() {
-        return mWeekViewLella;
-    }
-
-
     private void setAlertDialogForAnEvent(final WeekViewEvent event) {
-//        CharSequence options[] = new CharSequence[]{"Cancella Evento", "Modifica Evento"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -340,12 +332,12 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
             progressBar.setVisibility(View.GONE);
         }
     }
-
-    @Override
-    public void refreshCalendar() {
-        Timber.d("-- Refresh Calendar --");
-        mPresenter.getAllAppointments();
-    }
+//
+//    @Override
+//    public void refreshCalendar() {
+//        Timber.d("-- Refresh Calendar --");
+//        mPresenter.getAllAppointments();
+//    }
 
     @Override
     public void removeEventFromCalendar(WeekViewEvent event) {

@@ -1,15 +1,10 @@
 package it.rcerciello.sinergiajavaapp.scene.clients.list;
 
-import java.util.ArrayList;
-
 import javax.annotation.Nonnull;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 import it.rcerciello.sinergiajavaapp.data.managers.ClientNetworkLayer;
-import it.rcerciello.sinergiajavaapp.data.managers.ServiceModelResponse;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import timber.log.Timber;
 
@@ -21,7 +16,7 @@ public class ClientItemPresenter implements ClientItemFragmentContract.Presenter
 
     private ClientItemFragmentContract.View mView;
 
-    public ClientItemPresenter(@Nonnull ClientItemFragmentContract.View mView) {
+    ClientItemPresenter(@Nonnull ClientItemFragmentContract.View mView) {
         this.mView = mView;
     }
 

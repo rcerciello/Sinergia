@@ -1,10 +1,7 @@
 package it.rcerciello.sinergiajavaapp.data.repository;
 
-import android.app.Service;
 import android.support.annotation.NonNull;
-
 import java.util.List;
-
 import io.realm.Realm;
 import it.rcerciello.sinergiajavaapp.data.managers.StaffModelResponse;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;

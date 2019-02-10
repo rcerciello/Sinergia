@@ -10,7 +10,6 @@ import it.rcerciello.sinergiajavaapp.data.managers.CalendarNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
-import timber.log.Timber;
 
 public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
 
@@ -56,69 +55,6 @@ public class BaseCalendarPresenter implements BaseCalendarContract.Presenter {
         });
 
     }
-
-//    @Override
-//    public void editAppointment(WeekViewEvent event) {
-//        mView.showInProgress(true);
-//        CalendarNetworkLayer.getInstance().editAppointment(event, new APICallback<Boolean>() {
-//            @Override
-//            public void onSuccess(Boolean object) {
-//                mView.showInProgress(false);
-//                mView.refreshCalendar();
-//            }
-//
-//            @Override
-//            public void onFailure(String error) {
-//                mView.showInProgress(false);
-//                if (GlobalUtils.isNotNullAndNotEmpty(error)) {
-//                    mView.showSnackbar(error);
-//                }
-//            }
-//
-//            @Override
-//            public void onSessionExpired() {
-//                mView.showInProgress(false);
-//            }
-//
-//            @Override
-//            public void onFailure(boolean isFailure) {
-//                mView.showInProgress(false);
-//            }
-//        });
-//
-//
-//    }
-//
-//    @Override
-//    public void addAppointment(WeekViewEvent event) {
-//        mView.showInProgress(true);
-//        CalendarNetworkLayer.getInstance().addAppointment(event, new APICallback<Boolean>() {
-//            @Override
-//            public void onSuccess(Boolean object) {
-//                mView.showInProgress(false);
-//                mView.refreshCalendar();
-//            }
-//
-//            @Override
-//            public void onFailure(String error) {
-//                mView.showInProgress(false);
-//                if (GlobalUtils.isNotNullAndNotEmpty(error)) {
-//                    mView.showSnackbar(error);
-//                }
-//            }
-//
-//            @Override
-//            public void onSessionExpired() {
-//                mView.showInProgress(false);
-//            }
-//
-//            @Override
-//            public void onFailure(boolean isFailure) {
-//                mView.showInProgress(false);
-//            }
-//        });
-//    }
-
     @Override
     public void start() {
 

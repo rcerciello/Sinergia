@@ -2,7 +2,6 @@ package it.rcerciello.sinergiajavaapp.scene.clients.detail;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -17,10 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.irozon.library.HideKey;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -71,9 +67,6 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
     @BindView(R.id.delete)
     ImageView delete;
 
-//    @BindView(R.id.ivProfile)
-//    ImageView ivProfile;
-
     @BindView(R.id.tvAppointment)
     TextView tvAppointment;
 
@@ -83,7 +76,6 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
 
     private ClientDetailsContract.Presenter mPesenter;
     private ClientModel clientModel;
-    private String imageToUpload = null;
 
     private enum FieldType {
         TEXT,
@@ -340,11 +332,4 @@ public class ClientDetailsActivity extends AppCompatActivity implements ClientDe
     private void showSaveButton() {
         saveButton.setSaveButtonVisibility(View.VISIBLE);
     }
-
-
-    private void hideSaveButton() {
-        saveButton.setSaveButtonVisibility(View.INVISIBLE);
-    }
-
-
 }

@@ -12,8 +12,6 @@ public class BaseCalendarContract {
 
         void showInProgress(boolean showOrHide);
 
-        void refreshCalendar();
-
         void removeEventFromCalendar(WeekViewEvent event);
 
         void showSnackbar(String message);

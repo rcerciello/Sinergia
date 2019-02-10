@@ -1,10 +1,7 @@
 package it.rcerciello.sinergiajavaapp.data.managers;
 
-import java.util.ArrayList;
-
 import it.rcerciello.sinergiajavaapp.data.modelli.EmployeeModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.LoginModel;
-import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 
 /**

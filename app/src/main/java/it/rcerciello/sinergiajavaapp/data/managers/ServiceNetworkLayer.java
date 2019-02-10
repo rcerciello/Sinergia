@@ -1,10 +1,6 @@
 package it.rcerciello.sinergiajavaapp.data.managers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceEditModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;

@@ -1,7 +1,6 @@
 package it.rcerciello.sinergiajavaapp.data.managers;
 
 import com.google.gson.annotations.SerializedName;
-
 import io.realm.RealmObject;
 import it.rcerciello.sinergiajavaapp.data.modelli.ApiPrimaryKeyModel;
 

@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import it.rcerciello.sinergiajavaapp.data.managers.ClientNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
-import it.rcerciello.sinergiajavaapp.data.modelli.ClientModelAdd;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.scene.clients.next_appointments.root.models.NextAppointmentGetModel;
 

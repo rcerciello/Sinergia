@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,6 +47,7 @@ import it.rcerciello.sinergiajavaapp.scene.services.add_service.AddServiceActivi
 import it.rcerciello.sinergiajavaapp.utils.GeneralConstants;
 import it.rcerciello.weekLibrary.weekview.WeekViewEvent;
 import timber.log.Timber;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class AddAppointmentActivity extends AppCompatActivity implements AddAppointmentContract.View {
@@ -74,13 +77,13 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     ProgressBar progressBar;
 
     @BindView(R.id.rbLella)
-    RadioButton rbLella;
+    SwitchCompat rbLella;
 
     @BindView(R.id.rbAnna)
-    RadioButton rbAnna;
+    SwitchCompat rbAnna;
 
     @BindView(R.id.rbMaria)
-    RadioButton rbMaria;
+    SwitchCompat rbMaria;
 
     @BindView(R.id.btnTimePicker)
     Button btnTimePicker;
@@ -119,7 +122,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     int mDay;
 
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
@@ -271,48 +274,34 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             return false;
         });
 
-        clientId.setOnTouchListener((v, event) -> {
-            final int DRAWABLE_RIGHT = 2;
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getRawX() >= (clientId.getRight() - clientId.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                    ClientSelectDialogFragment serviceSelectDialog = ClientSelectDialogFragment.newInstance();
-                    serviceSelectDialog.setClientSelectedListener(model -> {
-                        clientId.setText(model.getName() + " " + model.getSurname());
-                        newWeekModel.setIdCliente(model.getPrimaryKeyModel().getPrimaryKey());
-                        mClientModel = model;
-                        isClientFill = true;
-                        if (areAllFieldfill()) {
-                            btnOk.setVisibility(View.VISIBLE);
-                        } else {
-                            btnOk.setVisibility(View.GONE);
-                        }
-                    });
-                    serviceSelectDialog.show(getSupportFragmentManager(), "ClientSelectDialog");
-                    return false;
+        clientId.setOnClickListener(v -> {
+            ClientSelectDialogFragment serviceSelectDialog = ClientSelectDialogFragment.newInstance();
+            serviceSelectDialog.setClientSelectedListener(model -> {
+                clientId.setText(model.getName() + " " + model.getSurname());
+                newWeekModel.setIdCliente(model.getPrimaryKeyModel().getPrimaryKey());
+                mClientModel = model;
+                isClientFill = true;
+                if (areAllFieldfill()) {
+                    btnOk.setVisibility(View.VISIBLE);
+                } else {
+                    btnOk.setVisibility(View.GONE);
                 }
-            }
-            return true;
-
+            });
+            serviceSelectDialog.show(getSupportFragmentManager(), "ClientSelectDialog");
         });
 
-        serviceId.setOnTouchListener((v, event) -> {
-            final int DRAWABLE_LEFT = 0;
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getRawX() >= (serviceId.getLeft() - serviceId.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
-                    newWeekModel.setId_service(new ArrayList<>());
-                    serviceId.setText("");
-                    isServiceFill = false;
-                    if (areAllFieldfill()) {
-                        btnOk.setVisibility(View.VISIBLE);
-                    } else {
-                        btnOk.setVisibility(View.GONE);
-                    }
-                    return false;
-                }
-            }
-            return true;
 
+        serviceId.setOnClickListener(v -> {
+            newWeekModel.setId_service(new ArrayList<>());
+            serviceId.setText("");
+            isServiceFill = false;
+            if (areAllFieldfill()) {
+                btnOk.setVisibility(View.VISIBLE);
+            } else {
+                btnOk.setVisibility(View.GONE);
+            }
         });
+
     }
 
     private boolean areAllFieldfill() {
@@ -549,5 +538,10 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                 }
             }
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

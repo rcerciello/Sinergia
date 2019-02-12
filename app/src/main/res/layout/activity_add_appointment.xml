@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingBottom="5dp">
+    android:paddingBottom="5dp"
+    tools:ignore="MissingPrefix">
 
     <RelativeLayout
         android:id="@+id/root1"
@@ -20,14 +22,16 @@
         android:paddingRight="24dp">
 
         <ScrollView
+            android:scrollbars="none"
             android:id="@+id/scrollView"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/myView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -35,51 +39,61 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cliente"
+                    android:textAllCaps="true"
+                    fontPath="Roboto/RobotoBold.ttf"
                     android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/etClientName"
+                    android:focusable="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_black_plus"
                     android:textColor="@color/black" />
-<!--commit -->
+                <!--commit -->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/titleService"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="Servizio"
-                    android:drawableEnd="@drawable/ic_black_plus"
-                    android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/titleService"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="Servizio"
+                        android:textAllCaps="true"
+                        fontPath="Roboto/RobotoBold.ttf"
+
+                        android:textColor="@color/black" />
 
 
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/titleService"
-                    android:id="@+id/etServiceId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_close_black"
-                    android:textColor="@color/black" />
+                    <EditText
+                        android:id="@+id/etServiceId"
+                        android:focusable="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/titleService"
+                        android:layout_marginTop="10dp"
+                        android:drawableStart="@drawable/ic_close_black"
+                        android:textColor="@color/black" />
 
                     <Button
                         android:id="@+id/btnAddService"
-                        android:background="@color/transparent"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="@dimen/space_50"
+                        android:background="@color/transparent" />
                 </RelativeLayout>
 
 
                 <TextView
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="24dp"
                     android:text="Collaboratore"
+                    android:textAllCaps="true"
+                    fontPath="Roboto/RobotoBold.ttf"
                     android:textColor="@color/black" />
 
 
@@ -90,46 +104,83 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:weightSum="3">
 
-                        <RadioButton
-                            android:id="@+id/rbLella"
-                            android:layout_width="0dp"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:buttonTint="@color/accent"
-                            android:text="Lella"
-                            android:textColor="@color/black" />
+                            android:layout_marginTop="@dimen/space_12">
 
-                        <RadioButton
-                            android:id="@+id/rbAnna"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:buttonTint="@color/accent"
-                            android:text="Anna"
-                            android:textColor="@color/black" />
+                            <TextView
+                                fontPath="OpenSans/OpenSansRegular.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Lella"
+                                android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/rbMaria"
-                            android:layout_width="0dp"
+                            <android.support.v7.widget.SwitchCompat
+                                android:id="@+id/rbLella"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:buttonTint="@color/accent"
+                                android:textColor="@color/black" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:buttonTint="@color/accent"
-                            android:text="Maria"
-                            android:textColor="@color/black" />
+                            android:layout_marginTop="@dimen/space_12">
+
+                            <TextView
+                                fontPath="OpenSans/OpenSansRegular.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Anna"
+                                android:textColor="@color/black" />
+
+                            <android.support.v7.widget.SwitchCompat
+                                android:id="@+id/rbAnna"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:buttonTint="@color/accent"
+                                android:textColor="@color/black" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_12">
+
+                            <TextView
+                                fontPath="OpenSans/OpenSansRegular.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Maria"
+                                android:textColor="@color/black" />
+
+                            <android.support.v7.widget.SwitchCompat
+                                android:id="@+id/rbMaria"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:buttonTint="@color/accent"
+                                android:textColor="@color/black" />
+                        </RelativeLayout>
                     </LinearLayout>
                 </RadioGroup>
-
-
 
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="24dp"
                     android:text="Ora Di Inizio"
+                    android:textAllCaps="true"
+                    fontPath="Roboto/RobotoBold.ttf"
+
                     android:textColor="@color/black" />
 
                 <RelativeLayout
@@ -151,12 +202,14 @@
                 </RelativeLayout>
 
 
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="24dp"
                     android:text="Data"
+                    android:textAllCaps="true"
+                    fontPath="Roboto/RobotoBold.ttf"
+
                     android:textColor="@color/black" />
 
                 <RelativeLayout
@@ -207,29 +260,36 @@
             app:navigationIcon="@drawable/ic_close_black" />
 
         <LinearLayout
-            android:layout_marginRight="@dimen/space_24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/space_24"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvNuovoCliente"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:textColor="@color/black"
+                android:layout_width="@dimen/space_24"
+                android:layout_height="@dimen/space_24"
+                android:layout_marginLeft="@dimen/space_10"
+                android:layout_marginRight="@dimen/space_10"
                 android:gravity="center"
-                android:text="Nuovo Cliente" />
+                android:background="@drawable/ic_man"
+                android:textColor="@color/black" />
+            <View
+                android:layout_width="@dimen/space_1"
+                android:layout_height="match_parent"
+                android:background="@color/black"/>
 
 
             <TextView
                 android:id="@+id/tvNuovoServizio"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:text="Nuovo Servizio" />
+                android:layout_width="@dimen/space_24"
+                android:layout_height="@dimen/space_24"
+                android:layout_marginLeft="@dimen/space_10"
+                android:layout_marginRight="@dimen/space_10"
+                android:background="@drawable/ic_services"
+                android:textColor="@color/black" />
         </LinearLayout>
     </RelativeLayout>
 

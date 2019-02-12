@@ -87,13 +87,16 @@ public class CalendarNetworkLayer {
 
     public void addAppointment(WeekViewEvent event, final APICallback<Boolean> mCallback) {
         Call<Void> call = ApiClient.getApiClient().addAppointment(event);
+        Timber.i("Appontment => "+event.toString());
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 //200.300
                 if (response.isSuccessful()) {
+                    Timber.i("ADD APPOINTMENT SUCCESS");
                     mCallback.onSuccess(true);
                 } else {
+                    Timber.i("ADD APPOINTMENT FAILURE "+response.errorBody());
                     mCallback.onFailure(true);
                 }
             }
@@ -101,6 +104,7 @@ public class CalendarNetworkLayer {
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 Timber.e(t.getMessage());
+                Timber.i("ADD APPOINTMENT FAILURE ");
                 mCallback.onFailure(true);
             }
         });
@@ -118,6 +122,7 @@ public class CalendarNetworkLayer {
                         mCallback.onSuccess(response.body().getEventList());
                     }
                     else {
+                        Timber.d("Appointments Failure=> " + response.errorBody());
                         mCallback.onFailure(true);
                     }
             }

@@ -11,10 +11,17 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-
+            android:paddingTop="@dimen/space_10"
+            android:paddingBottom="@dimen/space_10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfile"
+                android:src="@drawable/ic_man1"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
 
             <TextView
                 android:id="@+id/nome"

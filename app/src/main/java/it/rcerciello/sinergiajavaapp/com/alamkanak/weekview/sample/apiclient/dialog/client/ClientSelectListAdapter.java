@@ -72,11 +72,11 @@ public class ClientSelectListAdapter extends RecyclerView.Adapter<ClientSelectLi
                         String clientIdentifier = filteredData.get(i).getClientIdentifier();
                         assert surname != null;
                         assert name != null;
-                        Timber.d("Client Identifier => "+clientIdentifier);
-                        Timber.d("constraint => "+constraint);
+                        Timber.d("Client Identifier => " + clientIdentifier);
+                        Timber.d("constraint => " + constraint);
 
-                        if (name.toLowerCase().startsWith(constraint.toString()) ||surname.toLowerCase().startsWith(constraint.toString())
-                                || clientIdentifier.toLowerCase().contains(constraint.toString().toLowerCase()) ) {
+                        if (name.toLowerCase().startsWith(constraint.toString()) || surname.toLowerCase().startsWith(constraint.toString())
+                                || clientIdentifier.toLowerCase().contains(constraint.toString().toLowerCase())) {
 
                             // en, String it, String de, String fr, String isoCode, String e
                             ClientModel item = new ClientModel();
@@ -163,7 +163,7 @@ public class ClientSelectListAdapter extends RecyclerView.Adapter<ClientSelectLi
     class ServiceItemViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.clientId)
-        TextView serviceId;
+        TextView clientId;
         @BindView(R.id.clientName)
         TextView clientName;
         @BindView(R.id.clientSurname)
@@ -178,16 +178,19 @@ public class ClientSelectListAdapter extends RecyclerView.Adapter<ClientSelectLi
         void bind(ClientModel model) {
             if (model != null) {
                 if (GlobalUtils.isNotNullAndNotEmpty(model.getPrimaryKeyModel().getPrimaryKey())) {
-                    serviceId.setText(model.getPrimaryKeyModel().getPrimaryKey());
+                    clientId.setVisibility(View.VISIBLE);
+                    clientId.setText(model.getClientIdentifier().toUpperCase());
+                } else {
+                    clientId.setVisibility(View.GONE);
                 }
 
 
                 if (GlobalUtils.isNotNullAndNotEmpty(model.getName())) {
-                    clientName.setText(model.getName());
+                    clientName.setText(model.getName().toUpperCase());
                 }
 
                 if (GlobalUtils.isNotNullAndNotEmpty(model.getSurname())) {
-                    clientSurname.setText(model.getSurname());
+                    clientSurname.setText(model.getSurname().toUpperCase());
                 }
             }
 

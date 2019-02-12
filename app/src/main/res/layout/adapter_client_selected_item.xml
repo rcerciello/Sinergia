@@ -1,50 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-
-    <LinearLayout
+   >
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:padding="@dimen/space_24"
-        android:weightSum="100">
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
+            android:src="@drawable/ic_man"
+            android:layout_width="50dp"
+            android:layout_centerVertical="true"
+            android:layout_height="@dimen/space_50" />
 
         <TextView
+            android:layout_toEndOf="@+id/icon"
+            android:layout_marginStart="@dimen/space_15"
             android:id="@+id/clientId"
-            android:layout_width="0dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="20"
             android:padding="5dp"
             android:text="id"
+            android:layout_gravity="center_vertical"
             android:textColor="@color/black" />
 
         <TextView
+            android:layout_toEndOf="@+id/clientId"
+            android:layout_marginStart="@dimen/space_15"
             android:id="@+id/clientName"
-            android:layout_width="0dp"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="40"
             android:padding="5dp"
             android:text="ceretta"
+            android:layout_centerVertical="true"
             android:textColor="@color/black" />
 
         <TextView
+            android:layout_toEndOf="@+id/clientName"
+            android:layout_marginStart="@dimen/space_15"
             android:id="@+id/clientSurname"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="40"
             android:padding="5dp"
             android:text="ceretta"
+            android:layout_centerVertical="true"
             android:textColor="@color/black" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/light_grey" />
 
-</LinearLayout>
+</RelativeLayout>

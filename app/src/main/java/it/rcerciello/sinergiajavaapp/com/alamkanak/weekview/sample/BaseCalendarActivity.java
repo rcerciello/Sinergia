@@ -235,7 +235,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
             public String interpretTime(int hour) {
                 //TODO Modificato
 //                return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
-                return ""+hour;
+                return "" + hour;
             }
         });
     }
@@ -383,42 +383,44 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     @Override
     public void showMariaAppointments(List<WeekViewEvent> appointments) {
         for (WeekViewEvent appointment : appointments) {
-            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname()+" "+appointment.getId_service());
+            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname());
         }
-        allAppointmentsMaria = appointments;
+        if (allAppointmentsMaria != null) {
+            allAppointmentsMaria.clear();
+        } else {
+            allAppointmentsMaria = new ArrayList<>();
+        }
+        allAppointmentsMaria.addAll(appointments);
         mWeekViewMaria.notifyDatasetChanged();
-
-        Timber.i("Notify MARIA");
-
     }
 
     @Override
     public void showAnnaAppointments(List<WeekViewEvent> appointments) {
         for (WeekViewEvent appointment : appointments) {
-            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname()+" "+appointment.getId_service());
+            Timber.i("ANNA => " + appointment.toString());
+            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname());
         }
-        allAppointmentsAnna = appointments;
-        //Print
-        for (WeekViewEvent e : appointments) {
-            Timber.i(e.toString());
+        if (allAppointmentsAnna != null) {
+            allAppointmentsAnna.clear();
+        } else {
+            allAppointmentsAnna = new ArrayList<>();
         }
-        //End Print
+        allAppointmentsAnna.addAll(appointments);
         mWeekViewAnna.notifyDatasetChanged();
-        Timber.i("Notify ANNA");
-
-
     }
 
     @Override
     public void showLellaAppointments(List<WeekViewEvent> appointments) {
         for (WeekViewEvent appointment : appointments) {
-            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname()+" "+appointment.getId_service());
+            appointment.setAppointmentName(appointment.getCustomer_name() + " " + appointment.getCustomer_surname());
         }
-
-        allAppointmentsLella = appointments;
+        if (allAppointmentsLella != null) {
+            allAppointmentsLella.clear();
+        } else {
+            allAppointmentsLella = new ArrayList<>();
+        }
+        allAppointmentsLella.addAll(appointments);
         mWeekViewLella.notifyDatasetChanged();
-
-        Timber.i("Notify LELLA");
 
     }
 
@@ -434,37 +436,37 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void onMyScrollXListener(WeekView.Direction mCurrentScrollDirection, float distanceX) {
-        Timber.d("DIRECTIRON => " + mCurrentScrollDirection.name() + " DELTA X  => " + distanceX);
-        this.mCurrentScrollDirection = mCurrentScrollDirection;
-        this.distanceX = distanceX;
-        mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
-        mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
-        mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceY, -1);
+//        Timber.d("DIRECTIRON => " + mCurrentScrollDirection.name() + " DELTA X  => " + distanceX);
+//        this.mCurrentScrollDirection = mCurrentScrollDirection;
+//        this.distanceX = distanceX;
+//        mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, 0.5f);
+//        mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, 0.5f);
+//        mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceX, 0.5f);
 
     }
 
     @Override
     public void onMyScrollYListener(WeekView.Direction mCurrentScrollDirection, float distanceY) {
-        mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
-        mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
-        mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
-        this.mCurrentScrollDirection = mCurrentScrollDirection;
-        this.distanceY = distanceY;
+//        mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+//        mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+//        mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+//        this.mCurrentScrollDirection = mCurrentScrollDirection;
+//        this.distanceY = distanceY;
 
     }
 
     @Override
     public void onMyScrollXVelocityListener(float velocityX) {
-        mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
-        mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
-        mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
+//        mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
+//        mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
+//        mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
     }
 
     @Override
     public void onMyScrollYVelocityListener(float velocityY) {
-        mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
-        mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
-        mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
+//        mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
+//        mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
+//        mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
 
     }
 }

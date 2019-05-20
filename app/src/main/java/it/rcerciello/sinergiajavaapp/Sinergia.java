@@ -5,6 +5,9 @@
 package it.rcerciello.sinergiajavaapp;
 
 import android.app.Application;
+
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
@@ -14,6 +17,7 @@ import it.rcerciello.sinergiajavaapp.data.managers.ServiceNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.managers.StaffModelResponse;
 import it.rcerciello.sinergiajavaapp.data.managers.StaffNetworkLayer;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientListResponseModel;
+import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import it.rcerciello.sinergiajavaapp.data.network.APICallback;
 import it.rcerciello.sinergiajavaapp.data.repository.SinergiaRepo;
 import timber.log.Timber;
@@ -153,10 +157,10 @@ public class Sinergia extends Application {
 
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
-            RealmResults<ServiceModelResponse> oldServices = realm.where(ServiceModelResponse.class).findAll();
+            RealmResults<ServiceModel> oldServices = realm.where(ServiceModel.class).findAll();
             oldServices.deleteAllFromRealm();
             realm.commitTransaction();
-            addNewServices(response);
+            addNewServices(response.getServices());
             Timber.d("Delete Service List Success");
         } catch (Exception e) {
             Timber.e(e.getLocalizedMessage());
@@ -165,7 +169,7 @@ public class Sinergia extends Application {
         }
     }
 
-    private void addNewServices(ServiceModelResponse response) {
+    private void addNewServices(List<ServiceModel> response) {
 
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();

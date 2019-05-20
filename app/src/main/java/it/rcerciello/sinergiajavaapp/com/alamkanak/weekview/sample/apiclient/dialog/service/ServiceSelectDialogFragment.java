@@ -26,20 +26,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import it.rcerciello.sinergiajavaapp.R;
-import it.rcerciello.sinergiajavaapp.data.managers.ServiceModelResponse;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
 import timber.log.Timber;
 
 
-/**
- * DialogFragment to select a country from a list.
- *
- * @author Markus Mattsson
- */
 public class ServiceSelectDialogFragment extends DialogFragment {
     private ServiceSelectedListener serviceSelectedListener;
     private ServiceSelectListAdapter adapter;
-    private   List<ServiceModel> services;
+    private List<ServiceModel> services;
 
     @BindView(R.id.servicesListView)
     RecyclerView countryListView;
@@ -97,17 +91,13 @@ public class ServiceSelectDialogFragment extends DialogFragment {
 
 
         etFilter.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Call back the Adapter with current character to Filter
-
                 if (s.toString().trim().isEmpty()) {
                     resetAdapter();
                 } else {
                     filterCountryOnAdapter(s.toString().trim());
                 }
-                Timber.d("Search with name ");
             }
 
 
@@ -124,8 +114,7 @@ public class ServiceSelectDialogFragment extends DialogFragment {
 
     }
 
-    public void resetAdapter()
-    {
+    public void resetAdapter() {
         adapter.setOriginalData(services);
     }
 
@@ -134,17 +123,15 @@ public class ServiceSelectDialogFragment extends DialogFragment {
     }
 
 
-
     private void readServicesFromDB() {
 
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
-            ServiceModelResponse services = realm.where(ServiceModelResponse.class).findFirst();
+            List<ServiceModel> services = realm.where(ServiceModel.class).findAll();
             realm.commitTransaction();
             if (services != null) {
                 showServices(realm.copyFromRealm(services));
             }
-
         } catch (Exception e) {
             Timber.e(e.getLocalizedMessage());
         }
@@ -164,8 +151,8 @@ public class ServiceSelectDialogFragment extends DialogFragment {
     }
 
 
-    public void showServices(ServiceModelResponse DBServices) {
-        services = DBServices.getServices();
+    public void showServices(List<ServiceModel> DBServices) {
+        services = DBServices;
         adapter.setOriginalData(services);
     }
 

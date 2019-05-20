@@ -5,33 +5,44 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:orientation="horizontal"
         android:padding="@dimen/space_24"
-        android:weightSum="100">
+        >
 
         <TextView
             android:id="@+id/serviceId"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:padding="5dp"
             android:text="id"
+            android:layout_centerVertical="true"
             android:textColor="@color/black" />
 
         <TextView
+            android:layout_toRightOf="@id/serviceId"
             android:id="@+id/serviceName"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="80"
-            android:padding="5dp"
+            android:paddingStart="15dp"
+            android:layout_centerVertical="true"
             android:text="ceretta"
             android:textColor="@color/black" />
 
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tvDurata"
+            android:layout_toRightOf="@+id/serviceName"
+            android:paddingStart="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="durata"
+            android:textColor="@color/black" />
+
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"

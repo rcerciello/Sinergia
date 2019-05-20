@@ -3,6 +3,9 @@ package it.rcerciello.sinergiajavaapp.data.repository;
 import android.support.annotation.NonNull;
 import java.util.List;
 import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+import io.realm.Sort;
 import it.rcerciello.sinergiajavaapp.data.managers.StaffModelResponse;
 import it.rcerciello.sinergiajavaapp.data.modelli.ClientModel;
 import it.rcerciello.sinergiajavaapp.data.modelli.ServiceModel;
@@ -184,6 +187,8 @@ public class SinergiaRepo {
     }
 
 
+
+
     public void selectServiceById(@NonNull String id, final APICallback<ServiceModel> mCallback) {
         try (Realm realm = Realm.getDefaultInstance()) {
             final ServiceModel query = realm.where(ServiceModel.class).equalTo("primaryKeyModel.primaryKey", id).findFirst();
@@ -192,6 +197,60 @@ public class SinergiaRepo {
             } else {
                 mCallback.onSuccess(null);
             }
+        } catch (Throwable t) {
+            Timber.e(t.getMessage());
+        }
+    }
+
+
+
+    public void selectServicesByIds(@NonNull List<String> ids, final APICallback<List<ServiceModel>> mCallback) {
+
+//        RealmQuery<Article> query = realm.where(Article.class);
+//        if (articleIds.size() == 0) {
+//            // We want to return an empty list if the list of ids is empty.
+//            // Just search for an id that does not exist.
+//            query = query.equalTo("id", -30000);
+//        } else {
+//            int i = 0;
+//            for (int id : articleIds) {
+//                // The or() operator requires left hand and right hand elements.
+//                // If articleIds had only one element then it would crash with
+//                // "Missing right-hand side of OR"
+//                if (i++ > 0) {
+//                    query = query.or();
+//                }
+//                query = query.equalTo("id", id);
+//            }
+//        }
+//        return query.findAll();
+
+        String[] allId = new String[ids.size()];
+        int i = 0;
+        for(String item : ids)
+        {
+            allId[i]= item;
+            i++;
+        }
+
+
+        try (Realm realm = Realm.getDefaultInstance()) {
+//            equalTo("primaryKeyModel.primaryKey", id).findFirst();
+            RealmResults<ServiceModel> query = realm.where(ServiceModel.class).in("primaryKeyModel.primaryKey", allId).findAllSorted("serviceIdentifier", Sort.ASCENDING);;
+           
+            if (query!=null)
+            {
+                mCallback.onSuccess(realm.copyFromRealm(query));
+            }else
+            {
+                mCallback.onSuccess(null);
+            }
+
+//            if (query != null) {
+//                mCallback.onSuccess(realm.copyFromRealm(query));
+//            } else {
+//                mCallback.onSuccess(null);
+//            }
         } catch (Throwable t) {
             Timber.e(t.getMessage());
         }

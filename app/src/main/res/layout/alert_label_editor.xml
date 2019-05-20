@@ -17,6 +17,18 @@
         android:textColor="@color/black"
         android:textSize="16sp" />
 
+    <TextView
+        android:id="@+id/servizi"
+        fontPath="Roboto/RobotoBold.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/space_24"
+        android:paddingStart="@dimen/space_24"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+
     <RelativeLayout
         android:paddingEnd="@dimen/space_24"
         android:paddingStart="@dimen/space_24"

@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -105,10 +104,8 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     private AddAppointmentContract.Presenter mPresenter;
     private WeekViewEvent editableModel = new WeekViewEvent();
     private WeekViewEvent newWeekModel;
-    private ServiceModel mServiceModel;
-    private ClientModel mClientModel;
-    private Calendar startTimeSelected;
-    private boolean isClientFill = false, isServiceFill = false, isOperatorFill = true, isHourFill = true, isDateFill = true;
+    private List<ServiceModel> mServiceModel = new ArrayList<>();
+    private boolean isClientFill = false, isServiceFill = false, isStaffFill = true, isHourFill = true, isDateFill = true;
     private boolean isLellaChecked = false;
     private boolean isMariaChecked = false;
     private boolean isAnnaChecked = false;
@@ -148,6 +145,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                             @SuppressLint("SetTextI18n")
                             @Override
                             public void onSuccess(ClientModel object) {
+                                isClientFill = true;
                                 clientId.setText(object.getName() + " " + object.getSurname());
                             }
 
@@ -183,55 +181,71 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                             case GeneralConstants.ID_LELLA:
                                 isLellaChecked = false;
                                 rbLella.performClick();
+                                isStaffFill = true;
                                 break;
                             case GeneralConstants.ID_MARIA:
                                 isMariaChecked = false;
                                 rbMaria.performClick();
+                                isStaffFill = true;
                                 break;
                             case GeneralConstants.ID_ANNA:
                                 isAnnaChecked = false;
                                 rbAnna.performClick();
+                                isStaffFill = true;
                                 break;
                         }
                     }
 
-                    if (GlobalUtils.isNotNullAndNotEmpty(String.valueOf(editableModel.getId_service()))) {
+                    if (editableModel.getId_service() != null && editableModel.getId_service().size() > 0) {
                         newWeekModel.setId_service(editableModel.getId_service());
-//                        SinergiaRepo.getInstance().selectServiceById(editableModel.getId_service(), new APICallback<ServiceModel>() {
-//                            @Override
-//                            public void onSuccess(ServiceModel object) {
-//                                mServiceModel = object;
-//                                serviceId.setText(object.getName());
-//                            }
-//
-//                            @Override
-//                            public void onFailure(String error) {
-//                                Timber.e("Errore select service by id");
-//                            }
-//
-//                            @Override
-//                            public void onSessionExpired() {
-//
-//                            }
-//
-//                            @Override
-//                            public void onFailure(boolean isFailure) {
-//
-//                            }
-//                        });
+                        SinergiaRepo.getInstance().selectServicesByIds(editableModel.getId_service(), new APICallback<List<ServiceModel>>() {
+                            @Override
+                            public void onSuccess(List<ServiceModel> object) {
+                                isServiceFill = true;
+                                mServiceModel = object;
+                                if (object != null && object.size() > 0) {
+                                    if (object.size() == 1) {
+                                        serviceId.setText(
+                                                object.get(0).getName());
+                                    } else {
+                                        for (ServiceModel item : object) {
+                                            serviceId.setText(serviceId.getText() + " | " +
+                                                    item.getName());
+                                        }
+                                    }
+                                }
 
+                                if (areAllFieldfill()) {
+                                    btnOk.setVisibility(View.VISIBLE);
+                                } else {
+                                    btnOk.setVisibility(View.GONE);
+                                }
+                            }
 
+                            @Override
+                            public void onFailure(String error) {
+
+                            }
+
+                            @Override
+                            public void onSessionExpired() {
+
+                            }
+
+                            @Override
+                            public void onFailure(boolean isFailure) {
+
+                            }
+                        });
                     }
-
                 }
-
             } else {
                 String collaborator = getIntent().getStringExtra("collaboratorID");
                 Long d = getIntent().getLongExtra("time", -1);
                 if (d != -1) {
                     Date date = new Date();
                     date.setTime(d);
-                    startTimeSelected = GregorianCalendar.getInstance();
+                    Calendar startTimeSelected = GregorianCalendar.getInstance();
                     startTimeSelected.setTime(date);
                     etOraInizio.setText(startTimeSelected.get(Calendar.HOUR_OF_DAY) + ":" + startTimeSelected.get(Calendar.MINUTE));
                     etDate.setText(startTimeSelected.get(Calendar.DAY_OF_MONTH) + "-" + (startTimeSelected.get(Calendar.MONTH) + 1) + "-" + startTimeSelected.get(Calendar.YEAR));
@@ -255,13 +269,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                     }
                 }
             }
-
-            Timber.d("************************");
-            Timber.d("isMariaChecked => " + isMariaChecked);
-            Timber.d("isLellaChecked => " + isLellaChecked);
-            Timber.d("isAnnaChecked => " + isAnnaChecked);
-
-
         }
 
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
@@ -279,7 +286,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             serviceSelectDialog.setClientSelectedListener(model -> {
                 clientId.setText(model.getName() + " " + model.getSurname());
                 newWeekModel.setIdCliente(model.getPrimaryKeyModel().getPrimaryKey());
-                mClientModel = model;
                 isClientFill = true;
                 if (areAllFieldfill()) {
                     btnOk.setVisibility(View.VISIBLE);
@@ -305,7 +311,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     }
 
     private boolean areAllFieldfill() {
-        return isClientFill && isServiceFill && isOperatorFill && isHourFill && isDateFill;
+        return isClientFill && isServiceFill && isStaffFill && isHourFill && isDateFill;
     }
 
     public boolean checkIfServiceIdAlreadyExist(ServiceModel model) {
@@ -322,6 +328,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @OnClick(R.id.btnAddService)
     public void addserviceAction() {
         ServiceSelectDialogFragment serviceSelectDialog = ServiceSelectDialogFragment.newInstance();
@@ -339,7 +346,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                 newWeekModel.getId_service().add(model.getServicePrimaryKeyModel().getPrimaryKey());
                 Timber.d("Service ID SIZE => " + newWeekModel.getId_service().size());
 
-                mServiceModel = model;
+                mServiceModel.add(model);
 
                 isServiceFill = true;
                 if (areAllFieldfill()) {
@@ -392,8 +399,14 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @OnClick(R.id.btnOK)
     public void okAction() {
         Calendar endTime = (Calendar) startTime.clone();
-        int hours = mServiceModel.getDuration() / 60; //since both are ints, you get an int
-        int minutes = mServiceModel.getDuration() % 60;
+        int hours = 0; //since both are ints, you get an int
+        int minutes = 0;
+        for (ServiceModel itemService : mServiceModel) {
+            hours += itemService.getDuration() / 60;
+            minutes += itemService.getDuration() % 60;
+        }
+//        int hours = mServiceModel.getDuration() / 60; //since both are ints, you get an int
+//        int minutes = mServiceModel.getDuration() % 60;
         endTime.add(Calendar.MINUTE, minutes);
         endTime.add(Calendar.HOUR, hours);
         newWeekModel.setStartTime(startTime);
@@ -524,15 +537,22 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                     ClientModelAdd clientModel = ApiClient.getGson().fromJson(data.getStringExtra("modello"), ClientModelAdd.class);
                     if (clientModel != null && GlobalUtils.isNotNullAndNotEmpty(clientModel.getName()) && GlobalUtils.isNotNullAndNotEmpty(clientModel.getSurname())) {
                         clientId.setText(clientModel.getName() + " " + clientModel.getSurname());
-//                        Timber.d("mClientModel => " + clientModel);
-//                        clientModel = model;
+//                        newWeekModel.setIdCliente(clientModel.getPrimaryKeyModel().getPrimaryKey());
+                        //TODO
+                        isClientFill = true;
+                        if (areAllFieldfill()) {
+                            btnOk.setVisibility(View.VISIBLE);
+                        } else {
+                            btnOk.setVisibility(View.GONE);
+                        }
+                        isClientFill = true;
                     }
                 } else if (name.equalsIgnoreCase("Servizio")) {
                     ServiceModel serviceModel = ApiClient.getGson().fromJson(data.getStringExtra("modello"), ServiceModel.class);
                     if (serviceModel != null && GlobalUtils.isNotNullAndNotEmpty(serviceModel.getName())) {
                         serviceId.setText(serviceModel.getName());
-//                        newWeekModel.setId_service(serviceModel.getServicePrimaryKeyModel().getPrimaryKey());
-                        mServiceModel = serviceModel;
+                        mServiceModel.add(serviceModel);
+                        isServiceFill= true;
                         Timber.d("mServiceModel => " + serviceModel);
                     }
                 }

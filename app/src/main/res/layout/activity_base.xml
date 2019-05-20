@@ -1,8 +1,7 @@
-<RelativeLayout
-    android:id="@+id/root"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".com.alamkanak.weekview.sample.BaseCalendarActivity">
@@ -19,31 +18,39 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                fontPath="Roboto/RobotoBold.ttf"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Lella"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                tools:ignore="MissingPrefix" />
+                android:layout_height="wrap_content">
 
-            <it.rcerciello.weekLibrary.weekview.WeekView
-                android:id="@+id/weekView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:dayBackgroundColor="#05000000"
-                app:eventTextColor="@android:color/white"
-                app:headerColumnBackground="#ffffffff"
-                app:headerColumnPadding="8dp"
-                app:headerColumnTextColor="@color/toolbar_text"
-                app:headerRowPadding="10dp"
-                app:hourHeight="80dp"
-                app:textSize="8sp"
-                app:todayBackgroundColor="#1848adff"
-                app:todayHeaderTextColor="@color/accent" />
+                <it.rcerciello.weekLibrary.weekview.WeekView
+                    android:id="@+id/weekView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/tvLella"
+                    app:dayBackgroundColor="#05000000"
+                    app:eventTextColor="@android:color/white"
+                    app:headerColumnBackground="#ffffffff"
+                    app:headerColumnPadding="8dp"
+                    app:headerColumnTextColor="@color/toolbar_text"
+                    app:headerRowPadding="10dp"
+                    app:hourHeight="80dp"
+                    app:textSize="8sp"
+                    app:todayBackgroundColor="#1848adff"
+                    app:todayHeaderTextColor="@color/accent" />
+
+                <TextView
+                    android:id="@+id/tvLella"
+                    fontPath="Roboto/RobotoBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Lella"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    tools:ignore="MissingPrefix" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -52,19 +59,25 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <TextView
                 fontPath="Roboto/RobotoBold.ttf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="5dp"
+                android:layout_alignParentBottom="true"
                 android:text="Anna"
+                android:id="@+id/tvAnna"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 tools:ignore="MissingPrefix" />
 
             <it.rcerciello.weekLibrary.weekview.WeekView
                 android:id="@+id/weekViewTwo"
+                android:layout_above="@+id/tvAnna"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:dayBackgroundColor="#05000000"
@@ -77,6 +90,7 @@
                 app:textSize="8sp"
                 app:todayBackgroundColor="#1848adff"
                 app:todayHeaderTextColor="@color/accent" />
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -86,6 +100,10 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <TextView
                 fontPath="Roboto/RobotoBold.ttf"
                 android:layout_width="match_parent"
@@ -93,6 +111,8 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Maria"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/tvMaria"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 tools:ignore="MissingPrefix" />
@@ -102,6 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:dayBackgroundColor="#05000000"
+                android:layout_above="@+id/tvMaria"
                 app:eventTextColor="@android:color/white"
                 app:headerColumnBackground="#ffffffff"
                 app:headerColumnPadding="8dp"
@@ -111,6 +132,7 @@
                 app:textSize="8sp"
                 app:todayBackgroundColor="#1848adff"
                 app:todayHeaderTextColor="@color/accent" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -120,4 +142,11 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+
+
+    <Button
+        android:text="asdff"
+        android:id="@+id/btnTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

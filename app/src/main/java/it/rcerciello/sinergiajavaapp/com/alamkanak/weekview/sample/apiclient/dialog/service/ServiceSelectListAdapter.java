@@ -93,6 +93,9 @@ public class ServiceSelectListAdapter extends RecyclerView.Adapter<ServiceSelect
         TextView serviceId;
         @BindView(R.id.serviceName)
         TextView serviceName;
+        @BindView(R.id.tvDurata)
+        TextView durata;
+
 
         ServiceItemViewHolder(View itemView) {
             super(itemView);
@@ -110,6 +113,8 @@ public class ServiceSelectListAdapter extends RecyclerView.Adapter<ServiceSelect
                 if (GlobalUtils.isNotNullAndNotEmpty(model.getName())) {
                     serviceName.setText(model.getName());
                 }
+
+                durata.setText(model.getDuration()+" min");
             }
 
         }

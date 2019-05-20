@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/cognome"
-                fontPath="OpenSans/OpenSansRegulat.ttf"
+                fontPath="OpenSans/OpenSansRegular.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"

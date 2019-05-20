@@ -241,7 +241,7 @@ public class WeekViewEvent {
             endTime = (Calendar) this.getStartTime().clone();
             endTime.set(Calendar.HOUR_OF_DAY, 23);
             endTime.set(Calendar.MINUTE, 59);
-            WeekViewEvent event1 = new WeekViewEvent(this.getAppointmentId(), this.getName(), this.id_staff, this.id_service, this.customer_name, this.customer_surname, this.getLocation(), this.getStartTime(), endTime, this.isAllDay(), this.getIdCliente());
+            WeekViewEvent event1 = new WeekViewEvent(this.getAppointmentId(), this.getAppointmentName(), this.id_staff, this.id_service, this.customer_name, this.customer_surname, this.getLocation(), this.getStartTime(), endTime, this.isAllDay(), this.getIdCliente());
             event1.setColor(this.getColor());
             events.add(event1);
 
@@ -255,7 +255,7 @@ public class WeekViewEvent {
                 Calendar endOfOverDay = (Calendar) overDay.clone();
                 endOfOverDay.set(Calendar.HOUR_OF_DAY, 23);
                 endOfOverDay.set(Calendar.MINUTE, 59);
-                WeekViewEvent eventMore = new WeekViewEvent(this.getAppointmentId(), this.getName(), this.id_staff, this.id_service, this.customer_name, this.customer_surname, null, overDay, endOfOverDay, this.isAllDay(), this.getIdCliente());
+                WeekViewEvent eventMore = new WeekViewEvent(this.getAppointmentId(), this.getAppointmentName(), this.id_staff, this.id_service, this.customer_name, this.customer_surname, null, overDay, endOfOverDay, this.isAllDay(), this.getIdCliente());
                 eventMore.setColor(this.getColor());
                 events.add(eventMore);
 
@@ -267,7 +267,7 @@ public class WeekViewEvent {
             Calendar startTime = (Calendar) this.getEndTime().clone();
             startTime.set(Calendar.HOUR_OF_DAY, 0);
             startTime.set(Calendar.MINUTE, 0);
-            WeekViewEvent event2 = new WeekViewEvent(this.getAppointmentId(), this.getName(), this.id_staff, this.id_service, this.customer_name, this.customer_surname, this.getLocation(), startTime, this.getEndTime(), this.isAllDay(), this.getIdCliente());
+            WeekViewEvent event2 = new WeekViewEvent(this.getAppointmentId(), this.getAppointmentName(), this.id_staff, this.id_service, this.customer_name, this.customer_surname, this.getLocation(), startTime, this.getEndTime(), this.isAllDay(), this.getIdCliente());
             event2.setColor(this.getColor());
             events.add(event2);
         } else {

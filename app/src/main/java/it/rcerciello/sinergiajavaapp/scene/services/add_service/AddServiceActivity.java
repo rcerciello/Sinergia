@@ -50,7 +50,6 @@ public class AddServiceActivity extends AppCompatActivity implements AddServiceC
     @BindView(R.id.btnSave)
     CustomSaveButton saveButton;
 
-
     @BindView(R.id.root)
     RelativeLayout root;
     private AddServiceContract.Presenter mPresenter;

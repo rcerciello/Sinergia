@@ -55,22 +55,24 @@ public class WeekView extends View {
 
     public void setScrollXParameters(Direction mCurrentScrollDirection, float distanceX, float velocityX) {
         this.mCurrentScrollDirection = mCurrentScrollDirection;
-        mCurrentOrigin.x -= distanceX * mXScrollingSpeed;
+        mCurrentOrigin.x -= distanceX;// * mXScrollingSpeed;
         ViewCompat.postInvalidateOnAnimation(WeekView.this);
-
         mScroller.forceFinished(true);
-//        if (velocityX>0) {
-//            switch (mCurrentFlingDirection) {
-//                case LEFT:
-//                case RIGHT:
+        if (velocityX>0) {
+            switch (mCurrentScrollDirection) {
+                case LEFT:
+                case RIGHT:
 //                    mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX * mXScrollingSpeed), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
-//                    break;
-//                case VERTICAL:
-////                mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight/2 - getHeight()), 0);
-//                    break;
-//            }
-//        }
+                    mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX ), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
+                    break;
+                case VERTICAL:
+//                mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight/2 - getHeight()), 0);
+                    break;
+            }
+        }
 
+
+//
 
     }
 
@@ -93,6 +95,8 @@ public class WeekView extends View {
 
 
     }
+
+
 
     public enum Direction {
         NONE, LEFT, RIGHT, VERTICAL
@@ -199,6 +203,7 @@ public class WeekView extends View {
     private EmptyViewLongPressListener mEmptyViewLongPressListener;
     private DateTimeInterpreter mDateTimeInterpreter;
     private ScrollListener mScrollListener;
+    private TouchListener mTouchListener;
 
 
     private String collaboratorId;
@@ -214,10 +219,11 @@ public class WeekView extends View {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             // Check if view is zoomed.
-            Log.i("weekview", "onScroll distanceX "+distanceX+" distanceY "+distanceY);
+//            mScroller.forceFinished(true);
+//            Log.i("weekview", "onScroll distanceX "+distanceX+" distanceY "+distanceY);
             if (mIsZooming)
                 return true;
-
+//
             switch (mCurrentScrollDirection) {
                 case NONE: {
                     // Allow scrolling only in one direction.
@@ -256,7 +262,6 @@ public class WeekView extends View {
                 case RIGHT:
                     mCurrentOrigin.x -= distanceX * mXScrollingSpeed;
                     ViewCompat.postInvalidateOnAnimation(WeekView.this);
-
                     mScrollListener.onMyScrollXListener(mCurrentScrollDirection, distanceX);
 
                     break;
@@ -267,7 +272,7 @@ public class WeekView extends View {
 //                    mScrollListener.onMyScrollXListener(mCurrentScrollDirection, 0,      mCurrentOrigin.y );
                     break;
             }
-            mScroller.forceFinished(true);
+//            mScroller.forceFinished(true);
             return true;
         }
 
@@ -277,31 +282,31 @@ public class WeekView extends View {
             if (mIsZooming)
                 return true;
 
-            Log.i("weekview", "onFling mHorizontalFlingEnabled => " + mHorizontalFlingEnabled);
-            Log.i("weekview", "onFling mVerticalFlingEnabled => " + mVerticalFlingEnabled);
-            if ((mCurrentFlingDirection == Direction.LEFT && !mHorizontalFlingEnabled) ||
-                    (mCurrentFlingDirection == Direction.RIGHT && !mHorizontalFlingEnabled) ||
-                    (mCurrentFlingDirection == Direction.VERTICAL && !mVerticalFlingEnabled)) {
-                return true;
-            }
-
-            mScroller.forceFinished(true);
-
-            mCurrentFlingDirection = mCurrentScrollDirection;
-            Log.i("onFling", "mCurrentScrollDirection => " + mCurrentScrollDirection);
-            switch (mCurrentFlingDirection) {
-                case LEFT:
-                case RIGHT:
-//                    mScrollListener.onMyScrollXVelocityListener(velocityX);
-                    mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX * mXScrollingSpeed), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
-                    break;
-                case VERTICAL:
-//                    mScrollListener.onMyScrollYVelocityListener(velocityY);
-                    mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
-                    break;
-            }
-
-            ViewCompat.postInvalidateOnAnimation(WeekView.this);
+//            Log.i("weekview", "onFling mHorizontalFlingEnabled => " + mHorizontalFlingEnabled);
+//            Log.i("weekview", "onFling mVerticalFlingEnabled => " + mVerticalFlingEnabled);
+//            if ((mCurrentFlingDirection == Direction.LEFT && !mHorizontalFlingEnabled) ||
+//                    (mCurrentFlingDirection == Direction.RIGHT && !mHorizontalFlingEnabled) ||
+//                    (mCurrentFlingDirection == Direction.VERTICAL && !mVerticalFlingEnabled)) {
+//                return true;
+//            }
+//
+//            mScroller.forceFinished(true);
+//
+//            mCurrentFlingDirection = mCurrentScrollDirection;
+//            Log.i("onFling", "mCurrentScrollDirection => " + mCurrentScrollDirection);
+//            switch (mCurrentFlingDirection) {
+//                case LEFT:
+//                case RIGHT:
+////                    mScrollListener.onMyScrollXVelocityListener(velocityX);
+//                    mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX * mXScrollingSpeed), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
+//                    break;
+//                case VERTICAL:
+////                    mScrollListener.onMyScrollYVelocityListener(velocityY);
+//                    mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
+//                    break;
+//            }
+//
+//            ViewCompat.postInvalidateOnAnimation(WeekView.this);
             return true;
         }
 
@@ -1360,6 +1365,11 @@ public class WeekView extends View {
         this.mScrollListener = scrolledListener;
     }
 
+    public void setTouchListener(TouchListener listener)
+    {
+        this.mTouchListener = listener;
+    }
+
     public ScrollListener getScrollListener() {
         return mScrollListener;
     }
@@ -1923,18 +1933,36 @@ public class WeekView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mScaleDetector.onTouchEvent(event);
+        mTouchListener.onMyTouchListener(event, collaboratorId);
         boolean val = mGestureDetector.onTouchEvent(event);
-
-        // Check after call of mGestureDetector, so mCurrentFlingDirection and mCurrentScrollDirection are set.
-        if (event.getAction() == MotionEvent.ACTION_UP && !mIsZooming && mCurrentFlingDirection == Direction.NONE) {
-            if (mCurrentScrollDirection == Direction.RIGHT || mCurrentScrollDirection == Direction.LEFT) {
-                goToNearestOrigin();
-            }
-            mCurrentScrollDirection = Direction.NONE;
-        }
-
+//
+//        // Check after call of mGestureDetector, so mCurrentFlingDirection and mCurrentScrollDirection are set.
+//        if (event.getAction() == MotionEvent.ACTION_UP && !mIsZooming && mCurrentFlingDirection == Direction.NONE) {
+//            if (mCurrentScrollDirection == Direction.RIGHT || mCurrentScrollDirection == Direction.LEFT) {
+//                goToNearestOrigin();
+//            }
+//            mCurrentScrollDirection = Direction.NONE;
+//        }
+//
         return val;
     }
+
+
+    public void setMyTouchListener(MotionEvent event) {
+//        mScaleDetector.onTouchEvent(event);
+//        boolean val = mGestureDetector.onTouchEvent(event);
+//        // Check after call of mGestureDetector, so mCurrentFlingDirection and mCurrentScrollDirection are set.
+//        if (event.getAction() == MotionEvent.ACTION_UP && !mIsZooming && mCurrentFlingDirection == Direction.NONE) {
+//            if (mCurrentScrollDirection == Direction.RIGHT || mCurrentScrollDirection == Direction.LEFT) {
+//                goToNearestOrigin();
+//            }
+//            mCurrentScrollDirection = Direction.NONE;
+//        }
+
+        //return val;
+    }
+
+
 
     private void goToNearestOrigin() {
         double leftDays = mCurrentOrigin.x / (mWidthPerDay + mColumnGap);
@@ -2153,13 +2181,12 @@ public class WeekView extends View {
 
         void onMyScrollYListener(Direction mCurrentScrollDirection, float distanceY);
 
-        void onMyScrollXVelocityListener(float velocityX);
-
-        void onMyScrollYVelocityListener(float velocityY);
     }
 
-    public String getCollaboratorId() {
-        return collaboratorId;
+
+    public interface TouchListener
+    {
+        void onMyTouchListener(MotionEvent event, String collaboratorId);
     }
 
     public void setCollaboratorId(String collaboratorId) {

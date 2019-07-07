@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -44,7 +45,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by Raquib-ul-Alam Kanak on 1/3/2014.
  * Website: http://alamkanak.github.io
  */
-public class BaseCalendarActivity extends AppCompatActivity implements BaseCalendarContract.View, WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.ScrollListener {
+public class BaseCalendarActivity extends AppCompatActivity implements BaseCalendarContract.View, WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.ScrollListener, WeekView.TouchListener {
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
@@ -71,6 +72,7 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
     List<WeekViewEvent> allAppointmentsMaria = new ArrayList<>();
     List<WeekViewEvent> allAppointmentsAnna = new ArrayList<>();
     private BaseCalendarContract.Presenter mPresenter;
+    private String collaboratorIdActive;
 
 
     @Override
@@ -90,6 +92,10 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
         mWeekViewLella.setScrollListener(this);
         mWeekViewAnna.setScrollListener(this);
         mWeekViewMaria.setScrollListener(this);
+
+        mWeekViewLella.setTouchListener(this);
+        mWeekViewAnna.setTouchListener(this);
+        mWeekViewMaria.setTouchListener(this);
 //                new View.OnScrollChangeListener() {
 //            @Override
 //            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -238,6 +244,55 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
                 return "" + hour;
             }
         });
+
+
+        mWeekViewMaria.setDateTimeInterpreter(new DateTimeInterpreter() {
+            @Override
+            public String interpretDate(Calendar date) {
+                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+                String weekday = weekdayNameFormat.format(date.getTime());
+                SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
+
+                // All android api level do not have a standard way of getting the first letter of
+                // the week day name. Hence we get the first char programmatically.
+                // Details: http://stackoverflow.com/questions/16959502/get-one-letter-abbreviation-of-week-day-of-a-date-in-java#answer-16959657
+                if (shortDate)
+                    weekday = String.valueOf(weekday.charAt(0));
+                return weekday.toUpperCase() + format.format(date.getTime());
+            }
+
+            @Override
+            public String interpretTime(int hour) {
+                //TODO Modificato
+//                return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
+                return "" + hour;
+            }
+        });
+
+
+        mWeekViewAnna.setDateTimeInterpreter(new DateTimeInterpreter() {
+            @Override
+            public String interpretDate(Calendar date) {
+                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+                String weekday = weekdayNameFormat.format(date.getTime());
+                SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
+
+                // All android api level do not have a standard way of getting the first letter of
+                // the week day name. Hence we get the first char programmatically.
+                // Details: http://stackoverflow.com/questions/16959502/get-one-letter-abbreviation-of-week-day-of-a-date-in-java#answer-16959657
+                if (shortDate)
+                    weekday = String.valueOf(weekday.charAt(0));
+                return weekday.toUpperCase() + format.format(date.getTime());
+            }
+
+            @Override
+            public String interpretTime(int hour) {
+                //TODO Modificato
+//                return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
+                return "" + hour;
+            }
+        });
+
     }
 
 
@@ -436,37 +491,54 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void onMyScrollXListener(WeekView.Direction mCurrentScrollDirection, float distanceX) {
-//        Timber.d("DIRECTIRON => " + mCurrentScrollDirection.name() + " DELTA X  => " + distanceX);
-//        this.mCurrentScrollDirection = mCurrentScrollDirection;
-//        this.distanceX = distanceX;
-//        mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, 0.5f);
-//        mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, 0.5f);
-//        mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceX, 0.5f);
-
+        Timber.d("DIRECTIRON => " + mCurrentScrollDirection.name() + " DELTA X  => " + distanceX);
+        this.mCurrentScrollDirection = mCurrentScrollDirection;
+        this.distanceX = distanceX;
+        switch (this.collaboratorIdActive) {
+            case GeneralConstants.ID_LELLA:
+                mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
+                mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
+                break;
+            case GeneralConstants.ID_ANNA:
+                mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
+                mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
+                break;
+            case GeneralConstants.ID_MARIA:
+                mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
+                mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceX, -1);
+                break;
+        }
     }
 
     @Override
     public void onMyScrollYListener(WeekView.Direction mCurrentScrollDirection, float distanceY) {
-//        mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
-//        mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
-//        mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
-//        this.mCurrentScrollDirection = mCurrentScrollDirection;
-//        this.distanceY = distanceY;
+        this.mCurrentScrollDirection = mCurrentScrollDirection;
+        this.distanceY = distanceY;
+
+        switch (this.collaboratorIdActive) {
+            case GeneralConstants.ID_LELLA:
+                mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+                mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+                break;
+            case GeneralConstants.ID_ANNA:
+                mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+                mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+                break;
+            case GeneralConstants.ID_MARIA:
+                mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+                mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, -1);
+                break;
+        }
 
     }
 
-    @Override
-    public void onMyScrollXVelocityListener(float velocityX) {
-//        mWeekViewMaria.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
-//        mWeekViewAnna.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
-//        mWeekViewLella.setScrollXParameters(mCurrentScrollDirection, distanceX, velocityX);
-    }
 
     @Override
-    public void onMyScrollYVelocityListener(float velocityY) {
-//        mWeekViewMaria.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
-//        mWeekViewAnna.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
-//        mWeekViewLella.setScrollYParameters(mCurrentScrollDirection, distanceY, velocityY);
+    public void onMyTouchListener(MotionEvent event, String collaboratorId) {
+        mWeekViewMaria.setMyTouchListener(event);
+//        mWeekViewLella.setMyTouchListener(event);
+        mWeekViewAnna.setMyTouchListener(event);
 
+        this.collaboratorIdActive = collaboratorId;
     }
 }

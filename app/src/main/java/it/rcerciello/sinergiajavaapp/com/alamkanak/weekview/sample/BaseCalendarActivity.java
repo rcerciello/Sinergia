@@ -88,7 +88,6 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
         setCalendarWidgetListener();
         setupDateTimeInterpreter(false);
-//        mWeekViewLella.getScrollListener().onMyScrollXListener();
         mWeekViewLella.setScrollListener(this);
         mWeekViewAnna.setScrollListener(this);
         mWeekViewMaria.setScrollListener(this);
@@ -96,13 +95,6 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
         mWeekViewLella.setTouchListener(this);
         mWeekViewAnna.setTouchListener(this);
         mWeekViewMaria.setTouchListener(this);
-//                new View.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                mWeekViewAnna.scrollTo(scrollX, scrollY);
-//                mWeekViewMaria.scrollTo(scrollX, scrollY);
-//            }
-//        });
     }
 
 
@@ -535,9 +527,9 @@ public class BaseCalendarActivity extends AppCompatActivity implements BaseCalen
 
     @Override
     public void onMyTouchListener(MotionEvent event, String collaboratorId) {
-        mWeekViewMaria.setMyTouchListener(event);
+//        mWeekViewMaria.setMyTouchListener(event);
 //        mWeekViewLella.setMyTouchListener(event);
-        mWeekViewAnna.setMyTouchListener(event);
+//        mWeekViewAnna.setMyTouchListener(event);
 
         this.collaboratorIdActive = collaboratorId;
     }
